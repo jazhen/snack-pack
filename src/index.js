@@ -1,10 +1,18 @@
-// var canvas = document.getElementById("myCanvas");
-// var ctx = canvas.getContext("2d");
+// Test import of a JavaScript function
+import {example} from './js/example'
 
-// ctx.beginPath();
-// ctx.rect(20, 40, 50, 50);
-// ctx.fillStyle = "#FF0000";
-// ctx.fill();
-// ctx.closePath();
+// Test import of an asset
+import webpackLogo from './images/webpack-logo.svg'
 
-console.log("working");
+// Test import of styles
+import './styles/index.scss'
+
+// Appending to the DOM
+const logo = document.createElement('img')
+logo.src = webpackLogo
+
+const heading = document.createElement('h1')
+heading.textContent = example()
+
+const app = document.querySelector('#root')
+app.append(logo, heading)
