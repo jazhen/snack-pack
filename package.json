@@ -22,7 +22,10 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,md,html,css}": ["eslint --cache --fix", "prettier --write"]
+    "*.{js,jsx,ts,tsx,md,css}": [
+      "eslint --cache --fix",
+      "prettier --write"
+    ]
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",

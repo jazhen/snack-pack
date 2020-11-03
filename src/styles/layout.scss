@@ -1,0 +1,49 @@
+.body,
+.content-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav {
+  order: -1;
+}
+
+// sticky footer
+.body {
+  min-height: 100vh;
+}
+
+.content-container {
+  flex: 1;
+}
+
+@media (min-width: $breakpoint-lg) {
+  .content-container {
+    flex-direction: row;
+    flex: 1;
+  }
+  .main-container {
+    display: flex;
+    align-items: center;
+    width: 700px;
+  }
+
+  .main {
+    height: 700px;
+    width: 100%;
+  }
+
+  .nav, .aside {
+    flex: 1;
+  }
+}
+
+@media (min-width: $breakpoint-xl) {
+  .main-container {
+    width: 900px;
+  }
+
+  .main {
+    height: 900px;
+  }
+}

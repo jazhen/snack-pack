@@ -1,0 +1,28 @@
+body {
+  width: 100vw;
+  font-size: $font-size;
+  font-family: $font-family;
+  background: $background-color;
+  color: $font-color;
+  line-height: 1.5;
+}
+
+.header {
+  background-color: goldenrod;
+}
+
+.main {
+  background-color: lightgrey;
+}
+
+.nav {
+  background-color: indianred;
+}
+
+.aside {
+  background-color: purple;
+}
+
+.footer {
+  background-color: royalblue;
+}
