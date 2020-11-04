@@ -1,22 +1,47 @@
+import { words } from './dictionary/words';
 import './styles/index.scss';
 
 const gameWindow = document.querySelector('#main');
-const word = 'word';
-gameWindow.innerHTML = word;
-let typed = '';
-let i = 0;
+
+class Typing {
+  constructor() {
+    this.words = words;
+    this.level = 1;
+    this.matchString = '';
+    this.userString = '';
+    this.stringIndex = 0;
+  }
+
+  reset() {
+    this.userString = '';
+    this.stringIndex = 0;
+  }
+
+  setMatchString() {
+    const wordLevel = this.words[this.level + 2];
+    const randWord = wordLevel[Math.floor(Math.random() * 100)];
+    this.matchString = randWord;
+  }
+}
+
+const typing = new Typing();
+typing.setMatchString();
+gameWindow.innerHTML = typing.matchString;
 
 document.addEventListener('keydown', (e) => {
-  typed += e.key;
-  if (typed[i] === word[i]) {
+  typing.userString += e.key;
+  if (
+    typing.userString[typing.stringIndex] ===
+    typing.matchString[typing.stringIndex]
+  ) {
     gameWindow.style.backgroundColor = 'white';
-    i += 1;
-    if (typed === word) {
+    typing.stringIndex += 1;
+    if (typing.userString === typing.matchString) {
       gameWindow.style.backgroundColor = 'green';
     }
   } else {
     gameWindow.style.backgroundColor = 'red';
-    i = 0;
-    typed = '';
+    typing.stringIndex = 0;
+    typing.userString = '';
   }
 });
