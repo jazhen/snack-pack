@@ -1,22 +1,24 @@
 import './styles/index.scss';
 
-import createSplash from './js/splash';
-import { Typing, keydownListener } from './js/typing';
+import { createSplashWindow, hideSplashWindow } from './js/splash';
+import { Typing, createTypingWindow, keydownListener } from './js/typing';
 
-const gameWindow = document.querySelector('#main');
-document.body.onload = createSplash;
+window.addEventListener('load', () => {
+  createSplashWindow();
+  createTypingWindow();
+});
 
 const gameLoop = () => {
+  const typingWindow = document.querySelector('#typing-window');
+  typingWindow.classList.add('show');
   const typing = new Typing();
-  typing.setMatchString();
-  gameWindow.innerHTML = typing.matchString;
+  typingWindow.innerHTML = typing.matchString;
   document.onkeydown = keydownListener(typing);
 };
 
 document.addEventListener('click', (e) => {
   if (e.target && e.target.id === 'play') {
-    const splashButtons = document.querySelector('.splash-buttons');
-    splashButtons.style.display = 'none';
+    hideSplashWindow();
     gameLoop();
   }
 });

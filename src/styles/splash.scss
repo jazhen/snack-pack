@@ -1,9 +1,9 @@
-.splash-buttons {
+#splash-buttons {
   display: flex;
   flex-direction: column;
-  width: 40%;
 }
 
 #play, #instructions {
-  height: 40px;
+  margin: 20px 0;
+  padding: 10px 20px;
 }

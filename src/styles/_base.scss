@@ -11,16 +11,26 @@ html {
 body {
   @include reset-font;
   background: $background-color;
+  font-size: 2rem;
   line-height: 1.5;
 }
 
 button {
   @include reset-font {
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
+  background: none;
+  border: none;
+  cursor: pointer;
   display: block;
   margin: 0;
   padding: 0;
-  background: none;
-  border: none;
+}
+
+.hidden {
+  display: none;
+}
+
+.show {
+  display: block;
 }

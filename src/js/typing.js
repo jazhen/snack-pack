@@ -1,14 +1,16 @@
 import { words } from '../dictionary/words';
 
-const gameWindow = document.querySelector('#main');
+const main = document.querySelector('#main');
 
-class Typing {
+export class Typing {
   constructor() {
     this.words = words;
     this.level = 1;
     this.matchString = '';
+    this.matchContainer = null;
     this.userString = '';
     this.stringIndex = 0;
+    this.setMatchString();
   }
 
   reset() {
@@ -23,7 +25,14 @@ class Typing {
   }
 }
 
-const keydownListener = (t) => {
+export const createTypingWindow = () => {
+  const typingWindow = document.createElement('div');
+  typingWindow.id = 'typing-window';
+  typingWindow.classList.add('hidden');
+  main.appendChild(typingWindow);
+};
+
+export const keydownListener = (t) => {
   const typing = t;
   document.addEventListener('keydown', (e) => {
     typing.userString += e.key;
@@ -31,21 +40,19 @@ const keydownListener = (t) => {
       typing.userString[typing.stringIndex] ===
       typing.matchString[typing.stringIndex]
     ) {
-      gameWindow.style.backgroundColor = 'white';
+      main.style.backgroundColor = 'white';
       typing.stringIndex += 1;
       if (typing.userString === typing.matchString) {
-        gameWindow.style.backgroundColor = 'green';
+        main.style.backgroundColor = 'green';
         typing.level += 1;
         typing.setMatchString();
-        gameWindow.innerHTML = typing.matchString;
+        main.innerHTML = typing.matchString;
         typing.reset();
       }
     } else {
-      gameWindow.style.backgroundColor = 'red';
+      main.style.backgroundColor = 'red';
       typing.stringIndex = 0;
       typing.userString = '';
     }
   });
 };
-
-export { Typing, keydownListener };
