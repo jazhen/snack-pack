@@ -2,21 +2,28 @@ import './styles/index.scss';
 
 import { createSplashWindow, hideSplashWindow } from './js/splash';
 import {
-  Typing,
   createTypingWindow,
-  showTypingWindow,
-  keydownListener,
+  // showTypingWindow,
+  // keydownListener,
 } from './js/typing';
+import {
+  createRepeatWindow,
+  showRepeatWindow,
+  repeatKeydownListener,
+} from './js/repeat';
 
 window.addEventListener('load', () => {
   createSplashWindow();
   createTypingWindow();
+  createRepeatWindow();
 });
 
 const gameLoop = () => {
-  const typingWindow = showTypingWindow();
-  const typing = new Typing();
-  typingWindow.onkeydown = keydownListener(typing);
+  // const typingWindow = showTypingWindow();
+  // typingWindow.onkeydown = keydownListener();
+
+  const repeatWindow = showRepeatWindow();
+  repeatWindow.onkeydown = repeatKeydownListener();
 };
 
 document.addEventListener('click', (e) => {

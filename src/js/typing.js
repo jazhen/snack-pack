@@ -6,7 +6,6 @@ export class Typing {
     this.level = 1;
     this.currentIndex = 0;
     this.inputString = '';
-    this.matchString = '';
     this.setMatchContainer();
   }
 
@@ -48,6 +47,10 @@ export class Typing {
       this.matchString[this.currentIndex]
     );
   }
+
+  match() {
+    return this.inputString === this.matchString;
+  }
 }
 
 export const createTypingWindow = () => {
@@ -86,17 +89,19 @@ const errorAnimation = () => {
   });
 };
 
-export const keydownListener = (typing) => {
+export const keydownListener = () => {
+  const typing = new Typing();
+
   document.addEventListener('keydown', ({ key }) => {
     const matchContainer = document.querySelector('#match-container');
-    const letter = matchContainer.children[typing.currentIndex];
+    const currentLetter = matchContainer.children[typing.currentIndex];
     typing.inputString += key;
 
     if (typing.correctLetter()) {
-      letter.style.color = 'black';
+      currentLetter.style.color = 'black';
       typing.currentIndex += 1;
 
-      if (typing.inputString === typing.matchString) {
+      if (typing.match()) {
         typing.level += 1;
         typing.setMatchContainer();
         typing.reset();
