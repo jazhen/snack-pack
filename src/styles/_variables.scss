@@ -1,7 +1,15 @@
 $font-size: 16px;
 $font-family: helvetica, arial, sans-serif;
-$background-color: rgb(95, 95, 95);
-$font-color: #000000;
+$font-color: black;
+
+@mixin reset-font {
+  font-size: $font-size;
+  font-family: $font-family;
+  color: $font-color;
+  @content;
+}
+
+$background-color: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 
 // media queries
 $breakpoint-sm: 576px;

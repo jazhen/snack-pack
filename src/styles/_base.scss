@@ -1,28 +1,26 @@
+@import 'variables';
+
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 body {
-  width: 100vw;
-  font-size: $font-size;
-  font-family: $font-family;
+  @include reset-font;
   background: $background-color;
-  color: $font-color;
   line-height: 1.5;
 }
 
-.header {
-  background-color: goldenrod;
-}
-
-.main {
-  background-color: lightgrey;
-}
-
-.nav {
-  background-color: indianred;
-}
-
-.aside {
-  background-color: purple;
-}
-
-.footer {
-  background-color: royalblue;
+button {
+  @include reset-font {
+    font-size: 1.5rem;
+  }
+  display: block;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
 }
