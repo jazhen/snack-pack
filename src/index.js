@@ -1,22 +1,22 @@
 import './styles/index.scss';
 
-const gameWindow = document.querySelector('#main');
-const word = 'word';
-gameWindow.innerHTML = word;
-let typed = '';
-let i = 0;
+import createSplash from './js/splash';
+import { Typing, keydownListener } from './js/typing';
 
-document.addEventListener('keydown', (e) => {
-  typed += e.key;
-  if (typed[i] === word[i]) {
-    gameWindow.style.backgroundColor = 'white';
-    i += 1;
-    if (typed === word) {
-      gameWindow.style.backgroundColor = 'green';
-    }
-  } else {
-    gameWindow.style.backgroundColor = 'red';
-    i = 0;
-    typed = '';
+const gameWindow = document.querySelector('#main');
+document.body.onload = createSplash;
+
+const gameLoop = () => {
+  const typing = new Typing();
+  typing.setMatchString();
+  gameWindow.innerHTML = typing.matchString;
+  document.onkeydown = keydownListener(typing);
+};
+
+document.addEventListener('click', (e) => {
+  if (e.target && e.target.id === 'play') {
+    const splashButtons = document.querySelector('.splash-buttons');
+    splashButtons.style.display = 'none';
+    gameLoop();
   }
 });
