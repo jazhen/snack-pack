@@ -89,7 +89,7 @@ const errorAnimation = () => {
   });
 };
 
-export const keydownListener = () => {
+export const keyDownListener = () => {
   const typing = new Typing();
 
   document.addEventListener('keydown', ({ key }) => {

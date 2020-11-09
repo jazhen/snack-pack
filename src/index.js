@@ -4,12 +4,12 @@ import { createSplashWindow, hideSplashWindow } from './js/splash';
 import {
   createTypingWindow,
   // showTypingWindow,
-  // keydownListener,
+  // keyDownListener,
 } from './js/typing';
 import {
   createRepeatWindow,
   showRepeatWindow,
-  repeatKeydownListener,
+  keyUpListener,
 } from './js/repeat';
 
 window.addEventListener('load', () => {
@@ -20,10 +20,9 @@ window.addEventListener('load', () => {
 
 const gameLoop = () => {
   // const typingWindow = showTypingWindow();
-  // typingWindow.onkeydown = keydownListener();
-
+  // typingWindow.onkeydown = keyDownListener();
   const repeatWindow = showRepeatWindow();
-  repeatWindow.onkeydown = repeatKeydownListener();
+  repeatWindow.onkeydown = keyUpListener();
 };
 
 document.addEventListener('click', (e) => {
