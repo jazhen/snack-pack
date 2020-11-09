@@ -3,13 +3,13 @@ import './styles/index.scss';
 import { createSplashWindow, hideSplashWindow } from './js/splash';
 import {
   createTypingWindow,
-  // showTypingWindow,
-  // keyDownListener,
+  showTypingWindow,
+  keyDownListener,
 } from './js/typing';
 import {
   createRepeatWindow,
-  showRepeatWindow,
-  keyUpListener,
+  // showRepeatWindow,
+  // keyUpListener,
 } from './js/repeat';
 
 window.addEventListener('load', () => {
@@ -19,10 +19,10 @@ window.addEventListener('load', () => {
 });
 
 const gameLoop = () => {
-  // const typingWindow = showTypingWindow();
-  // typingWindow.onkeydown = keyDownListener();
-  const repeatWindow = showRepeatWindow();
-  repeatWindow.onkeydown = keyUpListener();
+  const typingWindow = showTypingWindow();
+  typingWindow.onkeydown = keyDownListener();
+  // const repeatWindow = showRepeatWindow();
+  // repeatWindow.onkeydown = keyUpListener();
 };
 
 document.addEventListener('click', (e) => {
