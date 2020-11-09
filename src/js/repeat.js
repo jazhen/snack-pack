@@ -33,8 +33,9 @@ export const showRepeatWindow = () => {
 
 export const keyUpListener = () => {
   const repeat = new Repeat();
+  const progressBar = document.querySelector('#progress-bar');
+
   document.addEventListener('keyup', ({ key }) => {
-    const progressBar = document.querySelector('#progress-bar');
     if (key === ' ') {
       progressBar.value += repeat.value;
     }

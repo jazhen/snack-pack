@@ -91,9 +91,9 @@ const errorAnimation = () => {
 
 export const keyDownListener = () => {
   const typing = new Typing();
+  const matchContainer = document.querySelector('#match-container');
 
   document.addEventListener('keydown', ({ key }) => {
-    const matchContainer = document.querySelector('#match-container');
     const currentLetter = matchContainer.children[typing.currentIndex];
     typing.inputString += key;
 
