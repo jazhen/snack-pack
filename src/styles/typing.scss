@@ -1,39 +1,39 @@
-#match-container {
-  color: gray;
-}
+// #match-container {
+//   color: gray;
+// }
 
-.animate-highlight {
-  animation: highlight 0.1s;
-}
+// .animate-highlight {
+//   animation: highlight 0.1s;
+// }
 
-.animate-shake {
-  animation: shake 0.1s;
-}
+// .animate-shake {
+//   animation: shake 0.1s;
+// }
 
-@keyframes shake {
-  0% { transform: translate(1px, 1px) rotate(0deg); }
-  10% { transform: translate(-1px, -2px) rotate(-1deg); }
-  20% { transform: translate(-3px, 0px) rotate(1deg); }
-  30% { transform: translate(3px, 2px) rotate(0deg); }
-  40% { transform: translate(1px, -1px) rotate(1deg); }
-  50% { transform: translate(-1px, 2px) rotate(-1deg); }
-  60% { transform: translate(-3px, 1px) rotate(0deg); }
-  70% { transform: translate(3px, 1px) rotate(-1deg); }
-  80% { transform: translate(-1px, -1px) rotate(1deg); }
-  90% { transform: translate(1px, 2px) rotate(0deg); }
-  100% { transform: translate(1px, -2px) rotate(-1deg); }
-}
+// @keyframes shake {
+//   0% { transform: translate(1px, 1px) rotate(0deg); }
+//   10% { transform: translate(-1px, -2px) rotate(-1deg); }
+//   20% { transform: translate(-3px, 0px) rotate(1deg); }
+//   30% { transform: translate(3px, 2px) rotate(0deg); }
+//   40% { transform: translate(1px, -1px) rotate(1deg); }
+//   50% { transform: translate(-1px, 2px) rotate(-1deg); }
+//   60% { transform: translate(-3px, 1px) rotate(0deg); }
+//   70% { transform: translate(3px, 1px) rotate(-1deg); }
+//   80% { transform: translate(-1px, -1px) rotate(1deg); }
+//   90% { transform: translate(1px, 2px) rotate(0deg); }
+//   100% { transform: translate(1px, -2px) rotate(-1deg); }
+// }
 
-@keyframes highlight {
-  0% { color: red; }
-  10% { color: red; }
-  20% { color: red; }
-  30% { color: red; }
-  40% { color: red; }
-  50% { color: red; }
-  60% { color: red; }
-  70% { color: red; }
-  80% { color: red; }
-  90% { color: red; }
-  100% { color: red; }
-}
+// @keyframes highlight {
+//   0% { color: red; }
+//   10% { color: red; }
+//   20% { color: red; }
+//   30% { color: red; }
+//   40% { color: red; }
+//   50% { color: red; }
+//   60% { color: red; }
+//   70% { color: red; }
+//   80% { color: red; }
+//   90% { color: red; }
+//   100% { color: red; }
+// }

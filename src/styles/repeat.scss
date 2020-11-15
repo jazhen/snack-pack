@@ -1,21 +1,21 @@
-#progress-bar {
-  appearance: none;
-  width: 500px;
-  height: 70px;
-  vertical-align: 0;
-  border: 3px solid black;
-  margin: 20px 0;
+// #progress-bar {
+//   appearance: none;
+//   width: 500px;
+//   height: 70px;
+//   vertical-align: 0;
+//   border: 3px solid black;
+//   margin: 20px 0;
 
-  &::-webkit-progress-bar {
-    background-color: gray;
-  }
+//   &::-webkit-progress-bar {
+//     background-color: gray;
+//   }
 
-  &::-webkit-progress-value {
-    background-color: green;
-  }
+//   &::-webkit-progress-value {
+//     background-color: green;
+//   }
 
-  &::-moz-progress-bar {
-    background-color: green;
-  }
-}
+//   &::-moz-progress-bar {
+//     background-color: green;
+//   }
+// }
 
