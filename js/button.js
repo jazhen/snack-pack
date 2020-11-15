@@ -1,35 +1,33 @@
 class Button {
   constructor(
     text,
-    baseX,
-    baseY,
-    baseWidth,
-    baseHeight,
+    x,
+    y,
+    width,
+    height,
     fillColor = 'red',
     textColor = '#000000'
   ) {
     this.text = text;
-    this.baseX = baseX;
-    this.baseY = baseY;
-    this.scaledX = baseX;
-    this.scaledY = baseY;
-    this.baseWidth = baseWidth;
-    this.baseHeight = baseHeight;
-    this.scaledWidth = baseWidth;
-    this.scaledHeight = baseHeight;
+    this.x = x;
+    this.y = y;
+    this.scaledX = x;
+    this.scaledY = y;
+    this.width = width;
+    this.height = height;
+    this.scaledWidth = width;
+    this.scaledHeight = height;
     this.fillColor = fillColor;
     this.textColor = textColor;
     this.clicked = false;
     this.hovered = false;
   }
 
-  resize(ctx) {
-    const scaleX = ctx.canvas.width / 400;
-    const scaleY = ctx.canvas.height / 300;
-    this.scaledWidth = this.baseWidth * scaleX;
-    this.scaledHeight = this.baseHeight * scaleY;
-    this.scaledX = this.baseX * scaleX;
-    this.scaledY = this.baseY * scaleY;
+  setScale(scaleFactor) {
+    this.scaledX = this.x * scaleFactor;
+    this.scaledY = this.y * scaleFactor;
+    this.scaledWidth = this.width * scaleFactor;
+    this.scaledHeight = this.height * scaleFactor;
   }
 
   draw(ctx) {
@@ -41,12 +39,7 @@ class Button {
     }
 
     // draw button
-    ctx.fillRect(
-      this.scaledX,
-      this.scaledY,
-      this.scaledWidth,
-      this.scaledHeight
-    );
+    ctx.fillRect(this.x, this.y, this.width, this.height);
 
     // text options
     const fontSize = 16;
@@ -60,9 +53,18 @@ class Button {
     // draw the text
     ctx.fillText(
       this.text,
-      this.x + this.scaledWidth / 2,
-      this.y + this.scaledHeight / 2,
-      this.scaledWidth
+      this.x + this.width / 2,
+      this.y + this.height / 2,
+      this.width
+    );
+  }
+
+  inBounds(pos) {
+    return !(
+      pos.x < this.scaledX ||
+      pos.x > this.scaledX + this.scaledWidth ||
+      pos.y < this.scaledY ||
+      pos.y > this.scaledY + this.scaledHeight
     );
   }
 }

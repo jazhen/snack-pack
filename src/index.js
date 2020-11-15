@@ -7,29 +7,36 @@ const buttons = [];
 
 function resizeGame() {
   const gameArea = document.querySelector('#main');
+  let cw = window.innerWidth;
+  let ch = window.innerHeight;
   const goalAspectRatio = 4 / 3;
-  let screenWidth = window.innerWidth;
-  let screenHeight = window.innerHeight;
-  const currentAspectRatio = screenWidth / screenHeight;
+  const currentAspectRatio = cw / ch;
 
+  // resize, taking into account screen orientation
   if (currentAspectRatio > goalAspectRatio) {
-    screenWidth = screenHeight * goalAspectRatio;
-    gameArea.style.height = `${screenHeight}px`;
-    gameArea.style.width = `${screenWidth}px`;
+    cw = ch * goalAspectRatio;
+    gameArea.style.height = `${ch}px`;
+    gameArea.style.width = `${cw}px`;
   } else {
-    screenHeight = screenWidth / goalAspectRatio;
-    gameArea.style.width = `${screenWidth}px`;
-    gameArea.style.height = `${screenHeight}px`;
+    ch = cw / goalAspectRatio;
+    gameArea.style.width = `${cw}px`;
+    gameArea.style.height = `${ch}px`;
   }
 
-  gameArea.style.marginTop = `${-screenHeight / 2}px`;
-  gameArea.style.marginLeft = `${-screenWidth / 2}px`;
+  // set margins to center canvas
+  gameArea.style.marginTop = `${-ch / 2}px`;
+  gameArea.style.marginLeft = `${-cw / 2}px`;
 
-  canvas.width = screenWidth;
-  canvas.height = screenHeight;
+  // set new canvas size
+  canvas.width = cw;
+  canvas.height = ch;
+
+  // scale all canvas elements to new size
+  const scaleFactor = cw / 400;
+  ctx.scale(scaleFactor, scaleFactor);
 
   buttons.forEach((button) => {
-    button.resize(ctx);
+    button.setScale(scaleFactor);
   });
 }
 
@@ -46,19 +53,14 @@ function update() {
 }
 
 function init() {
-  const startGame = new Button(
-    'Start Game',
-    10,
-    10,
-    canvas.width * 0.3,
-    canvas.height * 0.2
-  );
+  const startGame = new Button('Start Game', 30, 30, 80, 30);
 
   startGame.onClick = function () {
     console.log(
       `pos: ${this.scaledX}x${this.scaledY}, size:${this.scaledWidth}x${this.scaledHeight}`
     );
   };
+
   buttons.push(startGame);
   update();
 }
@@ -72,8 +74,19 @@ window.addEventListener('resize', () => {
   resizeGame();
 });
 
-canvas.addEventListener('click', () => {
+canvas.addEventListener('click', (e) => {
+  // const x = e.pageX - (canvas.clientLeft + canvas.offsetLeft);
+  // const y = e.pageY - (canvas.clientTop + canvas.offsetTop);
+  const el = canvas.getBoundingClientRect();
+  const pos = {
+    x: e.clientX - el.left,
+    y: e.clientY - el.top,
+  };
+
   buttons.forEach((button) => {
-    button.onClick();
+    // debugger;
+    if (button.inBounds(pos) && !!button.onClick) {
+      button.onClick();
+    }
   });
 });
