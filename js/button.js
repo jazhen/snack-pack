@@ -1,16 +1,18 @@
 class Button {
   constructor(
     text,
-    x,
-    y,
+    baseX,
+    baseY,
     baseWidth,
     baseHeight,
     fillColor = 'red',
     textColor = '#000000'
   ) {
     this.text = text;
-    this.x = x;
-    this.y = y;
+    this.baseX = baseX;
+    this.baseY = baseY;
+    this.scaledX = baseX;
+    this.scaledY = baseY;
     this.baseWidth = baseWidth;
     this.baseHeight = baseHeight;
     this.scaledWidth = baseWidth;
@@ -26,6 +28,8 @@ class Button {
     const scaleY = ctx.canvas.height / 300;
     this.scaledWidth = this.baseWidth * scaleX;
     this.scaledHeight = this.baseHeight * scaleY;
+    this.scaledX = this.baseX * scaleX;
+    this.scaledY = this.baseY * scaleY;
   }
 
   draw(ctx) {
@@ -37,7 +41,12 @@ class Button {
     }
 
     // draw button
-    ctx.fillRect(this.x, this.y, this.scaledWidth, this.scaledHeight);
+    ctx.fillRect(
+      this.scaledX,
+      this.scaledY,
+      this.scaledWidth,
+      this.scaledHeight
+    );
 
     // text options
     const fontSize = 16;

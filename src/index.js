@@ -46,19 +46,26 @@ function update() {
 }
 
 function init() {
-  // initalization
-  const startGame = new Button('Start Game', 0, 0, 200, 150);
+  const startGame = new Button(
+    'Start Game',
+    10,
+    10,
+    canvas.width * 0.3,
+    canvas.height * 0.2
+  );
+
   startGame.onClick = function () {
-    // return console.log('Start Game!');
-    console.log(`${this.scaledWidth}x${this.scaledHeight}`);
+    console.log(
+      `pos: ${this.scaledX}x${this.scaledY}, size:${this.scaledWidth}x${this.scaledHeight}`
+    );
   };
   buttons.push(startGame);
   update();
 }
 
 window.addEventListener('load', () => {
-  resizeGame();
   init();
+  resizeGame();
 });
 
 window.addEventListener('resize', () => {
