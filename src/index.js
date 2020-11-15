@@ -53,11 +53,13 @@ function init() {
     console.log(`${this.scaledWidth}x${this.scaledHeight}`);
   };
   buttons.push(startGame);
-  resizeGame();
   update();
 }
 
-window.onload = init;
+window.addEventListener('load', () => {
+  resizeGame();
+  init();
+});
 
 window.addEventListener('resize', () => {
   resizeGame();
