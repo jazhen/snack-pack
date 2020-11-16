@@ -46,10 +46,36 @@ function clear() {
 }
 
 function play() {
-  ctx.fillStyle = 'green';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  buttons = [];
 
-  requestAnimationFrame(play);
+  buttons.push(
+    new Button('back', 30, 70, 80, 30, () => {
+      fade();
+      // eslint-disable-next-line no-use-before-define
+      mainMenu();
+    })
+  );
+
+  function animate() {
+    clear();
+    ctx.fillStyle = 'green';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'black';
+    ctx.fillText(
+      'playing game',
+      canvas.width / 2,
+      canvas.height / 4,
+      canvas.width
+    );
+
+    buttons.forEach((button) => {
+      button.draw();
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
 }
 
 function instructions() {
@@ -68,10 +94,12 @@ function instructions() {
     ctx.fillStyle = 'aqua';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = 'black';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
     ctx.fillText(
-      'hello world',
-      canvas.width / 3,
-      canvas.height / 3,
+      'instructions go here',
+      canvas.width / 4,
+      canvas.height / 4,
       canvas.width
     );
 
