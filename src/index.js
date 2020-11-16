@@ -1,25 +1,10 @@
 import './styles/index.scss';
 import Button from './js/button';
+import fade from './js/transitions';
 
 const canvas = document.querySelector('#canvas');
 const ctx = canvas.getContext('2d');
 const buttons = [];
-
-function fadeTransition() {
-  let alpha = 0;
-
-  function fade() {
-    if (alpha < 1) {
-      alpha += 0.01;
-      ctx.globalAlpha = alpha;
-      ctx.fillStyle = 'black';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      requestAnimationFrame(fade);
-    }
-  }
-
-  fade();
-}
 
 function resizeGame() {
   const gameArea = document.querySelector('#main');
@@ -78,16 +63,6 @@ function instructions() {
 }
 
 function mainMenu() {
-  const playButton = new Button('play', 30, 30, 80, 30);
-  const instructionsButton = new Button('instructions', 30, 70, 80, 30);
-
-  playButton.onClick = () => play();
-  instructionsButton.onClick = () => {
-    fadeTransition();
-    instructions();
-  };
-  buttons.push(playButton, instructionsButton);
-
   ctx.fillStyle = 'gray';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -99,6 +74,20 @@ function mainMenu() {
 }
 
 window.addEventListener('load', () => {
+  buttons.push(
+    new Button('play', 30, 30, 80, 30, () => {
+      fade();
+      play();
+    })
+  );
+
+  buttons.push(
+    new Button('instructions', 30, 70, 80, 30, () => {
+      fade();
+      instructions();
+    })
+  );
+
   mainMenu();
   resizeGame();
 });
@@ -114,9 +103,5 @@ canvas.addEventListener('click', (e) => {
     y: e.clientY - el.top,
   };
 
-  buttons.forEach((button) => {
-    if (button.clicked(pos) && !!button.onClick) {
-      button.onClick();
-    }
-  });
+  buttons.forEach((button) => button.mouseDown(pos));
 });

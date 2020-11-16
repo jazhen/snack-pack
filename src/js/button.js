@@ -5,12 +5,14 @@ class Button {
     y,
     width,
     height,
+    fn,
     fillColor = 'red',
     textColor = '#000000'
   ) {
     this.text = text;
     this.base = { x, y, width, height };
     this.scaled = { x, y, width, height };
+    this.fn = fn;
     this.fillColor = fillColor;
     this.textColor = textColor;
     // this.clicked = false;
@@ -60,6 +62,16 @@ class Button {
       pos.y < this.scaled.y ||
       pos.y > this.scaled.y + this.scaled.height
     );
+  }
+
+  mouseDown(pos) {
+    const clicked = this.clicked(pos);
+
+    if (clicked) {
+      this.fn();
+    }
+
+    return clicked;
   }
 }
 
