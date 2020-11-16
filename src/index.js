@@ -4,10 +4,10 @@ import fade from './js/transitions';
 
 const canvas = document.querySelector('#canvas');
 const ctx = canvas.getContext('2d');
-const buttons = [];
+let buttons = [];
 
 function resizeGame() {
-  const gameArea = document.querySelector('#main');
+  const gameWindow = document.querySelector('#main');
   let cw = window.innerWidth;
   let ch = window.innerHeight;
   const goalAspectRatio = 4 / 3;
@@ -16,17 +16,17 @@ function resizeGame() {
   // resize, taking into account screen orientation
   if (currentAspectRatio > goalAspectRatio) {
     cw = ch * goalAspectRatio;
-    gameArea.style.height = `${ch}px`;
-    gameArea.style.width = `${cw}px`;
+    gameWindow.style.height = `${ch}px`;
+    gameWindow.style.width = `${cw}px`;
   } else {
     ch = cw / goalAspectRatio;
-    gameArea.style.width = `${cw}px`;
-    gameArea.style.height = `${ch}px`;
+    gameWindow.style.width = `${cw}px`;
+    gameWindow.style.height = `${ch}px`;
   }
 
   // set margins to center canvas
-  gameArea.style.marginTop = `${-ch / 2}px`;
-  gameArea.style.marginLeft = `${-cw / 2}px`;
+  gameWindow.style.marginTop = `${-ch / 2}px`;
+  gameWindow.style.marginLeft = `${-cw / 2}px`;
 
   // set new canvas size
   canvas.width = cw;
@@ -41,6 +41,10 @@ function resizeGame() {
   });
 }
 
+function clear() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
 function play() {
   ctx.fillStyle = 'green';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -49,31 +53,41 @@ function play() {
 }
 
 function instructions() {
-  ctx.fillStyle = 'aqua';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = 'black';
-  ctx.fillText(
-    'hello world',
-    canvas.width / 2,
-    canvas.height / 2,
-    canvas.width
+  buttons = [];
+
+  buttons.push(
+    new Button('back', 30, 70, 80, 30, () => {
+      fade();
+      // eslint-disable-next-line no-use-before-define
+      mainMenu();
+    })
   );
 
-  requestAnimationFrame(instructions);
+  function animate() {
+    clear();
+    ctx.fillStyle = 'aqua';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'black';
+    ctx.fillText(
+      'hello world',
+      canvas.width / 3,
+      canvas.height / 3,
+      canvas.width
+    );
+
+    buttons.forEach((button) => {
+      button.draw();
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
 }
 
 function mainMenu() {
-  ctx.fillStyle = 'gray';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  buttons = [];
 
-  buttons.forEach((button) => {
-    return button.draw(ctx);
-  });
-
-  requestAnimationFrame(mainMenu);
-}
-
-window.addEventListener('load', () => {
   buttons.push(
     new Button('play', 30, 30, 80, 30, () => {
       fade();
@@ -88,6 +102,24 @@ window.addEventListener('load', () => {
     })
   );
 
+  function animate() {
+    clear();
+    ctx.fillStyle = 'gray';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    buttons.forEach((button) => {
+      button.draw();
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+}
+
+/* event listeners */
+
+window.addEventListener('load', () => {
   mainMenu();
   resizeGame();
 });

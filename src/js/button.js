@@ -1,3 +1,6 @@
+const canvas = document.querySelector('#canvas');
+const ctx = canvas.getContext('2d');
+
 class Button {
   constructor(
     text,
@@ -15,6 +18,7 @@ class Button {
     this.fn = fn;
     this.fillColor = fillColor;
     this.textColor = textColor;
+    this.setScale(canvas.width / 400);
     // this.clicked = false;
     // this.hovered = false;
   }
@@ -26,15 +30,9 @@ class Button {
     this.scaled.height = this.base.height * scaleFactor;
   }
 
-  draw(ctx) {
-    // set color
-    if (this.hovered) {
-      ctx.fillStyle = 'red';
-    } else {
-      ctx.fillStyle = this.fillColor;
-    }
-
+  draw() {
     // draw button
+    ctx.fillStyle = this.fillColor;
     ctx.fillRect(this.base.x, this.base.y, this.base.width, this.base.height);
 
     // text options
@@ -56,18 +54,18 @@ class Button {
   }
 
   clicked(pos) {
-    return !(
-      pos.x < this.scaled.x ||
-      pos.x > this.scaled.x + this.scaled.width ||
-      pos.y < this.scaled.y ||
-      pos.y > this.scaled.y + this.scaled.height
+    return (
+      pos.x >= this.scaled.x &&
+      pos.x <= this.scaled.x + this.scaled.width &&
+      pos.y >= this.scaled.y &&
+      pos.y <= this.scaled.y + this.scaled.height
     );
   }
 
   mouseDown(pos) {
     const clicked = this.clicked(pos);
-
     if (clicked) {
+      console.log(`button clicked with fn: ${this.fn}`);
       this.fn();
     }
 
