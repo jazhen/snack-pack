@@ -2,9 +2,16 @@ import './styles/index.scss';
 import Button from './js/button';
 import fade from './js/transitions';
 
-const canvas = document.querySelector('#canvas');
-const ctx = canvas.getContext('2d');
+import Fighter from './js/fight';
+
 let buttons = [];
+
+export const canvas = document.querySelector('#canvas');
+export const ctx = canvas.getContext('2d');
+
+function clear() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
 
 function resizeGame() {
   const gameWindow = document.querySelector('#main');
@@ -41,10 +48,6 @@ function resizeGame() {
   });
 }
 
-function clear() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-}
-
 function play() {
   buttons = [];
 
@@ -55,6 +58,8 @@ function play() {
       mainMenu();
     })
   );
+
+  const character = new Fighter();
 
   function animate() {
     clear();
@@ -72,10 +77,13 @@ function play() {
       button.draw();
     });
 
+    character.draw();
+
     requestAnimationFrame(animate);
   }
 
   animate();
+  // setInterval(animate, 1000 / 20);
 }
 
 function instructions() {

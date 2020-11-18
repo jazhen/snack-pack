@@ -1,7 +1,7 @@
 const { merge } = require('webpack-merge');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const common = require('./webpack.common.js');
 const paths = require('./paths');
 
@@ -10,7 +10,7 @@ module.exports = merge(common, {
   devtool: false,
   output: {
     path: paths.build,
-    publicPath: '/snack-pack/',
+    publicPath: '/',
     filename: 'js/[name].[contenthash].bundle.js',
   },
   plugins: [
@@ -42,7 +42,7 @@ module.exports = merge(common, {
   },
   optimization: {
     minimize: true,
-    minimizer: [new OptimizeCssAssetsPlugin()],
+    minimizer: [new CssMinimizerPlugin(), '...'],
     // Once your build outputs multiple chunks, this option will ensure they share the webpack runtime
     // instead of having their own. This also helps with long-term caching, since the chunks will only
     // change when actual code changes, not the webpack runtime.
