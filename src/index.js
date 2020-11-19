@@ -1,17 +1,8 @@
 import './styles/index.scss';
+import Game from './js/game';
 import Button from './js/button';
-import fade from './js/transitions';
 
-import Fighter from './js/fight';
-
-let buttons = [];
-
-export const canvas = document.querySelector('#canvas');
-export const ctx = canvas.getContext('2d');
-
-function clear() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-}
+const game = new Game();
 
 function resizeGame() {
   const gameWindow = document.querySelector('#main');
@@ -36,127 +27,22 @@ function resizeGame() {
   gameWindow.style.marginLeft = `${-cw / 2}px`;
 
   // set new canvas size
-  canvas.width = cw;
-  canvas.height = ch;
+  game.canvas.canvas.width = cw;
+  game.canvas.canvas.height = ch;
 
   // scale all canvas elements to new size
   const scaleFactor = cw / 400;
-  ctx.scale(scaleFactor, scaleFactor);
+  game.canvas.ctx.scale(scaleFactor, scaleFactor);
 
-  buttons.forEach((button) => {
-    button.setScale(scaleFactor);
+  game.elements.forEach((element) => {
+    element.setScale(scaleFactor);
   });
-}
-
-function play() {
-  buttons = [];
-
-  buttons.push(
-    new Button('back', 30, 70, 80, 30, () => {
-      fade();
-      // eslint-disable-next-line no-use-before-define
-      mainMenu();
-    })
-  );
-
-  const character = new Fighter();
-
-  function animate() {
-    clear();
-    ctx.fillStyle = 'green';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'black';
-    ctx.fillText(
-      'playing game',
-      canvas.width / 2,
-      canvas.height / 4,
-      canvas.width
-    );
-
-    buttons.forEach((button) => {
-      button.draw();
-    });
-
-    character.draw();
-
-    requestAnimationFrame(animate);
-  }
-
-  animate();
-  // setInterval(animate, 1000 / 20);
-}
-
-function instructions() {
-  buttons = [];
-
-  buttons.push(
-    new Button('back', 30, 70, 80, 30, () => {
-      fade();
-      // eslint-disable-next-line no-use-before-define
-      mainMenu();
-    })
-  );
-
-  function animate() {
-    clear();
-    ctx.fillStyle = 'aqua';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'black';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(
-      'instructions go here',
-      canvas.width / 4,
-      canvas.height / 4,
-      canvas.width
-    );
-
-    buttons.forEach((button) => {
-      button.draw();
-    });
-
-    requestAnimationFrame(animate);
-  }
-
-  animate();
-}
-
-function mainMenu() {
-  buttons = [];
-
-  buttons.push(
-    new Button('play', 30, 30, 80, 30, () => {
-      fade();
-      play();
-    })
-  );
-
-  buttons.push(
-    new Button('instructions', 30, 70, 80, 30, () => {
-      fade();
-      instructions();
-    })
-  );
-
-  function animate() {
-    clear();
-    ctx.fillStyle = 'gray';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    buttons.forEach((button) => {
-      button.draw();
-    });
-
-    requestAnimationFrame(animate);
-  }
-
-  animate();
 }
 
 /* event listeners */
 
 window.addEventListener('load', () => {
-  mainMenu();
+  game.mainMenu();
   resizeGame();
 });
 
@@ -164,12 +50,16 @@ window.addEventListener('resize', () => {
   resizeGame();
 });
 
-canvas.addEventListener('click', (e) => {
-  const el = canvas.getBoundingClientRect();
+game.canvas.canvas.addEventListener('click', (e) => {
+  const el = game.canvas.canvas.getBoundingClientRect();
   const pos = {
     x: e.clientX - el.left,
     y: e.clientY - el.top,
   };
 
-  buttons.forEach((button) => button.mouseDown(pos));
+  game.elements.forEach((element) => {
+    if (element instanceof Button) {
+      element.mouseDown(pos);
+    }
+  });
 });

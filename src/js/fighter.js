@@ -39,7 +39,7 @@ export default class Fighter {
     // this.action = this.characterActions[
     //   Math.floor(Math.random() * this.characterActions.length)
     // ];
-    this.action = 'idle';
+    this.action = 'punch right';
     switch (this.action) {
       case 'idle':
         this.frameY = 0;
