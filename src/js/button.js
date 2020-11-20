@@ -1,5 +1,5 @@
 const canvas = document.querySelector('#canvas');
-const ctx = canvas.getContext('2d');
+// const ctx = canvas.getContext('2d');
 
 class Button {
   constructor(
@@ -30,7 +30,7 @@ class Button {
     this.scaled.height = this.base.height * scaleFactor;
   }
 
-  draw() {
+  draw(ctx) {
     // draw button
     ctx.fillStyle = this.fillColor;
     ctx.fillRect(this.base.x, this.base.y, this.base.width, this.base.height);

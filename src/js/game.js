@@ -27,7 +27,7 @@ class Game {
   }
 
   draw() {
-    this.elements.forEach((element) => element.draw());
+    this.elements.forEach((element) => element.draw(this.canvas.ctx));
   }
 
   animate(bgColor, text) {

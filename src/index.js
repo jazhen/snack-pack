@@ -32,6 +32,7 @@ function resizeGame() {
 
   // scale all canvas elements to new size
   const scaleFactor = cw / 400;
+  game.canvas.scaleFactor = cw / 400;
   game.canvas.ctx.scale(scaleFactor, scaleFactor);
 
   game.elements.forEach((element) => {
