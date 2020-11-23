@@ -1,12 +1,12 @@
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
+// const canvas = document.getElementById('canvas');
+// const ctx = canvas.getContext('2d');
+// canvas.height = window.innerHeight;
+// canvas.width = window.innerWidth;
 
 // load images
-const images = {};
-images.fighter = new Image();
-images.fighter.src = '../../assets/fighter.png';
+// const images = {};
+// images.fighter = new Image();
+// images.fighter.src = '../../assets/fighter.png';
 
 export default class Fighter {
   /*
@@ -56,9 +56,9 @@ export default class Fighter {
     }
   }
 
-  draw() {
+  draw(ctx, { fighter }) {
     ctx.drawImage(
-      images.fighter,
+      fighter,
       this.width * this.frameX,
       this.height * this.frameY,
       this.width,

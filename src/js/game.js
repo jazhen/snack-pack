@@ -7,10 +7,28 @@ class Game {
   constructor() {
     this.canvas = new Canvas();
     this.elements = [];
+    this.assets = {};
 
     this.mainMenu = this.mainMenu.bind(this);
     this.play = this.play.bind(this);
     this.instructions = this.instructions.bind(this);
+  }
+
+  loadAssets() {
+    const filenames = ['fighter'];
+
+    filenames.forEach((filename) => {
+      // debugger;
+      this.assets[filename] = new Image();
+      // this.assets[filename].addEventListener('load', this.mainMenu());
+      this.assets[filename].src = `../../assets/${filename}.png`;
+
+      // this.assets[filename].onload = function () {
+      //   alert(`loaded`);
+      //   this.assets[filename].src = `../assets/${filename}.png`;
+      // };
+    });
+    this.mainMenu();
   }
 
   clearElements() {
@@ -27,7 +45,9 @@ class Game {
   }
 
   draw() {
-    this.elements.forEach((element) => element.draw(this.canvas.ctx));
+    this.elements.forEach((element) =>
+      element.draw(this.canvas.ctx, this.assets)
+    );
   }
 
   animate(bgColor, text) {

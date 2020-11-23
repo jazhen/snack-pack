@@ -4,35 +4,39 @@ import Button from './js/button';
 
 const game = new Game();
 
+// const images = {};
+// images.fighter = new Image();
+// images.fighter.src = '../../assets/fighter.png';
+
 function resizeGame() {
   const gameWindow = document.querySelector('#main');
-  let cw = window.innerWidth;
-  let ch = window.innerHeight;
+  let canvasWidth = window.innerWidth;
+  let canvasHeight = window.innerHeight;
   const goalAspectRatio = 4 / 3;
-  const currentAspectRatio = cw / ch;
+  const currentAspectRatio = canvasWidth / canvasHeight;
 
   // resize, taking into account screen orientation
   if (currentAspectRatio > goalAspectRatio) {
-    cw = ch * goalAspectRatio;
-    gameWindow.style.height = `${ch}px`;
-    gameWindow.style.width = `${cw}px`;
+    canvasWidth = canvasHeight * goalAspectRatio;
+    gameWindow.style.height = `${canvasHeight}px`;
+    gameWindow.style.width = `${canvasWidth}px`;
   } else {
-    ch = cw / goalAspectRatio;
-    gameWindow.style.width = `${cw}px`;
-    gameWindow.style.height = `${ch}px`;
+    canvasHeight = canvasWidth / goalAspectRatio;
+    gameWindow.style.width = `${canvasWidth}px`;
+    gameWindow.style.height = `${canvasHeight}px`;
   }
 
   // set margins to center canvas
-  gameWindow.style.marginTop = `${-ch / 2}px`;
-  gameWindow.style.marginLeft = `${-cw / 2}px`;
+  gameWindow.style.marginTop = `${-canvasHeight / 2}px`;
+  gameWindow.style.marginLeft = `${-canvasWidth / 2}px`;
 
   // set new canvas size
-  game.canvas.canvas.width = cw;
-  game.canvas.canvas.height = ch;
+  game.canvas.canvas.width = canvasWidth;
+  game.canvas.canvas.height = canvasHeight;
 
   // scale all canvas elements to new size
-  const scaleFactor = cw / 400;
-  game.canvas.scaleFactor = cw / 400;
+  const scaleFactor = canvasWidth / 400;
+  game.canvas.scaleFactor = canvasWidth / 400;
   game.canvas.ctx.scale(scaleFactor, scaleFactor);
 
   game.elements.forEach((element) => {
@@ -43,8 +47,9 @@ function resizeGame() {
 /* event listeners */
 
 window.addEventListener('load', () => {
-  game.mainMenu();
+  game.loadAssets();
   resizeGame();
+  // game.mainMenu();
 });
 
 window.addEventListener('resize', () => {
