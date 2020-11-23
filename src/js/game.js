@@ -1,6 +1,7 @@
 import Button from './button';
 import Canvas from './canvas';
-import Fighter from './fighter';
+import Door from './door';
+// import Fighter from './fighter';
 import fade from './transitions';
 
 class Game {
@@ -15,19 +16,16 @@ class Game {
   }
 
   loadAssets() {
-    const filenames = ['fighter'];
+    const filenames = ['fighter', 'door'];
 
     filenames.forEach((filename) => {
-      // debugger;
       this.assets[filename] = new Image();
-      // this.assets[filename].addEventListener('load', this.mainMenu());
-      this.assets[filename].src = `../../assets/${filename}.png`;
-
-      // this.assets[filename].onload = function () {
-      //   alert(`loaded`);
-      //   this.assets[filename].src = `../assets/${filename}.png`;
-      // };
+      this.assets[filename].onload = () => {
+        console.log(`${filename}.png loaded`);
+      };
+      this.assets[filename].src = `../assets/${filename}.png`;
     });
+
     this.mainMenu();
   }
 
@@ -82,7 +80,8 @@ class Game {
   play() {
     this.clearElements();
     this.addButton('instructions', [30, 70], [80, 30], this.mainMenu, fade);
-    this.elements.push(new Fighter());
+    // this.elements.push(new Fighter());
+    this.elements.push(new Door());
     this.animate('green', 'playing game');
   }
 }
