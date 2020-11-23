@@ -1,7 +1,7 @@
 import Button from './button';
 import Canvas from './canvas';
-import Door from './door';
-// import Fighter from './fighter';
+// import Door from './door';
+import Fighter from './fighter';
 import fade from './transitions';
 
 class Game {
@@ -9,6 +9,8 @@ class Game {
     this.canvas = new Canvas();
     this.elements = [];
     this.assets = {};
+    this.requestId = null;
+    this.timeoutId = null;
 
     this.mainMenu = this.mainMenu.bind(this);
     this.play = this.play.bind(this);
@@ -49,24 +51,38 @@ class Game {
   }
 
   animate(bgColor, text) {
-    this.canvas.clearCanvas();
-    this.canvas.drawBackground(bgColor);
-
-    if (text) {
-      this.canvas.drawText(text, [
-        this.canvas.canvas.width / 4,
-        this.canvas.canvas.height / 4,
-      ]);
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
     }
 
-    this.draw();
+    const fps = 5;
 
-    requestAnimationFrame(this.animate.bind(this, bgColor, text));
+    function animate() {
+      this.timeoutId = setTimeout(() => {
+        this.canvas.clearCanvas();
+        this.canvas.drawBackground(bgColor);
+
+        if (text) {
+          this.canvas.drawText(text, [
+            this.canvas.canvas.width / 4,
+            this.canvas.canvas.height / 4,
+          ]);
+        }
+
+        this.draw();
+        this.requestId = requestAnimationFrame(animate);
+        console.log(this.requestId);
+      }, 1000 / fps);
+    }
+
+    // eslint-disable-next-line no-func-assign
+    animate = animate.bind(this);
+    animate();
   }
 
   instructions() {
     this.clearElements();
-    this.addButton('instructions', [30, 70], [80, 30], this.mainMenu, fade);
+    this.addButton('back', [30, 70], [80, 30], this.mainMenu, fade);
     this.animate('blue', 'instructions go here');
   }
 
@@ -79,9 +95,9 @@ class Game {
 
   play() {
     this.clearElements();
-    this.addButton('instructions', [30, 70], [80, 30], this.mainMenu, fade);
-    // this.elements.push(new Fighter());
-    this.elements.push(new Door());
+    this.addButton('back', [30, 70], [80, 30], this.mainMenu, fade);
+    this.elements.push(new Fighter());
+    // this.elements.push(new Door());
     this.animate('green', 'playing game');
   }
 }
