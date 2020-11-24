@@ -1,0 +1,7 @@
+windows
+- public folder holds images
+- webpack.common.js: output.publicPath is '/'
+
+mac
+- assets folder holds images
+- webpack.common.js: output.publicPath is '/public'

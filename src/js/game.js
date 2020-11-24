@@ -28,7 +28,8 @@ class Game {
       this.assets[filename].src = `../assets/${filename}.png`;
     });
 
-    this.mainMenu();
+    // this.mainMenu();
+    this.play();
   }
 
   resize() {
@@ -87,7 +88,7 @@ class Game {
     );
   }
 
-  animate(bgColor, text) {
+  animate(bgColor, text, time) {
     if (this.timeoutId) {
       clearTimeout(this.timeoutId);
     }
@@ -115,6 +116,12 @@ class Game {
     // eslint-disable-next-line no-func-assign
     animate = animate.bind(this);
     animate();
+    if (time) {
+      setTimeout(() => {
+        console.log('cancel animation now');
+        clearTimeout(this.timeoutId);
+      }, time * 1000);
+    }
   }
 
   instructions() {
@@ -135,7 +142,7 @@ class Game {
     this.addButton('back', [30, 70], [80, 30], this.mainMenu, fade);
     // this.elements.push(new Fighter());
     this.elements.push(new Door());
-    this.animate('green', 'playing game');
+    this.animate('green', 'playing game', 4);
   }
 }
 
