@@ -1,6 +1,6 @@
 class Door {
   constructor() {
-    this.width = 266.67;
+    this.width = 1600 / 6;
     this.height = 400;
     this.frame = {
       x: 0,
@@ -23,8 +23,11 @@ class Door {
       this.height,
       this.pos.x,
       this.pos.y,
-      this.width,
-      this.height
+      // this.width,
+      // this.height
+      ctx.canvas.width,
+      // this.height
+      ctx.canvas.height
     );
 
     if (this.frame.x < this.frame.max) {
@@ -33,6 +36,10 @@ class Door {
       this.frame.x = this.frame.min;
     }
   }
+
+  // setScale(scaleFactor) {
+  //   debugger;
+  // }
 }
 
 export default Door;

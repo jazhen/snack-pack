@@ -1,7 +1,7 @@
 import Button from './button';
 import Canvas from './canvas';
-// import Door from './door';
-import Fighter from './fighter';
+import Door from './door';
+// import Fighter from './fighter';
 import fade from './transitions';
 
 class Game {
@@ -31,6 +31,43 @@ class Game {
     this.mainMenu();
   }
 
+  resize() {
+    const gameWindow = document.querySelector('#main');
+    let canvasWidth = window.innerWidth;
+    let canvasHeight = window.innerHeight;
+    const goalAspectRatio = 4 / 3;
+    const currentAspectRatio = canvasWidth / canvasHeight;
+
+    // resize, taking into account screen orientation
+    if (currentAspectRatio > goalAspectRatio) {
+      canvasWidth = canvasHeight * goalAspectRatio;
+      gameWindow.style.height = `${canvasHeight}px`;
+      gameWindow.style.width = `${canvasWidth}px`;
+    } else {
+      canvasHeight = canvasWidth / goalAspectRatio;
+      gameWindow.style.width = `${canvasWidth}px`;
+      gameWindow.style.height = `${canvasHeight}px`;
+    }
+
+    // set margins to center canvas
+    gameWindow.style.marginTop = `${-canvasHeight / 2}px`;
+    gameWindow.style.marginLeft = `${-canvasWidth / 2}px`;
+
+    // set new canvas size
+    this.canvas.canvas.width = canvasWidth;
+    this.canvas.canvas.height = canvasHeight;
+
+    // scale all canvas elements to new size
+    // const scaleFactor = canvasWidth / 400;
+    // this.canvas.scaleFactor = canvasWidth / 400;
+    // this.canvas.ctx.scale(this.canvas.scaleFactor, this.canvas.scaleFactor);
+    // this.canvas.ctx.scale(scaleFactor, scaleFactor);
+
+    // this.elements.forEach((element) => {
+    //   element.setScale(scaleFactor);
+    // });
+  }
+
   clearElements() {
     this.elements = [];
   }
@@ -55,7 +92,7 @@ class Game {
       clearTimeout(this.timeoutId);
     }
 
-    const fps = 5;
+    const fps = 2;
 
     function animate() {
       this.timeoutId = setTimeout(() => {
@@ -96,8 +133,8 @@ class Game {
   play() {
     this.clearElements();
     this.addButton('back', [30, 70], [80, 30], this.mainMenu, fade);
-    this.elements.push(new Fighter());
-    // this.elements.push(new Door());
+    // this.elements.push(new Fighter());
+    this.elements.push(new Door());
     this.animate('green', 'playing game');
   }
 }

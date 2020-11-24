@@ -16,8 +16,8 @@ class Fighter {
   */
 
   constructor() {
-    this.width = 65;
-    this.height = 78;
+    this.width = 650 / 10;
+    this.height = 156 / 2;
     this.frame = {
       x: 0,
       y: 0,

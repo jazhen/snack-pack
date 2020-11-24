@@ -33,6 +33,12 @@ class Button {
   draw(ctx) {
     // draw button
     ctx.fillStyle = this.fillColor;
+    // ctx.fillRect(
+    //   (ctx.canvas.width - ctx.canvas.width / 8) / 2,
+    //   (ctx.canvas.height - ctx.canvas.height / 6) / 2,
+    //   ctx.canvas.width / 8,
+    //   ctx.canvas.height / 6
+    // );
     ctx.fillRect(this.base.x, this.base.y, this.base.width, this.base.height);
 
     // text options
