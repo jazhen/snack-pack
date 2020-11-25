@@ -60,7 +60,7 @@ class Door {
   animate(canvas, bgColor, text, seconds, fps = 2) {
     function animate() {
       this.setTimeoutId = setTimeout(() => {
-        canvas.clearCanvas();
+        canvas.clear();
         this.draw(canvas);
 
         this.requestAnimationFrameId = requestAnimationFrame(animate);

@@ -12,7 +12,7 @@ class Game {
     this.instructions = this.instructions.bind(this);
 
     this.canvas = new Canvas();
-    this.assets = new Assets(this.canvas, this.play);
+    this.assets = new Assets(this.canvas, this.mainMenu);
     this.elements = [];
 
     this.requestAnimationFrameId = null;
@@ -62,7 +62,7 @@ class Game {
 
   addButton(text, pos, size, fn, fx) {
     this.elements.push(
-      new Button(text, pos[0], pos[1], size[0], size[1], () => {
+      new Button(this.canvas, text, pos[0], pos[1], size[0], size[1], () => {
         fx();
         fn();
       })
@@ -80,7 +80,7 @@ class Game {
 
     function animate() {
       this.setTimeoutId = setTimeout(() => {
-        this.canvas.clearCanvas();
+        this.canvas.clear();
         this.canvas.drawBackground(bgColor);
 
         this.draw();
@@ -114,7 +114,7 @@ class Game {
         clearTimeout(this.setTimeoutId);
 
         // start fighter game
-        // that.canvas.clearCanvas();
+        // that.canvas.clear();
         // that.clearElements();
         // that.elements.push(new Fighter());
         // that.animate('green', 'playing game', undefined, 10);
@@ -132,7 +132,23 @@ class Game {
     this.clearElements();
     this.addButton('play', [30, 30], [80, 30], this.play, fade);
     this.addButton('instructions', [30, 70], [80, 30], this.instructions, fade);
-    this.animate('yellow');
+    // this.animate('yellow');'
+
+    function draw() {
+      this.canvas.clear();
+      this.canvas.drawBackground('orange');
+      this.elements.forEach((element) => {
+        element.draw();
+      });
+    }
+
+    function animate() {
+      draw.call(this);
+      // draw.call(this);
+      this.requestAnimationFrameId = requestAnimationFrame(animate.bind(this));
+    }
+
+    animate.call(this);
   }
 
   async doorAnimation() {
@@ -144,7 +160,7 @@ class Game {
     //   .cancelAnimation()
     //   .then((result) => result())
     //   .catch((error) => console.log(error));
-    // await this.canvas.clearCanvas();
+    // await this.canvas.clear();
   }
 
   play() {
@@ -160,7 +176,7 @@ class Game {
     // const animate = await this.animate2();
     // this.animate('green', 'mash', 6, 1).then(() => {
     //   debugger;
-    //   this.canvas.clearCanvas();
+    //   this.canvas.clear();
     //   this.clearElements();
     //   this.elements.push(new Fighter());
     //   this.animate('green', 'playing game', undefined, 10);

@@ -1,8 +1,6 @@
-const canvas = document.querySelector('#canvas');
-// const ctx = canvas.getContext('2d');
-
 class Button {
   constructor(
+    canvas,
     text,
     x,
     y,
@@ -12,6 +10,7 @@ class Button {
     fillColor = 'red',
     textColor = '#000000'
   ) {
+    this.canvas = canvas;
     this.text = text;
     this.base = { x, y, width, height };
     this.scaled = { x, y, width, height };
@@ -30,28 +29,19 @@ class Button {
     this.scaled.height = this.base.height * scaleFactor;
   }
 
-  draw(ctx) {
+  draw() {
     // draw button
-    ctx.fillStyle = this.fillColor;
-    // ctx.fillRect(
-    //   (ctx.canvas.width - ctx.canvas.width / 8) / 2,
-    //   (ctx.canvas.height - ctx.canvas.height / 6) / 2,
-    //   ctx.canvas.width / 8,
-    //   ctx.canvas.height / 6
-    // );
-    ctx.fillRect(this.base.x, this.base.y, this.base.width, this.base.height);
+    this.canvas.ctx.fillStyle = this.fillColor;
 
-    // text options
-    const fontSize = 12;
-    ctx.fillStyle = this.textColor;
-    ctx.font = `${fontSize}px sans-serif`;
-
-    // center the text
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
+    this.canvas.ctx.fillRect(
+      this.base.x,
+      this.base.y,
+      this.base.width,
+      this.base.height
+    );
 
     // draw the text
-    ctx.fillText(
+    this.canvas.drawText(
       this.text,
       this.base.x + this.base.width / 2,
       this.base.y + this.base.height / 2,

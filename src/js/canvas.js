@@ -4,7 +4,7 @@ class Canvas {
     this.ctx = this.canvas.getContext('2d');
   }
 
-  clearCanvas() {
+  clear() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
@@ -13,12 +13,19 @@ class Canvas {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  drawText(text, x, y, color = 'black', size = 16) {
+  drawText(
+    text,
+    x,
+    y,
+    maxWidth = this.canvas.width,
+    color = 'black',
+    size = 16
+  ) {
     this.ctx.textAlign = 'center';
     this.ctx.textBaseline = 'middle';
     this.ctx.font = `${size}px arial`;
     this.ctx.fillStyle = color;
-    this.ctx.fillText(text, x, y, this.canvas.width * 0.8);
+    this.ctx.fillText(text, x, y, maxWidth * 0.8);
   }
 }
 

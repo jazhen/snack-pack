@@ -36,29 +36,29 @@ class Assets {
   update() {
     if (this.numAssetsLoaded === this.numAssets) {
       cancelAnimationFrame(this.requestAnimationFrameId);
-      this.fn();
+      setTimeout(() => this.fn(), 3000);
     }
   }
 
   draw() {
-    this.canvas.clearCanvas();
+    this.canvas.clear();
     this.canvas.drawBackground('pink');
 
     if (this.numAssetsLoaded === null) {
       this.canvas.drawText(
         `Error loading assets. Please try refreshing your browser.`,
         this.canvas.canvas.width / 2,
-        this.canvas.canvas.height / 2,
-        'black',
-        48
+        this.canvas.canvas.height / 2
+        // 'black',
+        // 48
       );
     } else {
       this.canvas.drawText(
         `Assets loading: ${this.numAssetsLoaded} / ${this.numAssets}`,
         this.canvas.canvas.width / 2,
-        this.canvas.canvas.height / 2,
-        'black',
-        48
+        this.canvas.canvas.height / 2
+        // 'black',
+        // 48
       );
     }
   }
