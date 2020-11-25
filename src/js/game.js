@@ -18,7 +18,7 @@ class Game {
   }
 
   loadAssets() {
-    const filenames = ['fighter', 'door'];
+    const filenames = ['fighter', 'door', 'doorBackground'];
 
     filenames.forEach((filename) => {
       this.assets[filename] = new Image();
@@ -83,31 +83,33 @@ class Game {
   }
 
   draw() {
-    this.elements.forEach((element) =>
-      element.draw(this.canvas.ctx, this.assets)
-    );
+    this.elements.forEach((element) => element.draw(this.canvas, this.assets));
   }
 
-  animate(bgColor, text, time) {
+  animate(bgColor, text, seconds, fps = 2) {
     if (this.timeoutId) {
       clearTimeout(this.timeoutId);
     }
-
-    const fps = 2;
 
     function animate() {
       this.timeoutId = setTimeout(() => {
         this.canvas.clearCanvas();
         this.canvas.drawBackground(bgColor);
 
-        if (text) {
-          this.canvas.drawText(text, [
-            this.canvas.canvas.width / 4,
-            this.canvas.canvas.height / 4,
-          ]);
-        }
-
         this.draw();
+
+        // if (text) {
+        //   this.canvas.drawText(
+        //     text,
+        //     {
+        //       x: this.canvas.canvas.width / 2,
+        //       y: this.canvas.canvas.height / 2,
+        //     },
+        //     'white',
+        //     48
+        //   );
+        // }
+
         this.requestId = requestAnimationFrame(animate);
         console.log(this.requestId);
       }, 1000 / fps);
@@ -116,11 +118,20 @@ class Game {
     // eslint-disable-next-line no-func-assign
     animate = animate.bind(this);
     animate();
-    if (time) {
+
+    if (seconds) {
+      // const that = this;
       setTimeout(() => {
+        // cancel door transition
         console.log('cancel animation now');
         clearTimeout(this.timeoutId);
-      }, time * 1000);
+
+        // start fighter game
+        // that.canvas.clearCanvas();
+        // that.clearElements();
+        // that.elements.push(new Fighter());
+        // that.animate('green', 'playing game', undefined, 10);
+      }, seconds * 1000);
     }
   }
 
@@ -139,10 +150,13 @@ class Game {
 
   play() {
     this.clearElements();
-    this.addButton('back', [30, 70], [80, 30], this.mainMenu, fade);
+    // this.addButton('back', [30, 70], [80, 30], this.mainMenu, fade);
     // this.elements.push(new Fighter());
     this.elements.push(new Door());
-    this.animate('green', 'playing game', 4);
+    this.animate('green', 'mash', 6, 1);
+
+    // this.elements.push(new Fighter());
+    // this.animate('green', 'playing game');
   }
 }
 

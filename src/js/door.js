@@ -14,8 +14,16 @@ class Door {
     };
   }
 
-  draw(ctx, { door }) {
-    ctx.drawImage(
+  draw(canvas, { door, doorBackground }) {
+    canvas.ctx.drawImage(
+      doorBackground,
+      this.pos.x,
+      this.pos.y,
+      canvas.canvas.width,
+      canvas.canvas.height
+    );
+
+    canvas.ctx.drawImage(
       door,
       this.width * this.frame.x,
       this.height * this.frame.y,
@@ -23,11 +31,16 @@ class Door {
       this.height,
       this.pos.x,
       this.pos.y,
-      // this.width,
-      // this.height
-      ctx.canvas.width,
-      // this.height
-      ctx.canvas.height
+      canvas.canvas.width,
+      canvas.canvas.height
+    );
+
+    canvas.drawText(
+      'MASH',
+      canvas.canvas.width / 2,
+      (canvas.canvas.height * 2) / 3,
+      'white',
+      100
     );
 
     if (this.frame.x < this.frame.max) {
