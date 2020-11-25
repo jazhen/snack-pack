@@ -1,5 +1,6 @@
 class Door {
-  constructor({ door, doorBackground }) {
+  constructor(canvas, { door, doorBackground }) {
+    this.canvas = canvas;
     this.assets = {
       door,
       doorBackground,
@@ -21,18 +22,18 @@ class Door {
     this.setTimeoutId = null;
   }
 
-  draw(canvas) {
-    canvas.ctx.imageSmoothingQuality = 'high';
+  draw() {
+    this.canvas.ctx.imageSmoothingQuality = 'high';
 
-    canvas.ctx.drawImage(
+    this.canvas.ctx.drawImage(
       this.assets.doorBackground,
       this.pos.x,
       this.pos.y,
-      canvas.canvas.width / canvas.scaleFactor,
-      canvas.canvas.height / canvas.scaleFactor
+      this.canvas.canvas.width / this.canvas.scaleFactor,
+      this.canvas.canvas.height / this.canvas.scaleFactor
     );
 
-    canvas.ctx.drawImage(
+    this.canvas.ctx.drawImage(
       this.assets.door,
       this.width * this.frame.x,
       this.height * this.frame.y,
@@ -40,14 +41,14 @@ class Door {
       this.height,
       this.pos.x,
       this.pos.y,
-      canvas.canvas.width / canvas.scaleFactor,
-      canvas.canvas.height / canvas.scaleFactor
+      this.canvas.canvas.width / this.canvas.scaleFactor,
+      this.canvas.canvas.height / this.canvas.scaleFactor
     );
 
-    canvas.drawText(
+    this.canvas.drawText(
       'MASH',
-      canvas.canvas.width / 2 / canvas.scaleFactor,
-      (canvas.canvas.height * 2) / 3 / canvas.scaleFactor,
+      this.canvas.canvas.width / 2 / this.canvas.scaleFactor,
+      (this.canvas.canvas.height * 2) / 3 / this.canvas.scaleFactor,
       'white',
       100
     );
@@ -59,11 +60,11 @@ class Door {
     }
   }
 
-  animate(canvas, bgColor, text, seconds, fps = 2) {
+  animate(bgColor, text, seconds, fps = 2) {
     function animate() {
       this.setTimeoutId = setTimeout(() => {
-        canvas.clear();
-        this.draw(canvas);
+        this.canvas.clear();
+        this.draw();
 
         this.requestAnimationFrameId = requestAnimationFrame(animate);
         console.log(this.requestAnimationFrameId);

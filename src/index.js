@@ -10,6 +10,7 @@ const game = new Game();
 
 window.addEventListener('load', () => {
   game.assets.load();
+  game.setUpElements();
   game.resize();
 });
 

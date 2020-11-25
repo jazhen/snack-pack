@@ -17,8 +17,6 @@ class Game {
 
     this.requestAnimationFrameId = null;
     this.setTimeoutId = null;
-
-    this.setUpElements();
   }
 
   resize() {
@@ -80,6 +78,8 @@ class Game {
         this.mainMenu();
       }
     );
+
+    this.elements.door = new Door(this.canvas, this.assets.assets);
   }
 
   addButton(text, pos, size, fn) {
@@ -126,9 +126,8 @@ class Game {
   }
 
   async doorAnimation() {
-    const door = new Door(this.assets.assets);
-    door.animate(this.canvas);
-    await door.cancelAnimation();
+    this.elements.door.animate(this.canvas);
+    await this.elements.door.cancelAnimation();
   }
 
   play() {
