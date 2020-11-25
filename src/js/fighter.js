@@ -15,7 +15,9 @@ class Fighter {
 
   */
 
-  constructor() {
+  constructor(canvas, { fighter }) {
+    this.canvas = canvas;
+    this.assets = { fighter };
     this.width = 650 / 10;
     this.height = 156 / 2;
     this.frame = {
@@ -28,37 +30,45 @@ class Fighter {
       x: 40,
       y: 100,
     };
-    // this.frame.x = 0;
-    // this.pos.x = Math.random() * canvas.width - this.width;
-    // this.pos.y = Math.random() * canvas.height - this.height;
-    // this.pos.x = 40;
-    // this.pos.y = 100;
-    // this.speed = Math.random() * 2 + 3;
-    // this.frame.min = 0;
-    this.characterActions = ['idle', 'punch right'];
-    // this.action = this.characterActions[
-    //   Math.floor(Math.random() * this.characterActions.length)
-    // ];
-    this.action = 'punch right';
-    switch (this.action) {
-      case 'idle':
+
+    this.animate = this.animate.bind(this);
+    // this.characterActions = ['idle', 'punch right'];
+    // this.action = 'idle';
+
+    this.actions = {
+      idle: () => {
         this.frame.y = 0;
         this.frame.min = 0;
         this.frame.max = 9;
-        break;
-      case 'punch right':
+      },
+      punch: () => {
         this.frame.y = 1;
         this.frame.min = 0;
         this.frame.max = 5;
-        break;
-      default:
-        break;
-    }
+      },
+    };
+
+    this.actions.idle();
+
+    // switch (this.action) {
+    //   case 'idle':
+    //     this.frame.y = 0;
+    //     this.frame.min = 0;
+    //     this.frame.max = 9;
+    //     break;
+    //   case 'punch right':
+    //     this.frame.y = 1;
+    //     this.frame.min = 0;
+    //     this.frame.max = 5;
+    //     break;
+    //   default:
+    //     break;
+    // }
   }
 
-  draw(ctx, { fighter }) {
-    ctx.drawImage(
-      fighter,
+  draw() {
+    this.canvas.ctx.drawImage(
+      this.assets.fighter,
       this.width * this.frame.x,
       this.height * this.frame.y,
       this.width,
@@ -74,6 +84,36 @@ class Fighter {
     } else {
       this.frame.x = this.frame.min;
     }
+  }
+
+  animate() {
+    function animate() {
+      this.canvas.clear();
+      this.canvas.drawBackground('gray');
+      this.draw();
+      this.requestAnimationFrameId = requestAnimationFrame(animate.bind(this));
+    }
+
+    // const repeat = false;
+
+    // document.addEventListener('keyup', (e) => {
+    //   // repeat = false;
+    //   this.actions.idle();
+    // });
+
+    // document.addEventListener('keydown', (e) => {
+    //   // repeat = true;
+    //   if (e.repeat) {
+    //     console.log('repeat');
+    //     return;
+    //   }
+    //   // debugger;
+    //   if (!e.repeat && e.keyCode === 32) {
+    //     this.actions.punch();
+    //   }
+    // });
+
+    animate.call(this);
   }
 
   // update() {

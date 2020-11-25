@@ -2,7 +2,7 @@ import Assets from './assets';
 import Button from './button';
 import Canvas from './canvas';
 import Door from './door';
-// import Fighter from './fighter';
+import Fighter from './fighter';
 // import fade from './transitions';
 
 class Game {
@@ -80,6 +80,7 @@ class Game {
     );
 
     this.elements.door = new Door(this.canvas, this.assets.assets);
+    this.elements.fighter = new Fighter(this.canvas, this.assets.assets);
   }
 
   addButton(text, pos, size, fn) {
@@ -126,7 +127,8 @@ class Game {
   }
 
   play() {
-    this.elements.door.animate(this.canvas);
+    this.elements.door.animate(this.elements.fighter.animate);
+    // this.elements.fighter.animate();
   }
 }
 

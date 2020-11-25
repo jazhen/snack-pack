@@ -22,11 +22,12 @@ class Door {
     this.setInvervalId = null;
   }
 
-  update() {
+  update(fn) {
     if (this.frame.x >= this.frame.max) {
       clearInterval(this.setInvervalId);
       cancelAnimationFrame(this.requestAnimationFrameId);
       this.frame.x = this.frame.min;
+      fn();
     }
   }
 
@@ -62,18 +63,18 @@ class Door {
     );
   }
 
-  animate() {
+  animate(fn) {
     function animate() {
       this.draw();
       this.requestAnimationFrameId = requestAnimationFrame(animate.bind(this));
-      this.update();
+      this.update(fn);
     }
+
+    animate.call(this);
 
     this.setInvervalId = setInterval(() => {
       this.frame.x += 1;
     }, 500);
-
-    animate.call(this);
   }
 }
 
