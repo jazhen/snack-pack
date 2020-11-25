@@ -21,35 +21,36 @@ class Game {
 
   resize() {
     const gameWindow = document.querySelector('#main');
-    let canvasWidth = window.innerWidth;
-    let canvasHeight = window.innerHeight;
+    let newCanvasWidth = window.innerWidth;
+    let newCanvasHeight = window.innerHeight;
     const goalAspectRatio = 4 / 3;
-    const currentAspectRatio = canvasWidth / canvasHeight;
+    const currentAspectRatio = newCanvasWidth / newCanvasHeight;
 
     // resize, taking into account screen orientation
     if (currentAspectRatio > goalAspectRatio) {
-      canvasWidth = canvasHeight * goalAspectRatio;
-      gameWindow.style.height = `${canvasHeight}px`;
-      gameWindow.style.width = `${canvasWidth}px`;
+      // window width is longer than desired game width
+      newCanvasWidth = newCanvasHeight * goalAspectRatio;
+      gameWindow.style.height = `${newCanvasHeight}px`;
+      gameWindow.style.width = `${newCanvasWidth}px`;
     } else {
-      canvasHeight = canvasWidth / goalAspectRatio;
-      gameWindow.style.width = `${canvasWidth}px`;
-      gameWindow.style.height = `${canvasHeight}px`;
+      // window height is taller than desired game height
+      newCanvasHeight = newCanvasWidth / goalAspectRatio;
+      gameWindow.style.width = `${newCanvasWidth}px`;
+      gameWindow.style.height = `${newCanvasHeight}px`;
     }
 
     // set margins to center canvas
-    gameWindow.style.marginTop = `${-canvasHeight / 2}px`;
-    gameWindow.style.marginLeft = `${-canvasWidth / 2}px`;
+    gameWindow.style.marginTop = `${-newCanvasHeight / 2}px`;
+    gameWindow.style.marginLeft = `${-newCanvasWidth / 2}px`;
 
     // set new canvas size
-    this.canvas.canvas.width = canvasWidth;
-    this.canvas.canvas.height = canvasHeight;
+    this.canvas.canvas.width = newCanvasWidth;
+    this.canvas.canvas.height = newCanvasHeight;
 
     // scale all canvas elements to new size
-    // const scaleFactor = canvasWidth / 400;
-    // this.canvas.scaleFactor = canvasWidth / 400;
-    // this.canvas.ctx.scale(this.canvas.scaleFactor, this.canvas.scaleFactor);
-    // this.canvas.ctx.scale(scaleFactor, scaleFactor);
+    // this.canvas.scaleFactor = newCanvasWidth / 4;
+    this.canvas.scaleFactor = newCanvasWidth / 400;
+    this.canvas.scale();
 
     // this.elements.forEach((element) => {
     //   element.setScale(scaleFactor);
@@ -129,11 +130,6 @@ class Game {
   }
 
   mainMenu() {
-    this.clearElements();
-    this.addButton('play', [30, 30], [80, 30], this.play, fade);
-    this.addButton('instructions', [30, 70], [80, 30], this.instructions, fade);
-    // this.animate('yellow');'
-
     function draw() {
       this.canvas.clear();
       this.canvas.drawBackground('orange');
@@ -144,10 +140,18 @@ class Game {
 
     function animate() {
       draw.call(this);
-      // draw.call(this);
       this.requestAnimationFrameId = requestAnimationFrame(animate.bind(this));
     }
 
+    this.clearElements();
+    this.addButton('play', [0, 0], [100, 50], this.play, fade);
+    this.addButton(
+      'instructions',
+      [0, 100],
+      [100, 50],
+      this.instructions,
+      fade
+    );
     animate.call(this);
   }
 

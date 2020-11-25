@@ -17,7 +17,7 @@ class Button {
     this.fn = fn;
     this.fillColor = fillColor;
     this.textColor = textColor;
-    this.setScale(canvas.width / 400);
+    // this.setScale(canvas.width / 400);
     // this.clicked = false;
     // this.hovered = false;
   }
@@ -41,12 +41,20 @@ class Button {
     );
 
     // draw the text
+    // debugger;
     this.canvas.drawText(
       this.text,
       this.base.x + this.base.width / 2,
-      this.base.y + this.base.height / 2,
-      this.base.width
+      this.base.y + this.base.height / 2
     );
+    // this.canvas.drawText(
+    //   this.text,
+    //   this.base.x + this.base.width * this.canvas.scaleFactor,
+    //   this.base.y + this.base.height * this.canvas.scaleFactor,
+    //   // this.base.x + (this.base.width / 2) * this.canvas.scaleFactor,
+    //   // this.base.y + (this.base.height / 2) * this.canvas.scaleFactor,
+    //   this.base.width
+    // );
   }
 
   clicked(pos) {

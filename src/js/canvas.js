@@ -2,6 +2,7 @@ class Canvas {
   constructor() {
     this.canvas = document.querySelector('#canvas');
     this.ctx = this.canvas.getContext('2d');
+    this.scaleFactor = 1;
   }
 
   clear() {
@@ -26,6 +27,10 @@ class Canvas {
     this.ctx.font = `${size}px arial`;
     this.ctx.fillStyle = color;
     this.ctx.fillText(text, x, y, maxWidth * 0.8);
+  }
+
+  scale() {
+    this.ctx.scale(this.scaleFactor, this.scaleFactor);
   }
 }
 
