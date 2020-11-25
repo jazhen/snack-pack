@@ -9,7 +9,7 @@ class Game {
     this.canvas = new Canvas();
     this.elements = [];
     this.assets = {};
-    this.requestId = null;
+    this.rAFId = null;
     this.timeoutId = null;
 
     this.mainMenu = this.mainMenu.bind(this);
@@ -87,8 +87,8 @@ class Game {
     // });
   }
 
-  animateLoading() {
-    const filenames = ['fighter', 'door', 'doorBackgroun'];
+  async animateLoading() {
+    const filenames = ['fighter', 'door', 'doorBackground'];
     const numAssets = filenames.length;
     let numAssetsLoaded = 0;
 
@@ -143,19 +143,14 @@ class Game {
       this.canvas.clearCanvas();
       this.canvas.drawBackground('pink');
       draw.call(this);
-      this.requestId = requestAnimationFrame(animate.bind(this));
-      console.log(this.requestId);
-    }
+      this.rAFId = requestAnimationFrame(animate.bind(this));
+      console.log(this.rAFId);
 
-    // function cancelAnimation() {
-    //   return new Promise((resolve, reject) => {
-    //     if (numAssetsLoaded === numAssets) {
-    //       resolve();
-    //     } else {
-    //       reject();
-    //     }
-    //   });
-    // }
+      if (numAssetsLoaded === numAssets) {
+        cancelAnimationFrame(this.rAFId);
+        this.play();
+      }
+    }
 
     animate.call(this);
   }
@@ -201,8 +196,8 @@ class Game {
         //   );
         // }
 
-        this.requestId = requestAnimationFrame(animate);
-        console.log(this.requestId);
+        this.rAFId = requestAnimationFrame(animate);
+        console.log(this.rAFId);
       }, 1000 / fps);
     }
 
@@ -252,6 +247,7 @@ class Game {
   }
 
   play() {
+    console.log('playing now');
     this.clearElements();
     this.doorAnimation();
 
