@@ -17,8 +17,8 @@ class Door {
       y: 0,
     };
 
-    this.requestId = null;
-    this.timeoutId = null;
+    this.requestAnimationFrameId = null;
+    this.setTimeoutId = null;
   }
 
   draw(canvas) {
@@ -59,12 +59,12 @@ class Door {
 
   animate(canvas, bgColor, text, seconds, fps = 2) {
     function animate() {
-      this.timeoutId = setTimeout(() => {
+      this.setTimeoutId = setTimeout(() => {
         canvas.clearCanvas();
         this.draw(canvas);
 
-        this.requestId = requestAnimationFrame(animate);
-        console.log(this.requestId);
+        this.requestAnimationFrameId = requestAnimationFrame(animate);
+        console.log(this.requestAnimationFrameId);
       }, 1000 / fps);
     }
 
@@ -76,9 +76,9 @@ class Door {
   cancelAnimation() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        if (this.timeoutId) {
+        if (this.setTimeoutId) {
           console.log('Stopping door animation');
-          resolve(clearTimeout(this.timeoutId));
+          resolve(clearTimeout(this.setTimeoutId));
         } else {
           reject(new Error('Door.cancelAnimation() failed'));
         }

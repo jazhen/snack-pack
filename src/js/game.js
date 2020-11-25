@@ -1,3 +1,4 @@
+import Assets from './assets';
 import Button from './button';
 import Canvas from './canvas';
 import Door from './door';
@@ -7,47 +8,15 @@ import fade from './transitions';
 class Game {
   constructor() {
     this.canvas = new Canvas();
+    this.assets = new Assets();
     this.elements = [];
-    this.assets = {};
+    // this.assets = {};
     this.rAFId = null;
     this.timeoutId = null;
 
     this.mainMenu = this.mainMenu.bind(this);
     this.play = this.play.bind(this);
     this.instructions = this.instructions.bind(this);
-  }
-
-  loadAssets() {
-    // const loadAssetPromise = (assets, filename) => {
-    //   return new Promise((resolve, reject) => {
-    //     assets[filename] = new Image();
-    //     assets[filename].addEventListener('load', () =>
-    //       resolve(`${filename}.png loaded`)
-    //     );
-    //     assets[filename].addEventListener('error', () =>
-    //       reject(new Error(`${filename}.png failed to load`))
-    //     );
-    //     this.assets[filename].src = `../assets/${filename}.png`;
-    //   });
-    // };
-
-    // const loadAsset = (filename) => {
-    //   return loadAssetPromise(this.assets, filename);
-    // };
-
-    // const filenames = ['fighter', 'door', 'doorBackground'];
-
-    // filenames.forEach(async (filename) => {
-    //   try {
-    //     console.log(await loadAsset.call(this, filename));
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // });
-
-    // this.mainMenu();
-    // this.play();
-    this.animateLoading();
   }
 
   resize() {
@@ -85,74 +54,6 @@ class Game {
     // this.elements.forEach((element) => {
     //   element.setScale(scaleFactor);
     // });
-  }
-
-  async animateLoading() {
-    const filenames = ['fighter', 'door', 'doorBackground'];
-    const numAssets = filenames.length;
-    let numAssetsLoaded = 0;
-
-    const loadAssetPromise = (assets, filename) => {
-      return new Promise((resolve, reject) => {
-        assets[filename] = new Image();
-        assets[filename].addEventListener('load', () =>
-          resolve(`${filename}.png loaded`)
-        );
-        assets[filename].addEventListener('error', () =>
-          reject(new Error(`${filename}.png failed to load`))
-        );
-        this.assets[filename].src = `../assets/${filename}.png`;
-      });
-    };
-
-    const loadAsset = (filename) => {
-      return loadAssetPromise(this.assets, filename);
-    };
-
-    filenames.forEach(async (filename) => {
-      try {
-        console.info(await loadAsset.call(this, filename));
-        numAssetsLoaded += 1;
-      } catch (error) {
-        console.error(error);
-        numAssetsLoaded = null;
-      }
-    });
-
-    function draw() {
-      if (numAssetsLoaded === null) {
-        this.canvas.drawText(
-          `Error loading assets. Please try refreshing your browser.`,
-          this.canvas.canvas.width / 2,
-          this.canvas.canvas.height / 2,
-          'black',
-          48
-        );
-      } else {
-        this.canvas.drawText(
-          `Assets loading: ${numAssetsLoaded} / ${numAssets}`,
-          this.canvas.canvas.width / 2,
-          this.canvas.canvas.height / 2,
-          'black',
-          48
-        );
-      }
-    }
-
-    function animate() {
-      this.canvas.clearCanvas();
-      this.canvas.drawBackground('pink');
-      draw.call(this);
-      this.rAFId = requestAnimationFrame(animate.bind(this));
-      console.log(this.rAFId);
-
-      if (numAssetsLoaded === numAssets) {
-        cancelAnimationFrame(this.rAFId);
-        this.play();
-      }
-    }
-
-    animate.call(this);
   }
 
   clearElements() {
@@ -235,7 +136,7 @@ class Game {
   }
 
   async doorAnimation() {
-    const door = new Door(this.assets);
+    const door = new Door(this.assets.assets);
     door.animate(this.canvas);
     await door.cancelAnimation();
     console.log('next phase');
