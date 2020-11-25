@@ -22,6 +22,8 @@ class Door {
   }
 
   draw(canvas) {
+    canvas.ctx.imageSmoothingQuality = 'high';
+
     canvas.ctx.drawImage(
       this.assets.doorBackground,
       this.pos.x,

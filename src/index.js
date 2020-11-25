@@ -24,7 +24,8 @@ game.canvas.canvas.addEventListener('click', (e) => {
     y: e.clientY - el.top,
   };
 
-  game.elements.forEach((element) => {
+  Object.keys(game.elements).forEach((key) => {
+    const element = game.elements[key];
     if (element instanceof Button) {
       element.mouseDown(mouse);
     }

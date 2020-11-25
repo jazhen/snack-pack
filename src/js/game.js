@@ -3,7 +3,7 @@ import Button from './button';
 import Canvas from './canvas';
 import Door from './door';
 // import Fighter from './fighter';
-import fade from './transitions';
+// import fade from './transitions';
 
 class Game {
   constructor() {
@@ -13,10 +13,12 @@ class Game {
 
     this.canvas = new Canvas();
     this.assets = new Assets(this.canvas, this.mainMenu);
-    this.elements = [];
+    this.elements = {};
 
     this.requestAnimationFrameId = null;
     this.setTimeoutId = null;
+
+    this.setUpElements();
   }
 
   resize() {
@@ -53,74 +55,19 @@ class Game {
     this.canvas.scale();
   }
 
-  clearElements() {
-    this.elements = [];
-  }
+  setUpElements() {
+    this.addButton('play', [0, 0], [100, 50], () => {
+      cancelAnimationFrame(this.requestAnimationFrameId);
+      this.play();
+      // fade();
+    });
 
-  addButton(text, pos, size, fn, fx) {
-    this.elements.push(
-      new Button(this.canvas, text, pos[0], pos[1], size[0], size[1], () => {
-        fx();
-        fn();
-      })
-    );
-  }
+    this.addButton('instructions', [0, 100], [100, 50], () => {
+      cancelAnimationFrame(this.requestAnimationFrameId);
+      this.instructions();
+      // fade();
+    });
 
-  // draw() {
-  //   this.elements.forEach((element) => element.draw(this.canvas, this.assets));
-  // }
-
-  // animate(bgColor, text, seconds, fps = 2) {
-  //   if (this.setTimeoutId) {
-  //     clearTimeout(this.setTimeoutId);
-  //   }
-
-  //   function animate() {
-  //     this.setTimeoutId = setTimeout(() => {
-  //       this.canvas.clear();
-  //       this.canvas.drawBackground(bgColor);
-
-  //       this.draw();
-
-  //       // if (text) {
-  //       //   this.canvas.drawText(
-  //       //     text,
-  //       //     {
-  //       //       x: this.canvas.canvas.width / 2,
-  //       //       y: this.canvas.canvas.height / 2,
-  //       //     },
-  //       //     'white',
-  //       //     48
-  //       //   );
-  //       // }
-
-  //       this.requestAnimationFrameId = requestAnimationFrame(animate);
-  //       console.log(this.requestAnimationFrameId);
-  //     }, 1000 / fps);
-  //   }
-
-  //   // eslint-disable-next-line no-func-assign
-  //   animate = animate.bind(this);
-  //   animate();
-
-  //   if (seconds) {
-  //     // const that = this;
-  //     setTimeout(() => {
-  //       // cancel door transition
-  //       console.log('cancel animation now');
-  //       clearTimeout(this.setTimeoutId);
-
-  //       // start fighter game
-  //       // that.canvas.clear();
-  //       // that.clearElements();
-  //       // that.elements.push(new Fighter());
-  //       // that.animate('green', 'playing game', undefined, 10);
-  //     }, seconds * 1000);
-  //   }
-  // }
-
-  instructions() {
-    this.clearElements();
     this.addButton(
       'back',
       [
@@ -128,19 +75,30 @@ class Game {
         this.canvas.canvas.height / (2 * this.canvas.scaleFactor),
       ],
       [100, 50],
-      this.mainMenu,
-      fade
+      () => {
+        cancelAnimationFrame(this.requestAnimationFrameId);
+        this.mainMenu();
+      }
     );
-    // this.animate('blue', 'instructions go here');
   }
 
-  mainMenu() {
+  addButton(text, pos, size, fn) {
+    this.elements[text] = new Button(
+      this.canvas,
+      text,
+      pos[0],
+      pos[1],
+      size[0],
+      size[1],
+      fn
+    );
+  }
+
+  instructions() {
     function draw() {
       this.canvas.clear();
-      this.canvas.drawBackground('orange');
-      this.elements.forEach((element) => {
-        element.draw();
-      });
+      this.canvas.drawBackground('blue');
+      this.elements.back.draw();
     }
 
     function animate() {
@@ -148,15 +106,22 @@ class Game {
       this.requestAnimationFrameId = requestAnimationFrame(animate.bind(this));
     }
 
-    this.clearElements();
-    this.addButton('play', [0, 0], [100, 50], this.play, fade);
-    this.addButton(
-      'instructions',
-      [0, 100],
-      [100, 50],
-      this.instructions,
-      fade
-    );
+    animate.call(this);
+  }
+
+  mainMenu() {
+    function draw() {
+      this.canvas.clear();
+      this.canvas.drawBackground('orange');
+      this.elements.play.draw();
+      this.elements.instructions.draw();
+    }
+
+    function animate() {
+      draw.call(this);
+      this.requestAnimationFrameId = requestAnimationFrame(animate.bind(this));
+    }
+
     animate.call(this);
   }
 
@@ -164,32 +129,10 @@ class Game {
     const door = new Door(this.assets.assets);
     door.animate(this.canvas);
     await door.cancelAnimation();
-    console.log('next phase');
-    // door
-    //   .cancelAnimation()
-    //   .then((result) => result())
-    //   .catch((error) => console.log(error));
-    // await this.canvas.clear();
   }
 
   play() {
-    cancelAnimationFrame(this.requestAnimationFrameId);
-    console.log('playing now');
-    this.clearElements();
     this.doorAnimation();
-    // this.addButton('back', [30, 70], [80, 30], this.mainMenu, fade);
-    // this.elements.push(new Fighter());
-    // this.elements.push(new Door());
-    // this.elements.push(new Door(this.assets));
-    // this.animate('green', 'mash', 6, 1);
-    // const animate = await this.animate2();
-    // this.animate('green', 'mash', 6, 1).then(() => {
-    //   debugger;
-    //   this.canvas.clear();
-    //   this.clearElements();
-    //   this.elements.push(new Fighter());
-    //   this.animate('green', 'playing game', undefined, 10);
-    // });
   }
 }
 

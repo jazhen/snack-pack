@@ -36,7 +36,6 @@ class Assets {
   update() {
     if (this.numAssetsLoaded === this.numAssets) {
       cancelAnimationFrame(this.requestAnimationFrameId);
-      // this.fn();
       setTimeout(() => this.fn(), 3000);
     }
   }
@@ -47,19 +46,15 @@ class Assets {
 
     if (this.numAssetsLoaded === null) {
       this.canvas.drawText(
-        `Error loading assets. Please try refreshing your browser.`,
+        `error loading assets. please try refreshing your browser.`,
         this.canvas.canvas.width / (2 * this.canvas.scaleFactor),
         this.canvas.canvas.height / (2 * this.canvas.scaleFactor)
-        // 'black',
-        // 48
       );
     } else {
       this.canvas.drawText(
-        `Assets loading: ${this.numAssetsLoaded} / ${this.numAssets}`,
+        `assets loading: ${this.numAssetsLoaded} / ${this.numAssets}`,
         this.canvas.canvas.width / (2 * this.canvas.scaleFactor),
         this.canvas.canvas.height / (2 * this.canvas.scaleFactor)
-        // 'black',
-        // 48
       );
     }
   }
