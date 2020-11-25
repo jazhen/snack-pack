@@ -17,15 +17,39 @@ class Game {
     this.instructions = this.instructions.bind(this);
   }
 
+  // const loadImage = (url) => new Promise((resolve, reject) => {
+  //   const img = new Image();
+  //   img.addEventListener('load', () => resolve(img));
+  //   img.addEventListener('error', (err) => reject(err));
+  //   img.src = url;
+  // });
+
   loadAssets() {
+    const loadAssetPromise = (assets, filename) => {
+      return new Promise((resolve, reject) => {
+        assets[filename] = new Image();
+        assets[filename].addEventListener('load', () =>
+          resolve(`${filename}.png loaded`)
+        );
+        assets[filename].addEventListener('error', () =>
+          reject(new Error(`${filename}.png failed to load`))
+        );
+        this.assets[filename].src = `../assets/${filename}.png`;
+      });
+    };
+
+    const loadAsset = (filename) => {
+      return loadAssetPromise(this.assets, filename);
+    };
+
     const filenames = ['fighter', 'door', 'doorBackground'];
 
-    filenames.forEach((filename) => {
-      this.assets[filename] = new Image();
-      this.assets[filename].onload = () => {
-        console.log(`${filename}.png loaded`);
-      };
-      this.assets[filename].src = `../assets/${filename}.png`;
+    filenames.forEach(async (filename) => {
+      try {
+        console.log(await loadAsset.call(this, filename));
+      } catch (error) {
+        console.log(error);
+      }
     });
 
     // this.mainMenu();
@@ -148,15 +172,35 @@ class Game {
     this.animate('yellow');
   }
 
+  async doorAnimation() {
+    const door = new Door(this.assets);
+    door.animate(this.canvas);
+    await door.cancelAnimation();
+    console.log('next phase');
+    // door
+    //   .cancelAnimation()
+    //   .then((result) => result())
+    //   .catch((error) => console.log(error));
+    // await this.canvas.clearCanvas();
+  }
+
   play() {
     this.clearElements();
+    this.doorAnimation();
+
     // this.addButton('back', [30, 70], [80, 30], this.mainMenu, fade);
     // this.elements.push(new Fighter());
-    this.elements.push(new Door());
-    this.animate('green', 'mash', 6, 1);
-
-    // this.elements.push(new Fighter());
-    // this.animate('green', 'playing game');
+    // this.elements.push(new Door());
+    // this.elements.push(new Door(this.assets));
+    // this.animate('green', 'mash', 6, 1);
+    // const animate = await this.animate2();
+    // this.animate('green', 'mash', 6, 1).then(() => {
+    //   debugger;
+    //   this.canvas.clearCanvas();
+    //   this.clearElements();
+    //   this.elements.push(new Fighter());
+    //   this.animate('green', 'playing game', undefined, 10);
+    // });
   }
 }
 
