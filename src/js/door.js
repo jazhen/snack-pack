@@ -22,6 +22,14 @@ class Door {
     this.setInvervalId = null;
   }
 
+  update() {
+    if (this.frame.x >= this.frame.max) {
+      clearInterval(this.setInvervalId);
+      cancelAnimationFrame(this.requestAnimationFrameId);
+      this.frame.x = this.frame.min;
+    }
+  }
+
   draw() {
     this.canvas.ctx.imageSmoothingQuality = 'high';
 
@@ -58,16 +66,11 @@ class Door {
     function animate() {
       this.draw();
       this.requestAnimationFrameId = requestAnimationFrame(animate.bind(this));
+      this.update();
     }
 
     this.setInvervalId = setInterval(() => {
-      if (this.frame.x < this.frame.max) {
-        this.frame.x += 1;
-      } else {
-        clearInterval(this.setInvervalId);
-        cancelAnimationFrame(this.requestAnimationFrameId);
-        this.frame.x = this.frame.min;
-      }
+      this.frame.x += 1;
     }, 500);
 
     animate.call(this);
