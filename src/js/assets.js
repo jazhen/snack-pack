@@ -36,8 +36,8 @@ class Assets {
   update() {
     if (this.numAssetsLoaded === this.numAssets) {
       cancelAnimationFrame(this.requestAnimationFrameId);
-      this.fn();
-      // setTimeout(() => this.fn(), 3000);
+      // this.fn();
+      setTimeout(() => this.fn(), 3000);
     }
   }
 

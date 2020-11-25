@@ -66,63 +66,72 @@ class Game {
     );
   }
 
-  draw() {
-    this.elements.forEach((element) => element.draw(this.canvas, this.assets));
-  }
+  // draw() {
+  //   this.elements.forEach((element) => element.draw(this.canvas, this.assets));
+  // }
 
-  animate(bgColor, text, seconds, fps = 2) {
-    if (this.setTimeoutId) {
-      clearTimeout(this.setTimeoutId);
-    }
+  // animate(bgColor, text, seconds, fps = 2) {
+  //   if (this.setTimeoutId) {
+  //     clearTimeout(this.setTimeoutId);
+  //   }
 
-    function animate() {
-      this.setTimeoutId = setTimeout(() => {
-        this.canvas.clear();
-        this.canvas.drawBackground(bgColor);
+  //   function animate() {
+  //     this.setTimeoutId = setTimeout(() => {
+  //       this.canvas.clear();
+  //       this.canvas.drawBackground(bgColor);
 
-        this.draw();
+  //       this.draw();
 
-        // if (text) {
-        //   this.canvas.drawText(
-        //     text,
-        //     {
-        //       x: this.canvas.canvas.width / 2,
-        //       y: this.canvas.canvas.height / 2,
-        //     },
-        //     'white',
-        //     48
-        //   );
-        // }
+  //       // if (text) {
+  //       //   this.canvas.drawText(
+  //       //     text,
+  //       //     {
+  //       //       x: this.canvas.canvas.width / 2,
+  //       //       y: this.canvas.canvas.height / 2,
+  //       //     },
+  //       //     'white',
+  //       //     48
+  //       //   );
+  //       // }
 
-        this.requestAnimationFrameId = requestAnimationFrame(animate);
-        console.log(this.requestAnimationFrameId);
-      }, 1000 / fps);
-    }
+  //       this.requestAnimationFrameId = requestAnimationFrame(animate);
+  //       console.log(this.requestAnimationFrameId);
+  //     }, 1000 / fps);
+  //   }
 
-    // eslint-disable-next-line no-func-assign
-    animate = animate.bind(this);
-    animate();
+  //   // eslint-disable-next-line no-func-assign
+  //   animate = animate.bind(this);
+  //   animate();
 
-    if (seconds) {
-      // const that = this;
-      setTimeout(() => {
-        // cancel door transition
-        console.log('cancel animation now');
-        clearTimeout(this.setTimeoutId);
+  //   if (seconds) {
+  //     // const that = this;
+  //     setTimeout(() => {
+  //       // cancel door transition
+  //       console.log('cancel animation now');
+  //       clearTimeout(this.setTimeoutId);
 
-        // start fighter game
-        // that.canvas.clear();
-        // that.clearElements();
-        // that.elements.push(new Fighter());
-        // that.animate('green', 'playing game', undefined, 10);
-      }, seconds * 1000);
-    }
-  }
+  //       // start fighter game
+  //       // that.canvas.clear();
+  //       // that.clearElements();
+  //       // that.elements.push(new Fighter());
+  //       // that.animate('green', 'playing game', undefined, 10);
+  //     }, seconds * 1000);
+  //   }
+  // }
 
   instructions() {
     this.clearElements();
-    this.addButton('back', [30, 70], [80, 30], this.mainMenu, fade);
-    this.animate('blue', 'instructions go here');
+    this.addButton(
+      'back',
+      [
+        this.canvas.canvas.width / (2 * this.canvas.scaleFactor),
+        this.canvas.canvas.height / (2 * this.canvas.scaleFactor),
+      ],
+      [100, 50],
+      this.mainMenu,
+      fade
+    );
+    // this.animate('blue', 'instructions go here');
   }
 
   mainMenu() {
@@ -164,6 +173,7 @@ class Game {
   }
 
   play() {
+    cancelAnimationFrame(this.requestAnimationFrameId);
     console.log('playing now');
     this.clearElements();
     this.doorAnimation();

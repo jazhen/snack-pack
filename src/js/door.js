@@ -26,8 +26,8 @@ class Door {
       this.assets.doorBackground,
       this.pos.x,
       this.pos.y,
-      canvas.canvas.width,
-      canvas.canvas.height
+      canvas.canvas.width / canvas.scaleFactor,
+      canvas.canvas.height / canvas.scaleFactor
     );
 
     canvas.ctx.drawImage(
@@ -38,14 +38,14 @@ class Door {
       this.height,
       this.pos.x,
       this.pos.y,
-      canvas.canvas.width,
-      canvas.canvas.height
+      canvas.canvas.width / canvas.scaleFactor,
+      canvas.canvas.height / canvas.scaleFactor
     );
 
     canvas.drawText(
       'MASH',
-      canvas.canvas.width / 2,
-      (canvas.canvas.height * 2) / 3,
+      canvas.canvas.width / 2 / canvas.scaleFactor,
+      (canvas.canvas.height * 2) / 3 / canvas.scaleFactor,
       'white',
       100
     );
