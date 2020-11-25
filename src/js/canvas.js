@@ -18,7 +18,7 @@ class Canvas {
     this.ctx.textBaseline = 'middle';
     this.ctx.font = `${size}px arial`;
     this.ctx.fillStyle = color;
-    this.ctx.fillText(text, x, y);
+    this.ctx.fillText(text, x, y, this.canvas.width * 0.8);
   }
 }
 

@@ -17,43 +17,37 @@ class Game {
     this.instructions = this.instructions.bind(this);
   }
 
-  // const loadImage = (url) => new Promise((resolve, reject) => {
-  //   const img = new Image();
-  //   img.addEventListener('load', () => resolve(img));
-  //   img.addEventListener('error', (err) => reject(err));
-  //   img.src = url;
-  // });
-
   loadAssets() {
-    const loadAssetPromise = (assets, filename) => {
-      return new Promise((resolve, reject) => {
-        assets[filename] = new Image();
-        assets[filename].addEventListener('load', () =>
-          resolve(`${filename}.png loaded`)
-        );
-        assets[filename].addEventListener('error', () =>
-          reject(new Error(`${filename}.png failed to load`))
-        );
-        this.assets[filename].src = `../assets/${filename}.png`;
-      });
-    };
+    // const loadAssetPromise = (assets, filename) => {
+    //   return new Promise((resolve, reject) => {
+    //     assets[filename] = new Image();
+    //     assets[filename].addEventListener('load', () =>
+    //       resolve(`${filename}.png loaded`)
+    //     );
+    //     assets[filename].addEventListener('error', () =>
+    //       reject(new Error(`${filename}.png failed to load`))
+    //     );
+    //     this.assets[filename].src = `../assets/${filename}.png`;
+    //   });
+    // };
 
-    const loadAsset = (filename) => {
-      return loadAssetPromise(this.assets, filename);
-    };
+    // const loadAsset = (filename) => {
+    //   return loadAssetPromise(this.assets, filename);
+    // };
 
-    const filenames = ['fighter', 'door', 'doorBackground'];
+    // const filenames = ['fighter', 'door', 'doorBackground'];
 
-    filenames.forEach(async (filename) => {
-      try {
-        console.log(await loadAsset.call(this, filename));
-      } catch (error) {
-        console.log(error);
-      }
-    });
+    // filenames.forEach(async (filename) => {
+    //   try {
+    //     console.log(await loadAsset.call(this, filename));
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // });
 
     // this.mainMenu();
-    this.play();
+    // this.play();
+    this.animateLoading();
   }
 
   resize() {
@@ -91,6 +85,79 @@ class Game {
     // this.elements.forEach((element) => {
     //   element.setScale(scaleFactor);
     // });
+  }
+
+  animateLoading() {
+    const filenames = ['fighter', 'door', 'doorBackgroun'];
+    const numAssets = filenames.length;
+    let numAssetsLoaded = 0;
+
+    const loadAssetPromise = (assets, filename) => {
+      return new Promise((resolve, reject) => {
+        assets[filename] = new Image();
+        assets[filename].addEventListener('load', () =>
+          resolve(`${filename}.png loaded`)
+        );
+        assets[filename].addEventListener('error', () =>
+          reject(new Error(`${filename}.png failed to load`))
+        );
+        this.assets[filename].src = `../assets/${filename}.png`;
+      });
+    };
+
+    const loadAsset = (filename) => {
+      return loadAssetPromise(this.assets, filename);
+    };
+
+    filenames.forEach(async (filename) => {
+      try {
+        console.info(await loadAsset.call(this, filename));
+        numAssetsLoaded += 1;
+      } catch (error) {
+        console.error(error);
+        numAssetsLoaded = null;
+      }
+    });
+
+    function draw() {
+      if (numAssetsLoaded === null) {
+        this.canvas.drawText(
+          `Error loading assets. Please try refreshing your browser.`,
+          this.canvas.canvas.width / 2,
+          this.canvas.canvas.height / 2,
+          'black',
+          48
+        );
+      } else {
+        this.canvas.drawText(
+          `Assets loading: ${numAssetsLoaded} / ${numAssets}`,
+          this.canvas.canvas.width / 2,
+          this.canvas.canvas.height / 2,
+          'black',
+          48
+        );
+      }
+    }
+
+    function animate() {
+      this.canvas.clearCanvas();
+      this.canvas.drawBackground('pink');
+      draw.call(this);
+      this.requestId = requestAnimationFrame(animate.bind(this));
+      console.log(this.requestId);
+    }
+
+    // function cancelAnimation() {
+    //   return new Promise((resolve, reject) => {
+    //     if (numAssetsLoaded === numAssets) {
+    //       resolve();
+    //     } else {
+    //       reject();
+    //     }
+    //   });
+    // }
+
+    animate.call(this);
   }
 
   clearElements() {
