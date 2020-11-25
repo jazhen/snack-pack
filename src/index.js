@@ -8,7 +8,8 @@ const game = new Game();
 // event listeners
 
 window.addEventListener('load', () => {
-  game.assets.load(game.canvas, game.play);
+  // game.assets.load(game.canvas, game.play);
+  game.assets.load();
   game.resize();
 });
 

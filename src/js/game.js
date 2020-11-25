@@ -7,16 +7,16 @@ import fade from './transitions';
 
 class Game {
   constructor() {
-    this.canvas = new Canvas();
-    this.assets = new Assets();
-    this.elements = [];
-    // this.assets = {};
-    this.rAFId = null;
-    this.timeoutId = null;
-
     this.mainMenu = this.mainMenu.bind(this);
     this.play = this.play.bind(this);
     this.instructions = this.instructions.bind(this);
+
+    this.canvas = new Canvas();
+    this.assets = new Assets(this.canvas, this.play);
+    this.elements = [];
+
+    this.requestAnimationFrameId = null;
+    this.setTimeoutId = null;
   }
 
   resize() {
@@ -74,12 +74,12 @@ class Game {
   }
 
   animate(bgColor, text, seconds, fps = 2) {
-    if (this.timeoutId) {
-      clearTimeout(this.timeoutId);
+    if (this.setTimeoutId) {
+      clearTimeout(this.setTimeoutId);
     }
 
     function animate() {
-      this.timeoutId = setTimeout(() => {
+      this.setTimeoutId = setTimeout(() => {
         this.canvas.clearCanvas();
         this.canvas.drawBackground(bgColor);
 
@@ -97,8 +97,8 @@ class Game {
         //   );
         // }
 
-        this.rAFId = requestAnimationFrame(animate);
-        console.log(this.rAFId);
+        this.requestAnimationFrameId = requestAnimationFrame(animate);
+        console.log(this.requestAnimationFrameId);
       }, 1000 / fps);
     }
 
@@ -111,7 +111,7 @@ class Game {
       setTimeout(() => {
         // cancel door transition
         console.log('cancel animation now');
-        clearTimeout(this.timeoutId);
+        clearTimeout(this.setTimeoutId);
 
         // start fighter game
         // that.canvas.clearCanvas();

@@ -1,80 +1,72 @@
 class Assets {
-  constructor() {
+  constructor(canvas, fn) {
+    this.animate = this.animate.bind(this);
     this.assets = {};
+    this.canvas = canvas;
     this.filenames = ['fighter', 'door', 'doorBackground'];
+    this.fn = fn;
     this.numAssets = this.filenames.length;
     this.numAssetsLoaded = 0;
-
     this.requestAnimationFrameId = null;
     this.setTimeoutId = null;
   }
 
-  load(canvas, fn) {
+  load() {
+    const loadAsset = (filename) => {
+      return new Promise((resolve, reject) => {
+        this.assets[filename] = new Image();
+        this.assets[filename].addEventListener('load', () => resolve());
+        this.assets[filename].addEventListener('error', () => reject());
+        this.assets[filename].src = `../assets/${filename}.png`;
+      });
+    };
+
+    this.animate();
+
     this.filenames.forEach(async (filename) => {
       try {
-        console.info(await this.loadAsset.call(this, filename));
+        await loadAsset(filename);
         this.numAssetsLoaded += 1;
-      } catch (error) {
-        console.error(error);
+      } catch {
         this.numAssetsLoaded = null;
       }
     });
-
-    this.animate(canvas, fn);
   }
 
-  loadAssetPromise(assets, filename) {
-    return new Promise((resolve, reject) => {
-      assets[filename] = new Image();
-      assets[filename].addEventListener('load', () =>
-        resolve(`${filename}.png loaded`)
-      );
-      assets[filename].addEventListener('error', () =>
-        reject(new Error(`${filename}.png failed to load`))
-      );
-      this.assets[filename].src = `../assets/${filename}.png`;
-    });
+  update() {
+    if (this.numAssetsLoaded === this.numAssets) {
+      cancelAnimationFrame(this.requestAnimationFrameId);
+      this.fn();
+    }
   }
 
-  loadAsset(filename) {
-    return this.loadAssetPromise(this.assets, filename);
-  }
+  draw() {
+    this.canvas.clearCanvas();
+    this.canvas.drawBackground('pink');
 
-  draw(canvas) {
     if (this.numAssetsLoaded === null) {
-      canvas.drawText(
+      this.canvas.drawText(
         `Error loading assets. Please try refreshing your browser.`,
-        canvas.canvas.width / 2,
-        canvas.canvas.height / 2,
+        this.canvas.canvas.width / 2,
+        this.canvas.canvas.height / 2,
         'black',
         48
       );
     } else {
-      canvas.drawText(
+      this.canvas.drawText(
         `Assets loading: ${this.numAssetsLoaded} / ${this.numAssets}`,
-        canvas.canvas.width / 2,
-        canvas.canvas.height / 2,
+        this.canvas.canvas.width / 2,
+        this.canvas.canvas.height / 2,
         'black',
         48
       );
     }
   }
 
-  animate(canvas, fn) {
-    function animate() {
-      canvas.clearCanvas();
-      canvas.drawBackground('pink');
-      this.draw(canvas);
-      this.requestAnimationFrameId = requestAnimationFrame(animate.bind(this));
-      console.log(this.requestAnimationFrameId);
-
-      if (this.numAssetsLoaded === this.numAssets) {
-        cancelAnimationFrame(this.requestAnimationFrameId);
-        fn();
-      }
-    }
-
-    animate.call(this);
+  animate() {
+    this.draw();
+    this.requestAnimationFrameId = requestAnimationFrame(this.animate);
+    this.update();
   }
 }
 
