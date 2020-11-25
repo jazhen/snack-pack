@@ -19,7 +19,7 @@ class Door {
     };
 
     this.requestAnimationFrameId = null;
-    this.setTimeoutId = null;
+    this.setInvervalId = null;
   }
 
   draw() {
@@ -52,46 +52,26 @@ class Door {
       'white',
       100
     );
-
-    if (this.frame.x < this.frame.max) {
-      this.frame.x += 1;
-    } else {
-      this.frame.x = this.frame.min;
-    }
   }
 
-  animate(bgColor, text, seconds, fps = 2) {
+  animate() {
     function animate() {
-      this.setTimeoutId = setTimeout(() => {
-        this.canvas.clear();
-        this.draw();
-
-        this.requestAnimationFrameId = requestAnimationFrame(animate);
-        console.log(this.requestAnimationFrameId);
-      }, 1000 / fps);
+      this.draw();
+      this.requestAnimationFrameId = requestAnimationFrame(animate.bind(this));
     }
 
-    // eslint-disable-next-line no-func-assign
-    animate = animate.bind(this);
-    animate();
-  }
+    this.setInvervalId = setInterval(() => {
+      if (this.frame.x < this.frame.max) {
+        this.frame.x += 1;
+      } else {
+        clearInterval(this.setInvervalId);
+        cancelAnimationFrame(this.requestAnimationFrameId);
+        this.frame.x = this.frame.min;
+      }
+    }, 500);
 
-  cancelAnimation() {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (this.setTimeoutId) {
-          console.log('Stopping door animation');
-          resolve(clearTimeout(this.setTimeoutId));
-        } else {
-          reject(new Error('Door.cancelAnimation() failed'));
-        }
-      }, 3000);
-    });
+    animate.call(this);
   }
-
-  // setScale(scaleFactor) {
-  //   debugger;
-  // }
 }
 
 export default Door;

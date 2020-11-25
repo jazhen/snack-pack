@@ -125,13 +125,8 @@ class Game {
     animate.call(this);
   }
 
-  async doorAnimation() {
-    this.elements.door.animate(this.canvas);
-    await this.elements.door.cancelAnimation();
-  }
-
   play() {
-    this.doorAnimation();
+    this.elements.door.animate(this.canvas);
   }
 }
 
