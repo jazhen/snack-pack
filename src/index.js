@@ -19,14 +19,14 @@ window.addEventListener('orientationchange', game.resize.bind(game), false);
 
 game.canvas.canvas.addEventListener('click', (e) => {
   const el = game.canvas.canvas.getBoundingClientRect();
-  const pos = {
+  const mouse = {
     x: e.clientX - el.left,
     y: e.clientY - el.top,
   };
 
   game.elements.forEach((element) => {
     if (element instanceof Button) {
-      element.mouseDown(pos);
+      element.mouseDown(mouse);
     }
   });
 });

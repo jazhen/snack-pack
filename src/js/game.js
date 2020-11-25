@@ -51,10 +51,6 @@ class Game {
     // this.canvas.scaleFactor = newCanvasWidth / 4;
     this.canvas.scaleFactor = newCanvasWidth / 400;
     this.canvas.scale();
-
-    // this.elements.forEach((element) => {
-    //   element.setScale(scaleFactor);
-    // });
   }
 
   clearElements() {
@@ -171,7 +167,6 @@ class Game {
     console.log('playing now');
     this.clearElements();
     this.doorAnimation();
-
     // this.addButton('back', [30, 70], [80, 30], this.mainMenu, fade);
     // this.elements.push(new Fighter());
     // this.elements.push(new Door());

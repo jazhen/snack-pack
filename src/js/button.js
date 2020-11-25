@@ -12,21 +12,13 @@ class Button {
   ) {
     this.canvas = canvas;
     this.text = text;
-    this.base = { x, y, width, height };
-    this.scaled = { x, y, width, height };
+    this.pos = { x, y };
+    this.size = { width, height };
     this.fn = fn;
     this.fillColor = fillColor;
     this.textColor = textColor;
-    // this.setScale(canvas.width / 400);
     // this.clicked = false;
     // this.hovered = false;
-  }
-
-  setScale(scaleFactor) {
-    this.scaled.x = this.base.x * scaleFactor;
-    this.scaled.y = this.base.y * scaleFactor;
-    this.scaled.width = this.base.width * scaleFactor;
-    this.scaled.height = this.base.height * scaleFactor;
   }
 
   draw() {
@@ -34,40 +26,41 @@ class Button {
     this.canvas.ctx.fillStyle = this.fillColor;
 
     this.canvas.ctx.fillRect(
-      this.base.x,
-      this.base.y,
-      this.base.width,
-      this.base.height
+      this.pos.x,
+      this.pos.y,
+      this.size.width,
+      this.size.height
     );
 
     // draw the text
-    // debugger;
     this.canvas.drawText(
       this.text,
-      this.base.x + this.base.width / 2,
-      this.base.y + this.base.height / 2
+      this.pos.x + this.size.width / 2,
+      this.pos.y + this.size.height / 2,
+      this.size.width
     );
-    // this.canvas.drawText(
-    //   this.text,
-    //   this.base.x + this.base.width * this.canvas.scaleFactor,
-    //   this.base.y + this.base.height * this.canvas.scaleFactor,
-    //   // this.base.x + (this.base.width / 2) * this.canvas.scaleFactor,
-    //   // this.base.y + (this.base.height / 2) * this.canvas.scaleFactor,
-    //   this.base.width
-    // );
   }
 
-  clicked(pos) {
+  clicked(mouse) {
+    const leftBorder = this.pos.x * this.canvas.scaleFactor;
+    const rightBorder =
+      this.pos.x * this.canvas.scaleFactor +
+      this.size.width * this.canvas.scaleFactor;
+    const topBorder = this.pos.y * this.canvas.scaleFactor;
+    const bottomBorder =
+      this.pos.y * this.canvas.scaleFactor +
+      this.size.height * this.canvas.scaleFactor;
+
     return (
-      pos.x >= this.scaled.x &&
-      pos.x <= this.scaled.x + this.scaled.width &&
-      pos.y >= this.scaled.y &&
-      pos.y <= this.scaled.y + this.scaled.height
+      mouse.x >= leftBorder &&
+      mouse.x <= rightBorder &&
+      mouse.y >= topBorder &&
+      mouse.y <= bottomBorder
     );
   }
 
-  mouseDown(pos) {
-    const clicked = this.clicked(pos);
+  mouseDown(mouse) {
+    const clicked = this.clicked(mouse);
     if (clicked) {
       console.log(`button clicked with fn: ${this.fn}`);
       this.fn();
