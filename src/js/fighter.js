@@ -95,7 +95,7 @@ class Fighter {
       action: 'dizzy',
     };
 
-    // set up
+    // set up initial actions
 
     this.self.actions.idle();
     this.opponent.actions.dizzy();
@@ -158,14 +158,14 @@ class Fighter {
     }
   }
 
+  validKeyDown(e) {
+    return !e.repeat && e.key === 'z' && this.self.action === 'idle';
+  }
+
   handleKeyDown(e) {
     e.preventDefault();
 
-    if (e.repeat) {
-      return;
-    }
-
-    if (e.key === 'z' && this.self.action === 'idle') {
+    if (this.validKeyDown(e)) {
       this.self.action = this.randomAttack();
       switch (this.self.action) {
         case 'jab':

@@ -70,17 +70,7 @@ class Canvas {
     this.ctx.imageSmoothingEnabled = false;
     this.ctx.mozImageSmoothingEnabled = false;
 
-    this.ctx.drawImage(
-      image,
-      sx,
-      sy,
-      sWidth,
-      sHeight,
-      dx,
-      dy,
-      dWidth / this.scaleFactor,
-      dHeight / this.scaleFactor
-    );
+    this.ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
   }
 
   scale() {

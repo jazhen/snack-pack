@@ -18,8 +18,8 @@ html {
   height: 100%;
   background-color: #333333;
 
-  // image-rendering: -moz-crisp-edges;    /* Firefox */
-  // image-rendering: -webkit-crisp-edges; /* Webkit (Safari) */
-  // image-rendering: pixelated;           /* Chrome */
+  image-rendering: -moz-crisp-edges;    /* Firefox */
+  image-rendering: -webkit-crisp-edges; /* Webkit (Safari) */
+  image-rendering: pixelated;           /* Chrome */
 }
 
