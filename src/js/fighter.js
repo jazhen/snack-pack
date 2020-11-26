@@ -15,11 +15,13 @@ class Fighter {
 
   */
 
-  constructor(canvas, { fighter }) {
+  constructor(canvas, { fighter3 }) {
     this.canvas = canvas;
-    this.assets = { fighter };
-    this.width = 650 / 10;
-    this.height = 156 / 2;
+    this.assets = { fighter3 };
+    // this.width = 650 / 10;
+    // this.height = 156 / 2;
+    this.width = 744;
+    this.height = 711;
     this.frame = {
       x: 0,
       y: 0,
@@ -39,27 +41,39 @@ class Fighter {
         this.frame.min = 0;
         this.frame.max = 9;
       },
-      punch: () => {
+      jab: () => {
         this.frame.y = 1;
         this.frame.min = 0;
-        this.frame.max = 5;
+        this.frame.max = 7;
+      },
+      uppercut: () => {
+        this.frame.y = 2;
+        this.frame.min = 0;
+        this.frame.max = 7;
       },
     };
 
+    this.attacks = Object.keys(this.actions).slice(1);
+
     this.actions.idle();
+    this.action = 'idle';
+  }
+
+  randomAttack() {
+    return this.attacks[Math.floor(Math.random() * this.attacks.length)];
   }
 
   draw() {
     this.canvas.ctx.drawImage(
-      this.assets.fighter,
+      this.assets.fighter3,
       this.width * this.frame.x,
       this.height * this.frame.y,
       this.width,
       this.height,
       this.pos.x,
       this.pos.y,
-      this.width,
-      this.height
+      this.canvas.canvas.width / 3,
+      this.canvas.canvas.height / 4
     );
 
     if (this.frame.x < this.frame.max) {
@@ -69,35 +83,56 @@ class Fighter {
     }
   }
 
+  update() {
+    if (this.action !== 'idle' && this.frame.x >= this.frame.max) {
+      this.action = 'idle';
+      this.actions.idle();
+    }
+  }
+
   handleKeyDown(e) {
     e.preventDefault();
 
     if (e.repeat) {
-      this.actions.idle();
       return;
     }
 
-    if (e.key === ' ') {
-      this.actions.punch();
+    if (e.key === 'z' && this.action === 'idle') {
+      this.action = this.randomAttack();
+      switch (this.action) {
+        case 'jab':
+          this.actions.jab();
+          break;
+        case 'uppercut':
+          this.actions.uppercut();
+          break;
+        default:
+          break;
+      }
     }
-  }
-
-  handleKeyUp(e) {
-    e.preventDefault();
-    this.actions.idle();
   }
 
   animate() {
+    const fps = 24;
+    const fpsInterval = 1000 / fps;
+    let then = performance.now();
+
     function animate() {
-      this.canvas.clear();
-      this.canvas.drawBackground('gray');
-      this.draw();
       this.requestAnimationFrameId = requestAnimationFrame(animate.bind(this));
+
+      const now = performance.now();
+      const elapsed = now - then;
+
+      if (elapsed > fpsInterval) {
+        then = now - (elapsed % fpsInterval);
+        this.update();
+        this.canvas.clear();
+        this.canvas.drawBackground('gray');
+        this.draw();
+      }
     }
 
     document.addEventListener('keydown', (e) => this.handleKeyDown(e), false);
-
-    document.addEventListener('keyup', (e) => this.handleKeyUp(e), false);
 
     animate.call(this);
   }

@@ -3,7 +3,13 @@ class Assets {
     this.animate = this.animate.bind(this);
     this.assets = {};
     this.canvas = canvas;
-    this.filenames = ['fighter', 'door', 'doorBackground'];
+    this.filenames = [
+      'fighter',
+      'door',
+      'doorBackground',
+      'fighter2',
+      'fighter3',
+    ];
     this.fn = fn;
     this.numAssets = this.filenames.length;
     this.numAssetsLoaded = 0;
