@@ -26,7 +26,61 @@ class Canvas {
     this.ctx.textBaseline = 'middle';
     this.ctx.font = `${size}px arial`;
     this.ctx.fillStyle = color;
-    this.ctx.fillText(text, x, y, maxWidth * 0.8);
+    this.ctx.fillText(
+      text,
+      x / this.scaleFactor,
+      y / this.scaleFactor,
+      maxWidth * 0.8
+    );
+  }
+
+  drawButtonText(
+    text,
+    x,
+    y,
+    width,
+    height,
+    maxWidth = width,
+    color = 'black',
+    size = 16
+  ) {
+    this.ctx.textAlign = 'center';
+    this.ctx.textBaseline = 'middle';
+    this.ctx.fillStyle = color;
+    this.ctx.font = `${size}px arial`;
+    this.ctx.fillText(text, x + width / 2, y + height / 2, maxWidth * 0.8);
+  }
+
+  drawRect(x, y, width, height, fillColor) {
+    this.ctx.fillStyle = fillColor;
+    this.ctx.fillRect(x, y, width, height);
+  }
+
+  drawImage(image, dx, dy, dWidth, dHeight) {
+    this.ctx.drawImage(
+      image,
+      dx,
+      dy,
+      dWidth / this.scaleFactor,
+      dHeight / this.scaleFactor
+    );
+  }
+
+  drawAnimation(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight) {
+    this.ctx.imageSmoothingEnabled = false;
+    this.ctx.mozImageSmoothingEnabled = false;
+
+    this.ctx.drawImage(
+      image,
+      sx,
+      sy,
+      sWidth,
+      sHeight,
+      dx,
+      dy,
+      dWidth / this.scaleFactor,
+      dHeight / this.scaleFactor
+    );
   }
 
   scale() {

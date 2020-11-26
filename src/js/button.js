@@ -1,43 +1,28 @@
 class Button {
-  constructor(
-    canvas,
-    text,
-    x,
-    y,
-    width,
-    height,
-    fn,
-    fillColor = 'red',
-    textColor = '#000000'
-  ) {
+  constructor(canvas, text, x, y, width, height, fn, fillColor = 'red') {
     this.canvas = canvas;
     this.text = text;
     this.pos = { x, y };
     this.size = { width, height };
     this.fn = fn;
     this.fillColor = fillColor;
-    this.textColor = textColor;
-    // this.clicked = false;
-    // this.hovered = false;
   }
 
   draw() {
-    // draw button
-    this.canvas.ctx.fillStyle = this.fillColor;
+    this.canvas.drawRect(
+      this.pos.x,
+      this.pos.y,
+      this.size.width,
+      this.size.height,
+      this.fillColor
+    );
 
-    this.canvas.ctx.fillRect(
+    this.canvas.drawButtonText(
+      this.text,
       this.pos.x,
       this.pos.y,
       this.size.width,
       this.size.height
-    );
-
-    // draw the text
-    this.canvas.drawText(
-      this.text,
-      this.pos.x + this.size.width / 2,
-      this.pos.y + this.size.height / 2,
-      this.size.width
     );
   }
 
@@ -60,13 +45,9 @@ class Button {
   }
 
   mouseDown(mouse) {
-    const clicked = this.clicked(mouse);
-    if (clicked) {
-      console.log(`button clicked with fn: ${this.fn}`);
+    if (this.clicked(mouse)) {
       this.fn();
     }
-
-    return clicked;
   }
 }
 

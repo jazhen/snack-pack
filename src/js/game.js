@@ -48,8 +48,8 @@ class Game {
     this.canvas.canvas.height = newCanvasHeight;
 
     // scale all canvas elements to new size
-    // this.canvas.scaleFactor = newCanvasWidth / 4;
     this.canvas.scaleFactor = newCanvasWidth / 400;
+    // this.canvas.scaleFactor = newCanvasWidth / 400;
     this.canvas.scale();
   }
 

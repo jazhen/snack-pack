@@ -131,18 +131,6 @@ class Fighter {
       this.canvas.canvas.width / 4,
       this.canvas.canvas.height / 4
     );
-
-    if (this.self.frame.x < this.self.frame.max) {
-      this.self.frame.x += 1;
-    } else {
-      this.self.frame.x = this.self.frame.min;
-    }
-
-    if (this.opponent.frame.x < this.opponent.frame.max) {
-      this.opponent.frame.x += 1;
-    } else {
-      this.opponent.frame.x = this.opponent.frame.min;
-    }
   }
 
   update() {
@@ -155,6 +143,18 @@ class Fighter {
 
       this.opponent.action = 'dizzy';
       this.opponent.actions.dizzy();
+    }
+
+    if (this.self.frame.x < this.self.frame.max) {
+      this.self.frame.x += 1;
+    } else {
+      this.self.frame.x = this.self.frame.min;
+    }
+
+    if (this.opponent.frame.x < this.opponent.frame.max) {
+      this.opponent.frame.x += 1;
+    } else {
+      this.opponent.frame.x = this.opponent.frame.min;
     }
   }
 

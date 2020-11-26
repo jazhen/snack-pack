@@ -32,17 +32,15 @@ class Door {
   }
 
   draw() {
-    this.canvas.ctx.imageSmoothingQuality = 'high';
-
-    this.canvas.ctx.drawImage(
+    this.canvas.drawImage(
       this.assets.doorBackground,
       this.pos.x,
       this.pos.y,
-      this.canvas.canvas.width / this.canvas.scaleFactor,
-      this.canvas.canvas.height / this.canvas.scaleFactor
+      this.canvas.canvas.width,
+      this.canvas.canvas.height
     );
 
-    this.canvas.ctx.drawImage(
+    this.canvas.drawAnimation(
       this.assets.door,
       this.width * this.frame.x,
       this.height * this.frame.y,
@@ -50,16 +48,17 @@ class Door {
       this.height,
       this.pos.x,
       this.pos.y,
-      this.canvas.canvas.width / this.canvas.scaleFactor,
-      this.canvas.canvas.height / this.canvas.scaleFactor
+      this.canvas.canvas.width,
+      this.canvas.canvas.height
     );
 
     this.canvas.drawText(
       'MASH',
-      this.canvas.canvas.width / 2 / this.canvas.scaleFactor,
-      (this.canvas.canvas.height * 2) / 3 / this.canvas.scaleFactor,
+      this.canvas.canvas.width / 2,
+      (this.canvas.canvas.height * 2) / 3,
+      this.canvas.canvas.width,
       'white',
-      100
+      48
     );
   }
 
