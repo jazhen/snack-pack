@@ -24,12 +24,12 @@ class Fighter {
 
     this.self = {
       size: {
-        width: 744,
-        height: 711,
+        width: 209.3,
+        height: 200,
       },
       pos: {
         x: 0,
-        y: 100,
+        y: 33,
       },
       frame: {
         x: 0,
@@ -62,12 +62,12 @@ class Fighter {
 
     this.opponent = {
       size: {
-        width: 499,
-        height: 489,
+        width: 255.1,
+        height: 250,
       },
       pos: {
-        x: 200,
-        y: 100,
+        x: 150,
+        y: 0,
       },
       frame: {
         x: 0,
@@ -108,7 +108,7 @@ class Fighter {
   }
 
   draw() {
-    this.canvas.ctx.drawImage(
+    this.canvas.drawAnimation(
       this.assets.fighterSelf,
       this.self.size.width * this.self.frame.x,
       this.self.size.height * this.self.frame.y,
@@ -116,11 +116,11 @@ class Fighter {
       this.self.size.height,
       this.self.pos.x,
       this.self.pos.y,
-      this.canvas.canvas.width / 4,
-      this.canvas.canvas.height / 4
+      this.self.size.width,
+      this.self.size.height
     );
 
-    this.canvas.ctx.drawImage(
+    this.canvas.drawAnimation(
       this.assets.fighterOpponent,
       this.opponent.size.width * this.opponent.frame.x,
       this.opponent.size.height * this.opponent.frame.y,
@@ -128,8 +128,8 @@ class Fighter {
       this.opponent.size.height,
       this.opponent.pos.x,
       this.opponent.pos.y,
-      this.canvas.canvas.width / 4,
-      this.canvas.canvas.height / 4
+      this.opponent.size.width,
+      this.opponent.size.height
     );
   }
 
