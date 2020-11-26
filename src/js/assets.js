@@ -15,8 +15,8 @@ class Assets {
     const loadAsset = (filename) => {
       return new Promise((resolve, reject) => {
         this.assets[filename] = new Image();
-        this.assets[filename].addEventListener('load', () => resolve());
-        this.assets[filename].addEventListener('error', () => reject());
+        this.assets[filename].addEventListener('load', () => resolve(), false);
+        this.assets[filename].addEventListener('error', () => reject(), false);
         this.assets[filename].src = `../assets/${filename}.png`;
       });
     };
@@ -36,7 +36,8 @@ class Assets {
   update() {
     if (this.numAssetsLoaded === this.numAssets) {
       cancelAnimationFrame(this.requestAnimationFrameId);
-      setTimeout(() => this.fn(), 3000);
+      // setTimeout(() => this.fn(), 3000);
+      this.fn();
     }
   }
 
