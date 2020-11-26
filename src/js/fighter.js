@@ -15,78 +15,146 @@ class Fighter {
 
   */
 
-  constructor(canvas, { fighter3 }) {
+  constructor(canvas, { fighterSelf, fighterOpponent }) {
     this.canvas = canvas;
-    this.assets = { fighter3 };
-    // this.width = 650 / 10;
-    // this.height = 156 / 2;
-    this.width = 744;
-    this.height = 711;
-    this.frame = {
-      x: 0,
-      y: 0,
-      min: 0,
-      max: 0,
-    };
-    this.pos = {
-      x: 40,
-      y: 100,
-    };
-
+    this.assets = { fighterSelf, fighterOpponent };
     this.animate = this.animate.bind(this);
 
-    this.actions = {
-      idle: () => {
-        this.frame.y = 0;
-        this.frame.min = 0;
-        this.frame.max = 9;
+    // self
+
+    this.self = {
+      size: {
+        width: 744,
+        height: 711,
       },
-      jab: () => {
-        this.frame.y = 1;
-        this.frame.min = 0;
-        this.frame.max = 7;
+      pos: {
+        x: 0,
+        y: 100,
       },
-      uppercut: () => {
-        this.frame.y = 2;
-        this.frame.min = 0;
-        this.frame.max = 7;
+      frame: {
+        x: 0,
+        y: 0,
+        min: 0,
+        max: 0,
       },
+      actions: {
+        idle: () => {
+          this.self.frame.y = 0;
+          this.self.frame.min = 0;
+          this.self.frame.max = 9;
+        },
+        jab: () => {
+          this.self.frame.y = 1;
+          this.self.frame.min = 0;
+          this.self.frame.max = 7;
+        },
+        uppercut: () => {
+          this.self.frame.y = 2;
+          this.self.frame.min = 0;
+          this.self.frame.max = 7;
+        },
+      },
+      action: 'idle',
+      attacks: ['jab', 'uppercut'],
     };
 
-    this.attacks = Object.keys(this.actions).slice(1);
+    // opponent
 
-    this.actions.idle();
-    this.action = 'idle';
+    this.opponent = {
+      size: {
+        width: 499,
+        height: 489,
+      },
+      pos: {
+        x: 200,
+        y: 100,
+      },
+      frame: {
+        x: 0,
+        y: 0,
+        min: 0,
+        max: 0,
+      },
+      actions: {
+        dizzy: () => {
+          this.opponent.frame.y = 0;
+          this.opponent.frame.min = 0;
+          this.opponent.frame.max = 7;
+        },
+        hurt: () => {
+          this.opponent.frame.y = 1;
+          this.opponent.frame.min = 0;
+          this.opponent.frame.max = 7;
+        },
+        ko: () => {
+          this.opponent.frame.y = 2;
+          this.opponent.frame.min = 0;
+          this.opponent.frame.max = 9;
+        },
+      },
+      action: 'dizzy',
+    };
+
+    // set up
+
+    this.self.actions.idle();
+    this.opponent.actions.dizzy();
   }
 
   randomAttack() {
-    return this.attacks[Math.floor(Math.random() * this.attacks.length)];
+    return this.self.attacks[
+      Math.floor(Math.random() * this.self.attacks.length)
+    ];
   }
 
   draw() {
     this.canvas.ctx.drawImage(
-      this.assets.fighter3,
-      this.width * this.frame.x,
-      this.height * this.frame.y,
-      this.width,
-      this.height,
-      this.pos.x,
-      this.pos.y,
-      this.canvas.canvas.width / 3,
+      this.assets.fighterSelf,
+      this.self.size.width * this.self.frame.x,
+      this.self.size.height * this.self.frame.y,
+      this.self.size.width,
+      this.self.size.height,
+      this.self.pos.x,
+      this.self.pos.y,
+      this.canvas.canvas.width / 4,
       this.canvas.canvas.height / 4
     );
 
-    if (this.frame.x < this.frame.max) {
-      this.frame.x += 1;
+    this.canvas.ctx.drawImage(
+      this.assets.fighterOpponent,
+      this.opponent.size.width * this.opponent.frame.x,
+      this.opponent.size.height * this.opponent.frame.y,
+      this.opponent.size.width,
+      this.opponent.size.height,
+      this.opponent.pos.x,
+      this.opponent.pos.y,
+      this.canvas.canvas.width / 4,
+      this.canvas.canvas.height / 4
+    );
+
+    if (this.self.frame.x < this.self.frame.max) {
+      this.self.frame.x += 1;
     } else {
-      this.frame.x = this.frame.min;
+      this.self.frame.x = this.self.frame.min;
+    }
+
+    if (this.opponent.frame.x < this.opponent.frame.max) {
+      this.opponent.frame.x += 1;
+    } else {
+      this.opponent.frame.x = this.opponent.frame.min;
     }
   }
 
   update() {
-    if (this.action !== 'idle' && this.frame.x >= this.frame.max) {
-      this.action = 'idle';
-      this.actions.idle();
+    if (
+      this.self.action !== 'idle' &&
+      this.self.frame.x >= this.self.frame.max
+    ) {
+      this.self.action = 'idle';
+      this.self.actions.idle();
+
+      this.opponent.action = 'dizzy';
+      this.opponent.actions.dizzy();
     }
   }
 
@@ -97,14 +165,16 @@ class Fighter {
       return;
     }
 
-    if (e.key === 'z' && this.action === 'idle') {
-      this.action = this.randomAttack();
-      switch (this.action) {
+    if (e.key === 'z' && this.self.action === 'idle') {
+      this.self.action = this.randomAttack();
+      switch (this.self.action) {
         case 'jab':
-          this.actions.jab();
+          this.self.actions.jab();
+          this.opponent.actions.hurt();
           break;
         case 'uppercut':
-          this.actions.uppercut();
+          this.self.actions.uppercut();
+          this.opponent.actions.hurt();
           break;
         default:
           break;
@@ -133,7 +203,6 @@ class Fighter {
     }
 
     document.addEventListener('keydown', (e) => this.handleKeyDown(e), false);
-
     animate.call(this);
   }
 }

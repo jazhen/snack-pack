@@ -4,11 +4,10 @@ class Assets {
     this.assets = {};
     this.canvas = canvas;
     this.filenames = [
-      'fighter',
       'door',
       'doorBackground',
-      'fighter2',
-      'fighter3',
+      'fighterSelf',
+      'fighterOpponent',
     ];
     this.fn = fn;
     this.numAssets = this.filenames.length;
