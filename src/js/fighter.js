@@ -12,7 +12,6 @@ class Fighter {
       x: canvas col,
       y: canvas row
     }
-
   */
 
   constructor(canvas, { fighterSelf, fighterOpponent }) {
@@ -99,6 +98,10 @@ class Fighter {
 
     this.self.actions.idle();
     this.opponent.actions.dizzy();
+
+    //
+
+    this.counter = 0;
   }
 
   randomAttack() {
@@ -134,15 +137,22 @@ class Fighter {
   }
 
   update() {
-    if (
-      this.self.action !== 'idle' &&
-      this.self.frame.x >= this.self.frame.max
-    ) {
+    if (this.counter < 10) {
+      if (
+        this.self.action !== 'idle' &&
+        this.self.frame.x >= this.self.frame.max
+      ) {
+        this.self.action = 'idle';
+        this.self.actions.idle();
+
+        this.opponent.action = 'dizzy';
+        this.opponent.actions.dizzy();
+      }
+    } else {
+      this.opponent.action = 'ko';
+      this.opponent.actions.ko();
       this.self.action = 'idle';
       this.self.actions.idle();
-
-      this.opponent.action = 'dizzy';
-      this.opponent.actions.dizzy();
     }
 
     if (this.self.frame.x < this.self.frame.max) {
@@ -153,7 +163,7 @@ class Fighter {
 
     if (this.opponent.frame.x < this.opponent.frame.max) {
       this.opponent.frame.x += 1;
-    } else {
+    } else if (this.opponent.action !== 'ko') {
       this.opponent.frame.x = this.opponent.frame.min;
     }
   }
@@ -164,6 +174,11 @@ class Fighter {
 
   handleKeyDown(e) {
     e.preventDefault();
+
+    if (!e.repeat && e.key === 'z') {
+      this.counter += 1;
+      console.log(this.counter);
+    }
 
     if (this.validKeyDown(e)) {
       this.self.action = this.randomAttack();
