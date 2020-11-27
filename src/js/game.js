@@ -98,38 +98,34 @@ class Game {
   }
 
   instructions() {
-    function draw() {
+    const draw = () => {
       this.canvas.clear();
       this.canvas.drawBackground('#7FCFFA');
       this.elements.backButton.draw();
-    }
+    };
 
-    function animate() {
-      draw.call(this);
-      window.requestAnimationFrameId = requestAnimationFrame(
-        animate.bind(this)
-      );
-    }
+    const animate = () => {
+      draw();
+      window.requestAnimationFrameId = requestAnimationFrame(animate);
+    };
 
-    animate.call(this);
+    animate();
   }
 
   mainMenu() {
-    function draw() {
+    const draw = () => {
       this.canvas.clear();
       this.canvas.drawBackground('orange');
       this.elements.playButton.draw();
       this.elements.instructionsButton.draw();
-    }
+    };
 
-    function animate() {
-      draw.call(this);
-      window.requestAnimationFrameId = requestAnimationFrame(
-        animate.bind(this)
-      );
-    }
+    const animate = () => {
+      draw();
+      window.requestAnimationFrameId = requestAnimationFrame(animate);
+    };
 
-    animate.call(this);
+    animate();
   }
 
   startGame() {

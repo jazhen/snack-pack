@@ -18,7 +18,6 @@ class Fighter {
     this.canvas = canvas;
     this.door = door;
     this.assets = { fighterSelf, fighterOpponent };
-    this.animate = this.play.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
 
     // self
@@ -224,20 +223,17 @@ class Fighter {
   }
 
   play() {
+    let lastDrawTime = performance.now();
     const fps = 24;
     const fpsInterval = 1000 / fps;
-    let then = performance.now();
+    const animate = () => {
+      window.requestAnimationFrameId = requestAnimationFrame(animate);
+      const currentTime = performance.now();
+      const timeSinceLastDraw = currentTime - lastDrawTime;
 
-    function animate() {
-      window.requestAnimationFrameId = requestAnimationFrame(
-        animate.bind(this)
-      );
+      if (timeSinceLastDraw > fpsInterval) {
+        lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
 
-      const now = performance.now();
-      const elapsed = now - then;
-
-      if (elapsed > fpsInterval) {
-        then = now - (elapsed % fpsInterval);
         if (this.opponent.action !== 'ko') {
           this.update();
         }
@@ -245,10 +241,10 @@ class Fighter {
         this.canvas.drawBackground('gray');
         this.draw();
       }
-    }
+    };
 
     document.addEventListener('keydown', this.handleKeyDown, false);
-    animate.call(this);
+    animate();
   }
 }
 
