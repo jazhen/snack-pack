@@ -18,6 +18,7 @@ class Door {
       y: 0,
     };
 
+    this.fn = [];
     this.requestAnimationFrameId = null;
     this.setInvervalId = null;
   }
@@ -62,7 +63,10 @@ class Door {
     );
   }
 
-  animate(fn) {
+  animate() {
+    const fn = this.fn[0];
+
+    console.log('door animation');
     function animate() {
       this.draw();
       this.requestAnimationFrameId = requestAnimationFrame(animate.bind(this));

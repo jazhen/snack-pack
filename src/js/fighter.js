@@ -14,10 +14,13 @@ class Fighter {
     }
   */
 
-  constructor(canvas, { fighterSelf, fighterOpponent }) {
+  constructor(canvas, door, { fighterSelf, fighterOpponent }) {
     this.canvas = canvas;
+    this.door = door;
     this.assets = { fighterSelf, fighterOpponent };
+    this.requestAnimationFrameId = null;
     this.animate = this.animate.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
 
     // self
 
@@ -138,6 +141,8 @@ class Fighter {
 
   update() {
     if (this.counter < 10) {
+      // if did not reach target click amount and finished attack animation
+      // then switch to default animations
       if (
         this.self.action !== 'idle' &&
         this.self.frame.x >= this.self.frame.max
@@ -149,18 +154,39 @@ class Fighter {
         this.opponent.actions.dizzy();
       }
     } else {
+      // if reach target click amount
+      // then switch to opponent ko animation
+
       this.opponent.action = 'ko';
       this.opponent.actions.ko();
+
       this.self.action = 'idle';
       this.self.actions.idle();
+
+      // cancel fighter animation
+      // removeEventListener
+      // reset fighter game
+      // go to door animation
+      cancelAnimationFrame(this.requestAnimationFrameId);
+      document.removeEventListener('keydown', this.handleKeyDown, false);
+
+      this.counter = 0;
+      this.opponent.action = 'dizzy';
+      this.opponent.actions.dizzy();
+      this.door.animate();
+
+      // setTimeout(() => {
+      // }, 3000);
     }
 
+    // update self frame
     if (this.self.frame.x < this.self.frame.max) {
       this.self.frame.x += 1;
     } else {
       this.self.frame.x = this.self.frame.min;
     }
 
+    // update opponent frame
     if (this.opponent.frame.x < this.opponent.frame.max) {
       this.opponent.frame.x += 1;
     } else if (this.opponent.action !== 'ko') {
@@ -168,31 +194,31 @@ class Fighter {
     }
   }
 
-  validKeyDown(e) {
-    return !e.repeat && e.key === 'z' && this.self.action === 'idle';
-  }
-
   handleKeyDown(e) {
-    e.preventDefault();
-
-    if (!e.repeat && e.key === 'z') {
-      this.counter += 1;
-      console.log(this.counter);
+    function validKeyDown() {
+      return !e.repeat && e.key === 'z';
     }
 
-    if (this.validKeyDown(e)) {
-      this.self.action = this.randomAttack();
-      switch (this.self.action) {
-        case 'jab':
-          this.self.actions.jab();
-          this.opponent.actions.hurt();
-          break;
-        case 'uppercut':
-          this.self.actions.uppercut();
-          this.opponent.actions.hurt();
-          break;
-        default:
-          break;
+    e.preventDefault();
+
+    if (validKeyDown()) {
+      this.counter += 1;
+      console.log(this.counter);
+
+      if (this.self.action === 'idle') {
+        this.self.action = this.randomAttack();
+        switch (this.self.action) {
+          case 'jab':
+            this.self.actions.jab();
+            this.opponent.actions.hurt();
+            break;
+          case 'uppercut':
+            this.self.actions.uppercut();
+            this.opponent.actions.hurt();
+            break;
+          default:
+            break;
+        }
       }
     }
   }
@@ -201,6 +227,7 @@ class Fighter {
     const fps = 24;
     const fpsInterval = 1000 / fps;
     let then = performance.now();
+    console.log('fighter animation');
 
     function animate() {
       this.requestAnimationFrameId = requestAnimationFrame(animate.bind(this));
@@ -217,7 +244,7 @@ class Fighter {
       }
     }
 
-    document.addEventListener('keydown', (e) => this.handleKeyDown(e), false);
+    document.addEventListener('keydown', this.handleKeyDown, false);
     animate.call(this);
   }
 }

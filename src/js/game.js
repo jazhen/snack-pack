@@ -80,7 +80,12 @@ class Game {
     );
 
     this.elements.door = new Door(this.canvas, this.assets.assets);
-    this.elements.fighter = new Fighter(this.canvas, this.assets.assets);
+    this.elements.fighter = new Fighter(
+      this.canvas,
+      this.elements.door,
+      this.assets.assets
+    );
+    this.elements.door.fn.push(this.elements.fighter.animate);
   }
 
   addButton(text, pos, size, fn) {
@@ -127,8 +132,7 @@ class Game {
   }
 
   play() {
-    this.elements.door.animate(this.elements.fighter.animate);
-    // this.elements.fighter.animate();
+    this.elements.door.animate();
   }
 }
 
