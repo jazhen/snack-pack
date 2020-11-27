@@ -19,7 +19,7 @@ class Fighter {
     this.door = door;
     this.assets = { fighterSelf, fighterOpponent };
     this.requestAnimationFrameId = null;
-    this.animate = this.animate.bind(this);
+    this.animate = this.play.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
 
     // self
@@ -224,11 +224,10 @@ class Fighter {
     }
   }
 
-  animate() {
+  play() {
     const fps = 24;
     const fpsInterval = 1000 / fps;
     let then = performance.now();
-    console.log('fighter animation');
 
     function animate() {
       this.requestAnimationFrameId = requestAnimationFrame(animate.bind(this));

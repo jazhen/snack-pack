@@ -18,18 +18,14 @@ class Door {
       y: 0,
     };
 
-    this.fn = [];
+    this.games = [];
+    this.nextGame = null;
     this.requestAnimationFrameId = null;
     this.setInvervalId = null;
   }
 
-  update(fn) {
-    if (this.frame.x >= this.frame.max) {
-      clearInterval(this.setInvervalId);
-      cancelAnimationFrame(this.requestAnimationFrameId);
-      this.frame.x = this.frame.min;
-      fn();
-    }
+  randomGame() {
+    return this.games[Math.floor(Math.random() * this.games.length)];
   }
 
   draw() {
@@ -57,20 +53,28 @@ class Door {
       'MASH',
       this.canvas.canvas.width / 2,
       (this.canvas.canvas.height * 2) / 3,
+      48,
       this.canvas.canvas.width,
-      'white',
-      48
+      'white'
     );
   }
 
-  animate() {
-    const fn = this.fn[0];
+  update() {
+    if (this.frame.x >= this.frame.max) {
+      clearInterval(this.setInvervalId);
+      cancelAnimationFrame(this.requestAnimationFrameId);
+      this.frame.x = this.frame.min;
+      this.nextGame.play();
+    }
+  }
 
-    console.log('door animation');
+  animate() {
+    this.nextGame = this.randomGame();
+
     function animate() {
       this.draw();
       this.requestAnimationFrameId = requestAnimationFrame(animate.bind(this));
-      this.update(fn);
+      this.update();
     }
 
     animate.call(this);

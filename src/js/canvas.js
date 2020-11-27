@@ -18,13 +18,13 @@ class Canvas {
     text,
     x,
     y,
+    size = '16px',
     maxWidth = this.canvas.width,
-    color = 'black',
-    size = 16
+    color = 'black'
   ) {
     this.ctx.textAlign = 'center';
     this.ctx.textBaseline = 'middle';
-    this.ctx.font = `${size}px arial`;
+    this.ctx.font = `${size} arial`;
     this.ctx.fillStyle = color;
     this.ctx.fillText(
       text,
