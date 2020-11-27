@@ -137,6 +137,29 @@ class Fighter {
       this.opponent.size.width,
       this.opponent.size.height
     );
+
+    // update self frame
+    if (this.self.frame.x < this.self.frame.max) {
+      this.self.frame.x += 1;
+    } else {
+      this.self.frame.x = this.self.frame.min;
+    }
+
+    // update opponent frame
+    if (this.opponent.frame.x < this.opponent.frame.max) {
+      this.opponent.frame.x += 1;
+    } else if (this.opponent.action !== 'ko') {
+      this.opponent.frame.x = this.opponent.frame.min;
+    }
+  }
+
+  done() {
+    cancelAnimationFrame(this.requestAnimationFrameId);
+    document.removeEventListener('keydown', this.handleKeyDown, false);
+    this.counter = 0;
+    this.opponent.action = 'dizzy';
+    this.opponent.actions.dizzy();
+    this.door.animate();
   }
 
   update() {
@@ -167,30 +190,8 @@ class Fighter {
       // removeEventListener
       // reset fighter game
       // go to door animation
-      cancelAnimationFrame(this.requestAnimationFrameId);
-      document.removeEventListener('keydown', this.handleKeyDown, false);
 
-      this.counter = 0;
-      this.opponent.action = 'dizzy';
-      this.opponent.actions.dizzy();
-      this.door.animate();
-
-      // setTimeout(() => {
-      // }, 3000);
-    }
-
-    // update self frame
-    if (this.self.frame.x < this.self.frame.max) {
-      this.self.frame.x += 1;
-    } else {
-      this.self.frame.x = this.self.frame.min;
-    }
-
-    // update opponent frame
-    if (this.opponent.frame.x < this.opponent.frame.max) {
-      this.opponent.frame.x += 1;
-    } else if (this.opponent.action !== 'ko') {
-      this.opponent.frame.x = this.opponent.frame.min;
+      setTimeout(() => this.done(), 3000);
     }
   }
 
@@ -205,7 +206,7 @@ class Fighter {
       this.counter += 1;
       console.log(this.counter);
 
-      if (this.self.action === 'idle') {
+      if (this.self.action === 'idle' && this.opponent.action !== 'ko') {
         this.self.action = this.randomAttack();
         switch (this.self.action) {
           case 'jab':
@@ -237,7 +238,9 @@ class Fighter {
 
       if (elapsed > fpsInterval) {
         then = now - (elapsed % fpsInterval);
-        this.update();
+        if (this.opponent.action !== 'ko') {
+          this.update();
+        }
         this.canvas.clear();
         this.canvas.drawBackground('gray');
         this.draw();
