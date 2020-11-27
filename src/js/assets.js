@@ -13,8 +13,6 @@ class Assets {
     this.numAssets = this.filenames.length;
     this.numAssetsLoaded = 0;
     this.error = false;
-    this.requestAnimationFrameId = null;
-    this.setTimeoutId = null;
   }
 
   draw() {
@@ -39,14 +37,14 @@ class Assets {
 
   update() {
     if (this.numAssetsLoaded === this.numAssets) {
-      cancelAnimationFrame(this.requestAnimationFrameId);
+      cancelAnimationFrame(window.requestAnimationFrameId);
       setTimeout(() => this.mainMenu(), 1000);
     }
   }
 
   animate() {
     this.draw();
-    this.requestAnimationFrameId = requestAnimationFrame(this.animate);
+    window.requestAnimationFrameId = requestAnimationFrame(this.animate);
     this.update();
   }
 

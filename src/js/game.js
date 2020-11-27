@@ -14,9 +14,6 @@ class Game {
     this.canvas = new Canvas();
     this.assets = new Assets(this.canvas, this.mainMenu);
     this.elements = {};
-
-    this.requestAnimationFrameId = null;
-    this.setTimeoutId = null;
   }
 
   resize() {
@@ -55,13 +52,13 @@ class Game {
 
   setUpElements() {
     this.addButton('play', [0, 0], [100, 50], () => {
-      cancelAnimationFrame(this.requestAnimationFrameId);
+      cancelAnimationFrame(window.requestAnimationFrameId);
       this.startGame();
       // fade();
     });
 
     this.addButton('instructions', [0, 100], [100, 50], () => {
-      cancelAnimationFrame(this.requestAnimationFrameId);
+      cancelAnimationFrame(window.requestAnimationFrameId);
       this.instructions();
       // fade();
     });
@@ -74,7 +71,7 @@ class Game {
       ],
       [100, 50],
       () => {
-        cancelAnimationFrame(this.requestAnimationFrameId);
+        cancelAnimationFrame(window.requestAnimationFrameId);
         this.mainMenu();
       }
     );
@@ -109,7 +106,9 @@ class Game {
 
     function animate() {
       draw.call(this);
-      this.requestAnimationFrameId = requestAnimationFrame(animate.bind(this));
+      window.requestAnimationFrameId = requestAnimationFrame(
+        animate.bind(this)
+      );
     }
 
     animate.call(this);
@@ -125,7 +124,9 @@ class Game {
 
     function animate() {
       draw.call(this);
-      this.requestAnimationFrameId = requestAnimationFrame(animate.bind(this));
+      window.requestAnimationFrameId = requestAnimationFrame(
+        animate.bind(this)
+      );
     }
 
     animate.call(this);

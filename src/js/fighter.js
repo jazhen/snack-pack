@@ -18,7 +18,6 @@ class Fighter {
     this.canvas = canvas;
     this.door = door;
     this.assets = { fighterSelf, fighterOpponent };
-    this.requestAnimationFrameId = null;
     this.animate = this.play.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
 
@@ -154,7 +153,7 @@ class Fighter {
   }
 
   done() {
-    cancelAnimationFrame(this.requestAnimationFrameId);
+    cancelAnimationFrame(window.requestAnimationFrameId);
     document.removeEventListener('keydown', this.handleKeyDown, false);
     this.counter = 0;
     this.opponent.action = 'dizzy';
@@ -230,7 +229,9 @@ class Fighter {
     let then = performance.now();
 
     function animate() {
-      this.requestAnimationFrameId = requestAnimationFrame(animate.bind(this));
+      window.requestAnimationFrameId = requestAnimationFrame(
+        animate.bind(this)
+      );
 
       const now = performance.now();
       const elapsed = now - then;

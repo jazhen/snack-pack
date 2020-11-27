@@ -20,7 +20,6 @@ class Door {
 
     this.games = [];
     this.nextGame = null;
-    this.requestAnimationFrameId = null;
     this.setInvervalId = null;
   }
 
@@ -62,7 +61,7 @@ class Door {
   update() {
     if (this.frame.x >= this.frame.max) {
       clearInterval(this.setInvervalId);
-      cancelAnimationFrame(this.requestAnimationFrameId);
+      cancelAnimationFrame(window.requestAnimationFrameId);
       this.frame.x = this.frame.min;
       this.nextGame.play();
     }
@@ -73,7 +72,9 @@ class Door {
 
     function animate() {
       this.draw();
-      this.requestAnimationFrameId = requestAnimationFrame(animate.bind(this));
+      window.requestAnimationFrameId = requestAnimationFrame(
+        animate.bind(this)
+      );
       this.update();
     }
 

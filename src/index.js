@@ -4,6 +4,7 @@ import Button from './js/button';
 
 // global variables
 
+window.requestAnimationFrameId = null;
 const game = new Game();
 
 // event listeners
