@@ -46,12 +46,12 @@ class Fighter {
 
     this.self = {
       size: {
-        width: 209.3,
-        height: 200,
+        width: 1674 / 10,
+        height: 160,
       },
       pos: {
-        x: 0,
-        y: 33,
+        x: 55,
+        y: 60,
       },
       frame: {
         x: 0,
@@ -84,12 +84,12 @@ class Fighter {
 
     this.opponent = {
       size: {
-        width: 255.1,
-        height: 250,
+        width: 2857 / 14,
+        height: 200,
       },
       pos: {
-        x: 150,
-        y: 0,
+        x: 175,
+        y: 33,
       },
       frame: {
         x: 0,
@@ -111,7 +111,7 @@ class Fighter {
         ko: () => {
           this.opponent.frame.y = 2;
           this.opponent.frame.min = 0;
-          this.opponent.frame.max = 9;
+          this.opponent.frame.max = 13;
         },
       },
       action: 'dizzy',
