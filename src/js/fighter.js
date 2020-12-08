@@ -14,11 +14,33 @@ class Fighter {
     }
   */
 
-  constructor(canvas, door, { fighterSelf, fighterOpponent }) {
+  constructor(
+    canvas,
+    door,
+    { fighterSelf, fighterOpponent, fighterBackground }
+  ) {
     this.canvas = canvas;
     this.door = door;
-    this.assets = { fighterSelf, fighterOpponent };
+    this.assets = { fighterSelf, fighterOpponent, fighterBackground };
     this.handleKeyDown = this.handleKeyDown.bind(this);
+
+    // background
+    this.background = {
+      size: {
+        width: 359,
+        height: 270,
+      },
+      pos: {
+        x: 0,
+        y: 0,
+      },
+      frame: {
+        x: 0,
+        y: 0,
+        min: 0,
+        max: 5,
+      },
+    };
 
     // self
 
@@ -102,7 +124,7 @@ class Fighter {
 
     //
 
-    this.counter = 0;
+    this.punchCounter = 0;
   }
 
   randomAttack() {
@@ -112,6 +134,18 @@ class Fighter {
   }
 
   draw() {
+    this.canvas.drawAnimation(
+      this.assets.fighterBackground,
+      this.background.size.width * this.background.frame.x,
+      this.background.size.height * this.background.frame.y,
+      this.background.size.width,
+      this.background.size.height,
+      this.background.pos.x,
+      this.background.pos.y,
+      400,
+      300
+    );
+
     this.canvas.drawAnimation(
       this.assets.fighterSelf,
       this.self.size.width * this.self.frame.x,
@@ -136,6 +170,13 @@ class Fighter {
       this.opponent.size.height
     );
 
+    // update background frame
+    if (this.background.frame.x < this.background.frame.max) {
+      this.background.frame.x += 1;
+    } else {
+      this.background.frame.x = this.background.frame.min;
+    }
+
     // update self frame
     if (this.self.frame.x < this.self.frame.max) {
       this.self.frame.x += 1;
@@ -154,14 +195,14 @@ class Fighter {
   done() {
     cancelAnimationFrame(window.requestAnimationFrameId);
     document.removeEventListener('keydown', this.handleKeyDown, false);
-    this.counter = 0;
+    this.punchCounter = 0;
     this.opponent.action = 'dizzy';
     this.opponent.actions.dizzy();
     this.door.animate();
   }
 
   update() {
-    if (this.counter < 10) {
+    if (this.punchCounter < 10) {
       // if did not reach target click amount and finished attack animation
       // then switch to default animations
       if (
@@ -201,8 +242,8 @@ class Fighter {
     e.preventDefault();
 
     if (validKeyDown()) {
-      this.counter += 1;
-      console.log(this.counter);
+      this.punchCounter += 1;
+      console.log(this.punchCounter);
 
       if (this.self.action === 'idle' && this.opponent.action !== 'ko') {
         this.self.action = this.randomAttack();

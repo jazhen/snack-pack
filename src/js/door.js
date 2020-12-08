@@ -44,8 +44,8 @@ class Door {
       this.height,
       this.pos.x,
       this.pos.y,
-      this.canvas.canvas.width / this.canvas.scaleFactor,
-      this.canvas.canvas.height / this.canvas.scaleFactor
+      400,
+      300
     );
 
     this.canvas.drawText(

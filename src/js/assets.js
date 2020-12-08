@@ -8,6 +8,7 @@ class Assets {
       'doorBackground',
       'fighterSelf',
       'fighterOpponent',
+      'fighterBackground',
     ];
     this.mainMenu = mainMenu;
     this.numAssets = this.filenames.length;
