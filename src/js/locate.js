@@ -45,7 +45,7 @@ class Locate {
         },
         pos: {
           x: (gridPosition % 8) * 50,
-          y: Math.floor(gridPosition / 8) * 50,
+          y: (Math.floor(gridPosition / 8) + 1) * 50,
         },
         type: Math.floor(Math.random() * 9),
       };
@@ -53,13 +53,13 @@ class Locate {
       return animal;
     };
 
-    const requiredNumAnimals = 5;
+    const requiredNumAnimals = 40;
     let currentNumAnimals = 0;
 
     while (currentNumAnimals < requiredNumAnimals) {
       const gridPosition = Math.floor(Math.random() * 40);
 
-      if (!this.animals.gridPosition) {
+      if (!this.animals[gridPosition]) {
         this.animals[gridPosition] = randomAnimal(gridPosition);
         currentNumAnimals += 1;
       }
