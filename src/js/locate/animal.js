@@ -23,12 +23,12 @@ class Animal {
     );
   }
 
-  mouseDown(mouse, matchType) {
+  mouseDown(mouse, matchAnimal, fn) {
     if (this.clicked(mouse)) {
       console.log(`(${this.pos.x}, ${this.pos.y}) clicked`);
-      if (this.type === matchType) {
+      if (this.type === matchAnimal) {
         console.log('CORRECT animal clicked');
-        // this.fn();
+        fn();
       }
     }
   }

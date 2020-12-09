@@ -3,7 +3,7 @@ import Button from './button';
 import Canvas from './canvas';
 import Door from './door';
 import Fighter from './fighter';
-import Locate from './locate';
+import Locate from './locate/locate';
 // import fade from './transitions';
 
 class Game {
@@ -53,6 +53,8 @@ class Game {
   }
 
   setUpElements() {
+    // main menu buttons
+
     this.addButton('play', [0, 0], [100, 50], () => {
       cancelAnimationFrame(window.requestAnimationFrameId);
       this.startGame();
@@ -79,6 +81,9 @@ class Game {
       }
     );
 
+    // game elements
+    this.elements.door = new Door(this.canvas, this.assets.assets);
+
     this.elements.fighter = new Fighter(
       this.canvas,
       this.elements.door,
@@ -91,9 +96,10 @@ class Game {
       this.assets.assets
     );
 
-    this.elements.door = new Door(this.canvas, this.assets.assets);
-    this.elements.door.games.push(this.elements.locate);
-    // this.elements.door.games.push(this.elements.fighter, this.elements.locate);
+    // add all games to Door obj for transitions
+    // this.elements.door.games.push(this.elements.locate);
+
+    this.elements.door.games.push(this.elements.fighter, this.elements.locate);
   }
 
   addButton(text, pos, size, fn) {

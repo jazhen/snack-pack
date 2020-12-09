@@ -194,13 +194,27 @@ class Fighter {
     }
   }
 
-  done() {
-    cancelAnimationFrame(window.requestAnimationFrameId);
-    document.removeEventListener('keydown', this.handleKeyDown, false);
-    this.punchCounter = 0;
-    this.opponent.action = 'dizzy';
-    this.opponent.actions.dizzy();
-    this.door.animate();
+  win() {
+    // if reach target click amount
+    // then switch to opponent ko animation
+    this.opponent.action = 'ko';
+    this.opponent.actions.ko();
+
+    this.self.action = 'idle';
+    this.self.actions.idle();
+
+    // cancel fighter animation
+    // removeEventListener
+    // reset fighter game
+    // go to door animation
+    setTimeout(() => {
+      cancelAnimationFrame(window.requestAnimationFrameId);
+      document.removeEventListener('keydown', this.handleKeyDown, false);
+      this.punchCounter = 0;
+      this.opponent.action = 'dizzy';
+      this.opponent.actions.dizzy();
+      this.door.animate();
+    }, 3000);
   }
 
   update() {
@@ -218,21 +232,7 @@ class Fighter {
         this.opponent.actions.dizzy();
       }
     } else {
-      // if reach target click amount
-      // then switch to opponent ko animation
-
-      this.opponent.action = 'ko';
-      this.opponent.actions.ko();
-
-      this.self.action = 'idle';
-      this.self.actions.idle();
-
-      // cancel fighter animation
-      // removeEventListener
-      // reset fighter game
-      // go to door animation
-
-      setTimeout(() => this.done(), 3000);
+      this.win();
     }
   }
 

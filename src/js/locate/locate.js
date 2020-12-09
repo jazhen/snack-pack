@@ -7,9 +7,12 @@ class Locate {
     this.assets = { locate };
 
     this.animals = {};
-    this.matchType = null;
+    this.matchAnimal = null;
+    this.requiredNumAnimals = 5;
+    this.currentNumAnimals = 0;
 
     this.handleClick = this.handleClick.bind(this);
+    this.win = this.win.bind(this);
   }
 
   draw() {
@@ -35,6 +38,14 @@ class Locate {
     });
   }
 
+  win() {
+    // debugger;
+    cancelAnimationFrame(window.requestAnimationFrameId);
+    this.canvas.canvas.removeEventListener('click', this.handleClick, false);
+    this.door.animate();
+    // this.animals = {};
+  }
+
   handleClick(e) {
     const el = this.canvas.canvas.getBoundingClientRect();
     const mouse = {
@@ -44,8 +55,51 @@ class Locate {
 
     Object.keys(this.animals).forEach((key) => {
       const animal = this.animals[key];
-      animal.mouseDown(mouse, this.matchType);
+      animal.mouseDown(mouse, this.matchAnimal, this.win);
     });
+  }
+
+  randomAnimal(gridPosition, type) {
+    const size = {
+      width: 137,
+      height: 137,
+    };
+    const pos = {
+      x: (gridPosition % 8) * 50,
+      y: (Math.floor(gridPosition / 8) + 1) * 50,
+    };
+    return new Animal(size, pos, type, this.canvas);
+  }
+
+  setMatchAnimal() {
+    const firstGridPosition = Math.floor(Math.random() * 40);
+    this.matchAnimal = Math.floor(Math.random() * 9);
+    this.animals[firstGridPosition] = this.randomAnimal(
+      firstGridPosition,
+      this.matchAnimal
+    );
+    this.currentNumAnimals += 1;
+  }
+
+  setNonMatchAnimal() {
+    let nonMatchAnimal;
+
+    while (!nonMatchAnimal || nonMatchAnimal === this.matchAnimal) {
+      nonMatchAnimal = Math.floor(Math.random() * 9);
+    }
+
+    // fill up the rest of the animals quota (non-unique)
+    while (this.currentNumAnimals < this.requiredNumAnimals) {
+      const gridPosition = Math.floor(Math.random() * 40);
+
+      if (!this.animals[gridPosition]) {
+        this.animals[gridPosition] = this.randomAnimal(
+          gridPosition,
+          nonMatchAnimal
+        );
+        this.currentNumAnimals += 1;
+      }
+    }
   }
 
   play() {
@@ -53,41 +107,14 @@ class Locate {
     const fps = 24;
     const fpsInterval = 1000 / fps;
 
-    // create an animal
-    const randomAnimal = (gridPosition, type) => {
-      const size = {
-        width: 137,
-        height: 137,
-      };
-      const pos = {
-        x: (gridPosition % 8) * 50,
-        y: (Math.floor(gridPosition / 8) + 1) * 50,
-      };
-      return new Animal(size, pos, type, this.canvas);
-    };
-
-    const requiredNumAnimals = 40;
-    let currentNumAnimals = 0;
+    // reset
+    this.animals = {};
+    this.requiredNumAnimals = 5;
+    this.currentNumAnimals = 0;
 
     // set up the match animal (unique)
-    const firstGridPosition = Math.floor(Math.random() * 40);
-    this.matchType = Math.floor(Math.random() * 9);
-    this.animals[firstGridPosition] = randomAnimal(
-      firstGridPosition,
-      this.matchType
-    );
-    currentNumAnimals += 1;
-
-    // fill up the rest of the animals quota (non-unique)
-    while (currentNumAnimals < requiredNumAnimals) {
-      const gridPosition = Math.floor(Math.random() * 40);
-      const type = Math.floor(Math.random() * 9);
-
-      if (!this.animals[gridPosition] && type !== this.matchType) {
-        this.animals[gridPosition] = randomAnimal(gridPosition, type);
-        currentNumAnimals += 1;
-      }
-    }
+    this.setMatchAnimal();
+    this.setNonMatchAnimal();
 
     const animate = () => {
       window.requestAnimationFrameId = requestAnimationFrame(animate);

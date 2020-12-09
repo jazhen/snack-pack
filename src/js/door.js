@@ -73,6 +73,7 @@ class Door {
     let lastDrawTime = performance.now();
     const fps = 2;
     const fpsInterval = 1000 / fps;
+
     const animate = () => {
       window.requestAnimationFrameId = requestAnimationFrame(animate);
       const currentTime = performance.now();
