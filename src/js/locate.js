@@ -5,6 +5,7 @@ class Locate {
     this.assets = { locate };
 
     this.animals = {};
+    this.matchType = null;
   }
 
   draw() {
@@ -36,8 +37,7 @@ class Locate {
     const fps = 24;
     const fpsInterval = 1000 / fps;
 
-    const randomAnimal = (gridPosition) => {
-      // debugger;
+    const randomAnimal = (gridPosition, type) => {
       const animal = {
         size: {
           width: 137,
@@ -47,7 +47,7 @@ class Locate {
           x: (gridPosition % 8) * 50,
           y: (Math.floor(gridPosition / 8) + 1) * 50,
         },
-        type: Math.floor(Math.random() * 9),
+        type,
       };
 
       return animal;
@@ -56,11 +56,20 @@ class Locate {
     const requiredNumAnimals = 40;
     let currentNumAnimals = 0;
 
+    const firstGridPosition = Math.floor(Math.random() * 40);
+    this.matchType = Math.floor(Math.random() * 9);
+    this.animals[firstGridPosition] = randomAnimal(
+      firstGridPosition,
+      this.matchType
+    );
+    currentNumAnimals += 1;
+
     while (currentNumAnimals < requiredNumAnimals) {
       const gridPosition = Math.floor(Math.random() * 40);
+      const type = Math.floor(Math.random() * 9);
 
-      if (!this.animals[gridPosition]) {
-        this.animals[gridPosition] = randomAnimal(gridPosition);
+      if (!this.animals[gridPosition] && type !== this.matchType) {
+        this.animals[gridPosition] = randomAnimal(gridPosition, type);
         currentNumAnimals += 1;
       }
     }
@@ -73,9 +82,6 @@ class Locate {
       if (timeSinceLastDraw > fpsInterval) {
         lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
 
-        // if (this.opponent.action !== 'ko') {
-        //   this.update();
-        // }
         this.canvas.clear();
         this.canvas.drawBackground('gray');
         this.draw();
