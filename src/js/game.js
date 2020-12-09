@@ -3,6 +3,7 @@ import Button from './button';
 import Canvas from './canvas';
 import Door from './door';
 import Fighter from './fighter';
+import Locate from './locate';
 // import fade from './transitions';
 
 class Game {
@@ -76,13 +77,21 @@ class Game {
       }
     );
 
-    this.elements.door = new Door(this.canvas, this.assets.assets);
     this.elements.fighter = new Fighter(
       this.canvas,
       this.elements.door,
       this.assets.assets
     );
-    this.elements.door.games.push(this.elements.fighter);
+
+    this.elements.locate = new Locate(
+      this.canvas,
+      this.elements.door,
+      this.assets.assets
+    );
+
+    this.elements.door = new Door(this.canvas, this.assets.assets);
+    this.elements.door.games.push(this.elements.locate);
+    // this.elements.door.games.push(this.elements.fighter, this.elements.locate);
   }
 
   addButton(text, pos, size, fn) {

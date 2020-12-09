@@ -1,16 +1,18 @@
 class Fighter {
   /*
-    width: single sprite px width
-    height: single sprite px height
+    size: {
+      width: single sprite px width
+      height: single sprite px height
+    }
+    pos: {
+      x: canvas col,
+      y: canvas row
+    }
     frame: {
       x: sprite sheet col,
       y: sprite sheet row,
       min: starting frame of an animation,
       max: ending frame of an animation
-    }
-    pos: {
-      x: canvas col,
-      y: canvas row
     }
   */
 
