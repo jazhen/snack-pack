@@ -1,3 +1,5 @@
+import Animal from './animal';
+
 class Locate {
   constructor(canvas, door, { locate }) {
     this.canvas = canvas;
@@ -6,11 +8,12 @@ class Locate {
 
     this.animals = {};
     this.matchType = null;
+
+    this.handleClick = this.handleClick.bind(this);
   }
 
   draw() {
     Object.values(this.animals).forEach((animal) => {
-      // debugger;
       if (
         animal.pos.x < 0 ||
         animal.pos.x > 400 ||
@@ -32,6 +35,19 @@ class Locate {
     });
   }
 
+  handleClick(e) {
+    const el = this.canvas.canvas.getBoundingClientRect();
+    const mouse = {
+      x: e.clientX - el.left,
+      y: e.clientY - el.top,
+    };
+
+    Object.keys(this.animals).forEach((key) => {
+      const animal = this.animals[key];
+      animal.mouseDown(mouse, this.matchType);
+    });
+  }
+
   play() {
     let lastDrawTime = performance.now();
     const fps = 24;
@@ -39,19 +55,15 @@ class Locate {
 
     // create an animal
     const randomAnimal = (gridPosition, type) => {
-      const animal = {
-        size: {
-          width: 137,
-          height: 137,
-        },
-        pos: {
-          x: (gridPosition % 8) * 50,
-          y: (Math.floor(gridPosition / 8) + 1) * 50,
-        },
-        type,
+      const size = {
+        width: 137,
+        height: 137,
       };
-
-      return animal;
+      const pos = {
+        x: (gridPosition % 8) * 50,
+        y: (Math.floor(gridPosition / 8) + 1) * 50,
+      };
+      return new Animal(size, pos, type, this.canvas);
     };
 
     const requiredNumAnimals = 40;
@@ -91,51 +103,8 @@ class Locate {
       }
     };
 
-    // this.canvas.canvas.addEventListener(
-    //   'click',
-    //   (e) => {
-    //     const el = this.canvas.canvas.getBoundingClientRect();
-    //     const mouse = {
-    //       x: e.clientX - el.left,
-    //       y: e.clientY - el.top,
-    //     };
-
-    //     Object.keys(game.elements).forEach((key) => {
-    //       const element = game.elements[key];
-    //       if (element instanceof Button) {
-    //         element.mouseDown(mouse);
-    //       }
-    //     });
-    //   },
-    //   false
-    // );
-
-    // document.addEventListener('keydown', this.handleKeyDown, false);
     animate();
-  }
-
-  mouseDown(mouse, animal) {
-    const clicked = () => {
-      const leftBorder = animal.pos.x;
-      const rightBorder = leftBorder + 50;
-      const topBorder = animal.pos.y;
-      const bottomBorder = topBorder + 50;
-
-      return (
-        mouse.x >= leftBorder &&
-        mouse.x <= rightBorder &&
-        mouse.y >= topBorder &&
-        mouse.y <= bottomBorder
-      );
-    };
-
-    if (clicked(mouse, animal)) {
-      console.log('clicked');
-      if (animal.type === this.matchType) {
-        console.log('CORRECT animal clicked');
-        // this.fn();
-      }
-    }
+    this.canvas.canvas.addEventListener('click', this.handleClick, false);
   }
 }
 
