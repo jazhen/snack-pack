@@ -11,6 +11,7 @@ class Game {
     this.mainMenu = this.mainMenu.bind(this);
     this.startGame = this.startGame.bind(this);
     this.instructions = this.instructions.bind(this);
+    this.handleClick = this.handleClick.bind(this);
 
     this.canvas = new Canvas();
     this.assets = new Assets(this.canvas, this.mainMenu);
@@ -55,6 +56,7 @@ class Game {
     this.addButton('play', [0, 0], [100, 50], () => {
       cancelAnimationFrame(window.requestAnimationFrameId);
       this.startGame();
+      this.canvas.canvas.removeEventListener('click', this.handleClick, false);
       // fade();
     });
 
@@ -121,6 +123,21 @@ class Game {
     animate();
   }
 
+  handleClick(e) {
+    const el = this.canvas.canvas.getBoundingClientRect();
+    const mouse = {
+      x: e.clientX - el.left,
+      y: e.clientY - el.top,
+    };
+
+    Object.keys(this.elements).forEach((key) => {
+      const element = this.elements[key];
+      if (element instanceof Button) {
+        element.mouseDown(mouse);
+      }
+    });
+  }
+
   mainMenu() {
     const draw = () => {
       this.canvas.clear();
@@ -135,6 +152,8 @@ class Game {
     };
 
     animate();
+
+    this.canvas.canvas.addEventListener('click', this.handleClick, false);
   }
 
   startGame() {
