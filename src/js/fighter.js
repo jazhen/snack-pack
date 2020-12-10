@@ -25,7 +25,7 @@ class Fighter {
     this.door = door;
     this.assets = { fighterSelf, fighterOpponent, fighterBackground };
 
-    this.transitionText = 'finish';
+    this.transitionText = 'win';
 
     this.handleKeyDown = this.handleKeyDown.bind(this);
 

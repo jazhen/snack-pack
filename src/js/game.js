@@ -97,9 +97,9 @@ class Game {
     );
 
     // add all games to Door obj for transitions
-    // this.elements.door.games.push(this.elements.locate);
+    this.elements.door.games.push(this.elements.locate);
 
-    this.elements.door.games.push(this.elements.fighter, this.elements.locate);
+    // this.elements.door.games.push(this.elements.fighter, this.elements.locate);
   }
 
   addButton(text, pos, size, fn) {

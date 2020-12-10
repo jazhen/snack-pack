@@ -1,10 +1,10 @@
 import Animal from './animal';
 
 class Locate {
-  constructor(canvas, door, { locate }) {
+  constructor(canvas, door, { locate, wanted }) {
     this.canvas = canvas;
     this.door = door;
-    this.assets = { locate };
+    this.assets = { locate, wanted };
 
     this.animals = {};
     this.matchAnimal = null;
@@ -14,10 +14,30 @@ class Locate {
     this.handleClick = this.handleClick.bind(this);
     this.win = this.win.bind(this);
 
-    this.transitionText = 'weirdo';
+    this.transitionText = 'find';
   }
 
   draw() {
+    this.canvas.drawImage(
+      this.assets.wanted,
+      (400 - 90) / 2,
+      (300 - 108) / 2,
+      90 * this.canvas.scaleFactor,
+      108 * this.canvas.scaleFactor
+    );
+
+    this.canvas.ctx.drawImage(
+      this.assets.locate,
+      137 * this.matchAnimal,
+      0,
+      137,
+      137,
+      (400 - 50) / 2,
+      (300 - 50) / 2 + 5,
+      50,
+      50
+    );
+
     Object.values(this.animals).forEach((animal) => {
       if (
         animal.pos.x < 0 ||
@@ -26,6 +46,7 @@ class Locate {
         animal.pos.y > 300
       )
         console.log(`x:${animal.pos.x}, y:${animal.pos.y}`);
+
       this.canvas.drawAnimation(
         this.assets.locate,
         animal.size.width * animal.type,
@@ -41,11 +62,9 @@ class Locate {
   }
 
   win() {
-    // debugger;
     cancelAnimationFrame(window.requestAnimationFrameId);
     this.canvas.canvas.removeEventListener('click', this.handleClick, false);
     this.door.animate();
-    // this.animals = {};
   }
 
   handleClick(e) {
@@ -61,22 +80,24 @@ class Locate {
     });
   }
 
-  randomAnimal(gridPosition, type) {
+  addAnimal(gridPosition, type) {
     const size = {
       width: 137,
       height: 137,
     };
+
     const pos = {
       x: (gridPosition % 8) * 50,
       y: (Math.floor(gridPosition / 8) + 1) * 50,
     };
+
     return new Animal(size, pos, type, this.canvas);
   }
 
   setMatchAnimal() {
     const firstGridPosition = Math.floor(Math.random() * 40);
     this.matchAnimal = Math.floor(Math.random() * 9);
-    this.animals[firstGridPosition] = this.randomAnimal(
+    this.animals[firstGridPosition] = this.addAnimal(
       firstGridPosition,
       this.matchAnimal
     );
@@ -84,18 +105,23 @@ class Locate {
   }
 
   setNonMatchAnimal() {
-    let nonMatchAnimal;
+    // let nonMatchAnimal;
 
-    while (!nonMatchAnimal || nonMatchAnimal === this.matchAnimal) {
-      nonMatchAnimal = Math.floor(Math.random() * 9);
-    }
+    // while (!nonMatchAnimal || nonMatchAnimal === this.matchAnimal) {
+    //   nonMatchAnimal = Math.floor(Math.random() * 9);
+    // }
 
     // fill up the rest of the animals quota (non-unique)
     while (this.currentNumAnimals < this.requiredNumAnimals) {
       const gridPosition = Math.floor(Math.random() * 40);
+      const nonMatchAnimal = Math.floor(Math.random() * 9);
 
-      if (!this.animals[gridPosition]) {
-        this.animals[gridPosition] = this.randomAnimal(
+      if (
+        !this.animals[gridPosition] &&
+        nonMatchAnimal !== this.matchAnimal &&
+        ![11, 12, 19, 20].includes(gridPosition)
+      ) {
+        this.animals[gridPosition] = this.addAnimal(
           gridPosition,
           nonMatchAnimal
         );
@@ -111,7 +137,7 @@ class Locate {
 
     // reset
     this.animals = {};
-    this.requiredNumAnimals = 5;
+    this.requiredNumAnimals = 36;
     this.currentNumAnimals = 0;
 
     // set up the match animal (unique)
