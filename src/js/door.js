@@ -49,12 +49,13 @@ class Door {
     );
 
     this.canvas.drawText(
-      'MASH',
+      'mash',
       this.canvas.canvas.width / 2,
       (this.canvas.canvas.height * 2) / 3,
       48,
-      this.canvas.canvas.width,
-      'white'
+      'white',
+      'black',
+      this.canvas.canvas.width
     );
   }
 

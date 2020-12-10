@@ -27,13 +27,18 @@ class Assets {
         `error loading assets. please try refreshing your browser.`,
         this.canvas.canvas.width / 2,
         this.canvas.canvas.height / 2,
-        12
+        12,
+        'black',
+        'black'
       );
     } else {
       this.canvas.drawText(
         `assets loading: ${this.numAssetsLoaded} / ${this.numAssets}`,
         this.canvas.canvas.width / 2,
-        this.canvas.canvas.height / 2
+        this.canvas.canvas.height / 2,
+        16,
+        'black',
+        'black'
       );
     }
   }

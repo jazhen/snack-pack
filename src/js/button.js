@@ -1,12 +1,21 @@
 class Button {
-  constructor(canvas, text, x, y, width, height, fn, fillColor = 'red') {
+  constructor(
+    canvas,
+    text,
+    x,
+    y,
+    width,
+    height,
+    fn,
+    fillColor = 'transparent'
+  ) {
     this.canvas = canvas;
     this.text = text;
     this.pos = { x, y };
     this.size = { width, height };
     this.fn = fn;
     this.fillColor = fillColor;
-    // this.fillColor = 'transparent';
+    // this.fillColor = 'red';
   }
 
   draw() {

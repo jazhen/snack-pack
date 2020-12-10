@@ -14,24 +14,18 @@ class Canvas {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  drawText(
-    text,
-    x,
-    y,
-    size = 16,
-    maxWidth = this.canvas.width,
-    color = 'black'
-  ) {
+  drawText(text, x, y, size = 16, color = 'white', outlineColor = 'black') {
+    // font style
     this.ctx.textAlign = 'center';
     this.ctx.textBaseline = 'middle';
-    this.ctx.font = `${size}px DogicaPixelBold`;
     this.ctx.fillStyle = color;
-    this.ctx.fillText(
-      text,
-      x / this.scaleFactor,
-      y / this.scaleFactor,
-      maxWidth * 0.8
-    );
+    this.ctx.font = `${size}px DogicaPixelBold`;
+    this.ctx.fillText(text, x / this.scaleFactor, y / this.scaleFactor);
+
+    // outline style
+    this.ctx.strokeStyle = outlineColor;
+    this.ctx.strokeText(text, x / this.scaleFactor, y / this.scaleFactor);
+    this.ctx.stroke();
   }
 
   drawButtonText(
@@ -42,13 +36,20 @@ class Canvas {
     height,
     maxWidth = width,
     color = 'white',
+    outlineColor = 'black',
     size = 16
   ) {
+    // font style
     this.ctx.textAlign = 'center';
     this.ctx.textBaseline = 'middle';
     this.ctx.fillStyle = color;
     this.ctx.font = `${size}px DogicaPixelBold`;
     this.ctx.fillText(text, x + width / 2, y + height / 2, maxWidth);
+
+    // outline style
+    this.ctx.strokeStyle = outlineColor;
+    this.ctx.strokeText(text, x + width / 2, y + height / 2);
+    this.ctx.stroke();
   }
 
   drawRect(x, y, width, height, fillColor) {

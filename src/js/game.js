@@ -55,14 +55,14 @@ class Game {
   setUpElements() {
     // main menu buttons
 
-    this.addButton('play', [0, 0], [200, 30], () => {
+    this.addButton('play', [110, 105], [180, 30], () => {
       cancelAnimationFrame(window.requestAnimationFrameId);
       this.startGame();
       this.canvas.canvas.removeEventListener('click', this.handleClick, false);
       // fade();
     });
 
-    this.addButton('instructions', [0, 100], [200, 30], () => {
+    this.addButton('instructions', [110, 135], [180, 30], () => {
       cancelAnimationFrame(window.requestAnimationFrameId);
       this.instructions();
       // fade();
