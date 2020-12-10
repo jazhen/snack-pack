@@ -145,16 +145,63 @@ class Game {
   }
 
   mainMenu() {
+    const background = {
+      size: {
+        width: 511,
+        height: 384,
+      },
+      pos: {
+        x: 0,
+        y: 0,
+      },
+      frame: {
+        x: 0,
+        y: 0,
+        min: 0,
+        max: 23,
+      },
+    };
+
     const draw = () => {
-      this.canvas.clear();
-      this.canvas.drawBackground('orange');
+      this.canvas.drawAnimation(
+        this.assets.assets.mainMenuBackground,
+        background.size.width * background.frame.x,
+        background.size.height * background.frame.y,
+        background.size.width,
+        background.size.height,
+        background.pos.x,
+        background.pos.y,
+        400,
+        300
+      );
+
       this.elements.playButton.draw();
       this.elements.instructionsButton.draw();
     };
 
+    const update = () => {
+      if (background.frame.x < background.frame.max) {
+        background.frame.x += 1;
+      } else {
+        background.frame.x = background.frame.min;
+      }
+    };
+
+    const fps = 24;
+    const fpsInterval = 1000 / fps;
+    let lastDrawTime = performance.now();
+
     const animate = () => {
-      draw();
       window.requestAnimationFrameId = requestAnimationFrame(animate);
+      const currentTime = performance.now();
+      const timeSinceLastDraw = currentTime - lastDrawTime;
+
+      if (timeSinceLastDraw > fpsInterval) {
+        lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
+        this.canvas.clear();
+        draw.call(this);
+        update();
+      }
     };
 
     animate();

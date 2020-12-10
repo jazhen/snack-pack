@@ -4,6 +4,7 @@ class Assets {
     this.assets = {};
     this.canvas = canvas;
     this.filenames = [
+      'mainMenuBackground',
       'door',
       'doorBackground',
       'fighterSelf',
