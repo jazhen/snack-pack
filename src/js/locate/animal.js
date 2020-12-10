@@ -1,9 +1,43 @@
 class Animal {
-  constructor(size, pos, type, canvas) {
+  constructor(size, pos, type, locate, canvas) {
     this.size = size;
     this.pos = pos;
+    this.frame = {
+      x: Math.floor(Math.random() * 9),
+      y: type,
+      min: 0,
+      max: 11,
+    };
     this.type = type;
+    this.locate = locate;
     this.canvas = canvas;
+  }
+
+  draw() {
+    this.canvas.drawAnimation(
+      this.locate,
+      this.size.width * this.frame.x,
+      this.size.height * this.frame.y,
+      this.size.width,
+      this.size.height,
+      this.pos.x,
+      this.pos.y,
+      50,
+      50
+    );
+  }
+
+  update() {
+    if (this.frame.x < this.frame.max) {
+      this.frame.x += 1;
+    } else {
+      this.frame.x = this.frame.min;
+    }
+  }
+
+  animate() {
+    this.draw();
+    this.update();
   }
 
   clicked(mouse) {

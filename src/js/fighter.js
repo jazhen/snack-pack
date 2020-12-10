@@ -272,6 +272,7 @@ class Fighter {
     let lastDrawTime = performance.now();
     const fps = 24;
     const fpsInterval = 1000 / fps;
+
     const animate = () => {
       window.requestAnimationFrameId = requestAnimationFrame(animate);
       const currentTime = performance.now();

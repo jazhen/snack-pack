@@ -11,6 +11,9 @@ class Locate {
     this.requiredNumAnimals = 5;
     this.currentNumAnimals = 0;
 
+    this.numAnimalTypes = 9;
+    this.maxGridSpots = 40;
+
     this.handleClick = this.handleClick.bind(this);
     this.win = this.win.bind(this);
 
@@ -28,36 +31,20 @@ class Locate {
 
     this.canvas.ctx.drawImage(
       this.assets.locate,
-      137 * this.matchAnimal,
       0,
+      137 * this.matchAnimal,
       137,
       137,
       (400 - 50) / 2,
-      (300 - 50) / 2 + 5,
+      (300 - 50) / 2 + 5, // move 5px down to center within wanted poster
       50,
       50
     );
 
     Object.values(this.animals).forEach((animal) => {
-      if (
-        animal.pos.x < 0 ||
-        animal.pos.x > 400 ||
-        animal.pos.y < 50 ||
-        animal.pos.y > 300
-      )
-        console.log(`x:${animal.pos.x}, y:${animal.pos.y}`);
-
-      this.canvas.drawAnimation(
-        this.assets.locate,
-        animal.size.width * animal.type,
-        animal.size.height * 0,
-        animal.size.width,
-        animal.size.height,
-        animal.pos.x,
-        animal.pos.y,
-        50,
-        50
-      );
+      animal.animate();
+      // animal.draw();
+      // animal.update();
     });
   }
 
@@ -91,12 +78,19 @@ class Locate {
       y: (Math.floor(gridPosition / 8) + 1) * 50,
     };
 
-    return new Animal(size, pos, type, this.canvas);
+    return new Animal(size, pos, type, this.assets.locate, this.canvas);
   }
 
   setMatchAnimal() {
-    const firstGridPosition = Math.floor(Math.random() * 40);
-    this.matchAnimal = Math.floor(Math.random() * 9);
+    let firstGridPosition;
+    while (
+      !firstGridPosition &&
+      ![11, 12, 19, 20].includes(firstGridPosition)
+    ) {
+      firstGridPosition = Math.floor(Math.random() * this.maxGridSpots);
+    }
+
+    this.matchAnimal = Math.floor(Math.random() * this.numAnimalTypes);
     this.animals[firstGridPosition] = this.addAnimal(
       firstGridPosition,
       this.matchAnimal
@@ -105,16 +99,10 @@ class Locate {
   }
 
   setNonMatchAnimal() {
-    // let nonMatchAnimal;
-
-    // while (!nonMatchAnimal || nonMatchAnimal === this.matchAnimal) {
-    //   nonMatchAnimal = Math.floor(Math.random() * 9);
-    // }
-
     // fill up the rest of the animals quota (non-unique)
     while (this.currentNumAnimals < this.requiredNumAnimals) {
-      const gridPosition = Math.floor(Math.random() * 40);
-      const nonMatchAnimal = Math.floor(Math.random() * 9);
+      const gridPosition = Math.floor(Math.random() * this.maxGridSpots);
+      const nonMatchAnimal = Math.floor(Math.random() * this.numAnimalTypes);
 
       if (
         !this.animals[gridPosition] &&
@@ -132,12 +120,13 @@ class Locate {
 
   play() {
     let lastDrawTime = performance.now();
-    const fps = 24;
+    const fps = 2;
     const fpsInterval = 1000 / fps;
 
     // reset
     this.animals = {};
-    this.requiredNumAnimals = 36;
+    // maxGridSpots - wanted poster spots
+    this.requiredNumAnimals = this.maxGridSpots - 4;
     this.currentNumAnimals = 0;
 
     // set up the match animal (unique)
