@@ -42,8 +42,8 @@ class Locate {
     );
 
     Object.values(this.animals).forEach((animal) => {
-      animal.animate();
-      // animal.draw();
+      // animal.animate();
+      animal.draw();
       // animal.update();
     });
   }
@@ -83,10 +83,7 @@ class Locate {
 
   setMatchAnimal() {
     let firstGridPosition;
-    while (
-      !firstGridPosition &&
-      ![11, 12, 19, 20].includes(firstGridPosition)
-    ) {
+    while (!firstGridPosition || [11, 12, 19, 20].includes(firstGridPosition)) {
       firstGridPosition = Math.floor(Math.random() * this.maxGridSpots);
     }
 
@@ -120,7 +117,7 @@ class Locate {
 
   play() {
     let lastDrawTime = performance.now();
-    const fps = 2;
+    const fps = 1;
     const fpsInterval = 1000 / fps;
 
     // reset
