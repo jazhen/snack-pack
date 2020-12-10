@@ -1,10 +1,10 @@
 import Animal from './animal';
 
 class Locate {
-  constructor(canvas, door, { locate, wanted }) {
+  constructor(canvas, door, { locate, locateBackground, wanted }) {
     this.canvas = canvas;
     this.door = door;
-    this.assets = { locate, wanted };
+    this.assets = { locate, locateBackground, wanted };
 
     this.animals = {};
     this.matchAnimal = null;
@@ -21,6 +21,14 @@ class Locate {
   }
 
   draw() {
+    this.canvas.drawImage(
+      this.assets.locateBackground,
+      0,
+      0,
+      this.canvas.canvas.width,
+      this.canvas.canvas.height
+    );
+
     this.canvas.drawImage(
       this.assets.wanted,
       (400 - 90) / 2,
@@ -123,7 +131,7 @@ class Locate {
     // reset
     this.animals = {};
     // maxGridSpots - wanted poster spots
-    this.requiredNumAnimals = this.maxGridSpots - 4;
+    this.requiredNumAnimals = 5;
     this.currentNumAnimals = 0;
 
     // set up the match animal (unique)
@@ -139,7 +147,6 @@ class Locate {
         lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
 
         this.canvas.clear();
-        this.canvas.drawBackground('gray');
         this.draw();
       }
     };

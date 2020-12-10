@@ -82,6 +82,7 @@ class Door {
 
       if (timeSinceLastDraw > fpsInterval) {
         lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
+
         this.canvas.clear();
         this.update();
         this.draw(this.nextGame.transitionText);

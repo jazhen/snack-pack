@@ -128,14 +128,49 @@ class Fighter {
     this.opponent.actions.dizzy();
 
     //
+    this.fps = 24;
 
     this.punchCounter = 0;
+    this.countDownCounter = 0;
+    this.timeLeft = 5;
+
+    this.stopTimer = false;
   }
 
   randomAttack() {
     return this.self.attacks[
       Math.floor(Math.random() * this.self.attacks.length)
     ];
+  }
+
+  lose() {
+    this.stopTimer = true;
+
+    setTimeout(() => {
+      cancelAnimationFrame(window.requestAnimationFrameId);
+      document.removeEventListener('keydown', this.handleKeyDown, false);
+      this.door.animate();
+    }, 3000);
+  }
+
+  countDown() {
+    this.countDownCounter += 1;
+
+    if (this.countDownCounter > this.fps * 1 && !this.stopTimer) {
+      this.timeLeft -= 1;
+      this.countDownCounter = 0;
+    }
+
+    this.canvas.drawText(
+      `${this.timeLeft}`,
+      370 * this.canvas.scaleFactor,
+      20 * this.canvas.scaleFactor,
+      24
+    );
+
+    if (this.timeLeft < 1) {
+      this.lose();
+    }
   }
 
   draw() {
@@ -198,6 +233,7 @@ class Fighter {
   }
 
   win() {
+    this.stopTimer = true;
     // if reach target click amount
     // then switch to opponent ko animation
     this.opponent.action = 'ko';
@@ -213,9 +249,6 @@ class Fighter {
     setTimeout(() => {
       cancelAnimationFrame(window.requestAnimationFrameId);
       document.removeEventListener('keydown', this.handleKeyDown, false);
-      this.punchCounter = 0;
-      this.opponent.action = 'dizzy';
-      this.opponent.actions.dizzy();
       this.door.animate();
     }, 3000);
   }
@@ -270,8 +303,16 @@ class Fighter {
 
   play() {
     let lastDrawTime = performance.now();
-    const fps = 24;
-    const fpsInterval = 1000 / fps;
+    const fpsInterval = 1000 / this.fps;
+
+    // reset animations
+    this.punchCounter = 0;
+    this.opponent.action = 'dizzy';
+    this.opponent.actions.dizzy();
+
+    this.stopTimer = false;
+    this.timeLeft = 5;
+    this.countDownCounter = 0;
 
     const animate = () => {
       window.requestAnimationFrameId = requestAnimationFrame(animate);
@@ -287,6 +328,8 @@ class Fighter {
         this.canvas.clear();
         this.canvas.drawBackground('gray');
         this.draw();
+
+        this.countDown();
       }
     };
 

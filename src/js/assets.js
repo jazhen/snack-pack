@@ -11,6 +11,7 @@ class Assets {
       'fighterOpponent',
       'fighterBackground',
       'locate',
+      'locateBackground',
       'wanted',
     ];
     this.mainMenu = mainMenu;
