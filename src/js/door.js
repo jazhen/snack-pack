@@ -27,7 +27,7 @@ class Door {
     return this.games[Math.floor(Math.random() * this.games.length)];
   }
 
-  draw() {
+  draw(transitionText) {
     this.canvas.drawImage(
       this.assets.doorBackground,
       this.pos.x,
@@ -49,10 +49,10 @@ class Door {
     );
 
     this.canvas.drawText(
-      'mash',
+      transitionText,
       this.canvas.canvas.width / 2,
       (this.canvas.canvas.height * 2) / 3,
-      48,
+      32,
       'white',
       'black',
       this.canvas.canvas.width
@@ -84,7 +84,7 @@ class Door {
         lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
         this.canvas.clear();
         this.update();
-        this.draw();
+        this.draw(this.nextGame.transitionText);
       }
     };
 

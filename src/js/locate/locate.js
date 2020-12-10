@@ -13,6 +13,8 @@ class Locate {
 
     this.handleClick = this.handleClick.bind(this);
     this.win = this.win.bind(this);
+
+    this.transitionText = 'weirdo';
   }
 
   draw() {

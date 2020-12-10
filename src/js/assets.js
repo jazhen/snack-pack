@@ -20,7 +20,7 @@ class Assets {
 
   draw() {
     this.canvas.clear();
-    this.canvas.drawBackground('pink');
+    this.canvas.drawBackground('#dddddd');
 
     if (this.error) {
       this.canvas.drawText(
