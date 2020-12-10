@@ -27,7 +27,7 @@ class Assets {
         `error loading assets. please try refreshing your browser.`,
         this.canvas.canvas.width / 2,
         this.canvas.canvas.height / 2,
-        '12px'
+        12
       );
     } else {
       this.canvas.drawText(

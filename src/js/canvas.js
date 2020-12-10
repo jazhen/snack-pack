@@ -18,13 +18,13 @@ class Canvas {
     text,
     x,
     y,
-    size = '16px',
+    size = 16,
     maxWidth = this.canvas.width,
     color = 'black'
   ) {
     this.ctx.textAlign = 'center';
     this.ctx.textBaseline = 'middle';
-    this.ctx.font = `${size} arial`;
+    this.ctx.font = `${size}px DogicaPixelBold`;
     this.ctx.fillStyle = color;
     this.ctx.fillText(
       text,
@@ -41,14 +41,14 @@ class Canvas {
     width,
     height,
     maxWidth = width,
-    color = 'black',
+    color = 'white',
     size = 16
   ) {
     this.ctx.textAlign = 'center';
     this.ctx.textBaseline = 'middle';
     this.ctx.fillStyle = color;
-    this.ctx.font = `${size}px arial`;
-    this.ctx.fillText(text, x + width / 2, y + height / 2, maxWidth * 0.8);
+    this.ctx.font = `${size}px DogicaPixelBold`;
+    this.ctx.fillText(text, x + width / 2, y + height / 2, maxWidth);
   }
 
   drawRect(x, y, width, height, fillColor) {

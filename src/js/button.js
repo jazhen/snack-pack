@@ -6,6 +6,7 @@ class Button {
     this.size = { width, height };
     this.fn = fn;
     this.fillColor = fillColor;
+    // this.fillColor = 'transparent';
   }
 
   draw() {
