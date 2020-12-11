@@ -314,6 +314,8 @@ class Fighter {
     this.stopTimer = false;
     this.timeLeft = 5;
     this.countDownCounter = 0;
+
+    document.addEventListener('keydown', this.handleKeyDown, false);
   }
 
   play() {
@@ -338,7 +340,6 @@ class Fighter {
     };
 
     this.reset();
-    document.addEventListener('keydown', this.handleKeyDown, false);
     animate();
   }
 }

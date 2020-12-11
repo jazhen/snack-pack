@@ -8,13 +8,35 @@ class Avoid {
     this.loseTransition = loseTransition;
 
     this.transitionText = 'avoid';
-    this.fps = 60;
+    this.fps = 24;
+    this.timeLeft = 5;
+    this.stopTimer = false;
 
     this.self = null;
     this.enemies = [];
 
     this.keyDownHandler = this.keyDownHandler.bind(this);
     this.keyUpHandler = this.keyUpHandler.bind(this);
+  }
+
+  countDown() {
+    this.countDownCounter += 1;
+
+    if (this.countDownCounter > this.fps && !this.stopTimer) {
+      this.timeLeft -= 1;
+      this.countDownCounter = 0;
+    }
+
+    this.canvas.drawText(
+      `${this.timeLeft}`,
+      370 * this.canvas.scaleFactor,
+      30 * this.canvas.scaleFactor,
+      24
+    );
+
+    if (!this.timeLeft) {
+      this.win();
+    }
   }
 
   keyDownHandler(e) {
@@ -41,6 +63,31 @@ class Avoid {
     }
   }
 
+  removeEventHandlers() {
+    document.addEventListener('keydown', this.keyDownHandler, false);
+    document.addEventListener('keyup', this.keyUpHandler, false);
+  }
+
+  lose() {
+    cancelAnimationFrame(window.requestAnimationFrameId);
+    this.stopTimer = true;
+    this.removeEventHandlers();
+
+    setTimeout(() => {
+      this.loseTransition.animate();
+    }, 3000);
+  }
+
+  win() {
+    this.stopTimer = true;
+    this.removeEventHandlers();
+    cancelAnimationFrame(window.requestAnimationFrameId);
+
+    setTimeout(() => {
+      this.door.animate();
+    }, 3000);
+  }
+
   checkCollisions() {
     const collide = (obj1, obj2) => {
       const centerDist = Math.sqrt(
@@ -52,7 +99,7 @@ class Avoid {
 
     this.enemies.forEach((enemy) => {
       if (collide(this.self, enemy)) {
-        console.log('you lose');
+        this.lose();
       }
     });
 
@@ -66,6 +113,25 @@ class Avoid {
         }
       }
     }
+  }
+
+  reset() {
+    // set up on screen elements
+    this.self = new AvoidSelf(this.canvas);
+    this.enemies.push(new AvoidEnemy(this.canvas));
+    this.enemies.push(new AvoidEnemy(this.canvas));
+    this.enemies.push(new AvoidEnemy(this.canvas));
+    this.enemies.push(new AvoidEnemy(this.canvas));
+    this.enemies.push(new AvoidEnemy(this.canvas));
+
+    // timer
+    this.stopTimer = false;
+    this.timeLeft = 5;
+    this.countDownCounter = 0;
+
+    // add movement eventlisteners
+    document.addEventListener('keydown', this.keyDownHandler, false);
+    document.addEventListener('keyup', this.keyUpHandler, false);
   }
 
   play() {
@@ -90,21 +156,11 @@ class Avoid {
         this.self.draw();
         this.self.update();
         this.checkCollisions();
+        this.countDown();
       }
     };
 
-    // set up on screen elements
-    this.self = new AvoidSelf(this.canvas);
-    this.enemies.push(new AvoidEnemy(this.canvas));
-    this.enemies.push(new AvoidEnemy(this.canvas));
-    this.enemies.push(new AvoidEnemy(this.canvas));
-    this.enemies.push(new AvoidEnemy(this.canvas));
-    this.enemies.push(new AvoidEnemy(this.canvas));
-
-    // add movement eventlisteners
-    document.addEventListener('keydown', this.keyDownHandler, false);
-    document.addEventListener('keyup', this.keyUpHandler, false);
-
+    this.reset();
     animate();
   }
 }
