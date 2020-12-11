@@ -1,5 +1,5 @@
 import Assets from './assets';
-import Avoid from './avoid';
+import Avoid from './avoid/avoid';
 import Button from './button';
 import Canvas from './canvas';
 import Door from './door';
