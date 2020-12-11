@@ -1,5 +1,5 @@
 class AvoidSelf {
-  constructor(canvas, x, y, radius = 10, dx = 2, dy = -2) {
+  constructor(canvas, x, y, radius = 10, dx = 5, dy = -5) {
     this.canvas = canvas;
     this.x = window.BASE_WIDTH / 2;
     this.y = window.BASE_HEIGHT / 2;

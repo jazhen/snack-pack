@@ -8,7 +8,7 @@ class Avoid {
     this.loseTransition = loseTransition;
 
     this.transitionText = 'avoid';
-    this.fps = 48;
+    this.fps = 60;
 
     this.self = null;
     this.enemies = [];
@@ -41,6 +41,29 @@ class Avoid {
     }
   }
 
+  checkCollisions() {
+    const collide = (obj1, obj2) => {
+      const centerDist = Math.sqrt(
+        (obj1.x - obj2.x) ** 2 + (obj1.y - obj2.y) ** 2
+      );
+
+      return centerDist < obj1.radius + obj2.radius;
+    };
+
+    const allObjects = [].concat(this.self, this.enemies);
+
+    for (let i = 0; i < allObjects.length; i++) {
+      for (let j = 0; j < allObjects.length; j++) {
+        const obj1 = allObjects[i];
+        const obj2 = allObjects[j];
+
+        if (obj1 !== obj2 && collide(obj1, obj2)) {
+          console.log('collision detected');
+        }
+      }
+    }
+  }
+
   play() {
     let lastDrawTime = performance.now();
     const fpsInterval = 1000 / this.fps;
@@ -55,13 +78,14 @@ class Avoid {
 
         this.canvas.clear();
 
-        this.self.draw();
-        this.self.update();
-
         this.enemies.forEach((enemy) => {
           enemy.draw();
           enemy.update();
         });
+
+        this.self.draw();
+        this.self.update();
+        this.checkCollisions();
       }
     };
 
