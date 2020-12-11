@@ -2,25 +2,52 @@ class LoseTransition {
   constructor(mainMenu) {
     this.mainMenu = mainMenu;
 
-    this.fps = 2;
+    this.fps = 24;
     this.framesCounter = 0;
+
+    this.width = 359;
+    this.height = 270;
+    this.frame = {
+      x: 0,
+      y: 0,
+      min: 0,
+      max: 34,
+    };
+    this.pos = {
+      x: 0,
+      y: 0,
+    };
   }
 
   // eslint-disable-next-line class-methods-use-this
   draw() {
-    window.canvas.drawImage(
-      window.assets.doorBackground,
-      0,
-      0,
-      window.BASE_WIDTH * window.canvas.scaleFactor,
-      window.BASE_HEIGHT * window.canvas.scaleFactor
+    window.canvas.drawAnimation(
+      window.assets.lose,
+      this.width * this.frame.x,
+      this.height * this.frame.y,
+      this.width,
+      this.height,
+      this.pos.x,
+      this.pos.y,
+      window.BASE_WIDTH,
+      window.BASE_HEIGHT
     );
 
     window.canvas.drawText(
-      'you lose',
+      'game over',
       window.canvas.width / 2,
-      (window.canvas.height * 2) / 3,
+      200,
       32,
+      'white',
+      'black',
+      window.canvas.width
+    );
+
+    window.canvas.drawText(
+      'you lasted x rounds',
+      window.canvas.width / 2,
+      300,
+      16,
       'white',
       'black',
       window.canvas.width
@@ -28,10 +55,15 @@ class LoseTransition {
   }
 
   update() {
+    if (this.frame.x < this.frame.max) {
+      this.frame.x += 1;
+    } else {
+      this.frame.x = this.frame.min;
+    }
+
     this.framesCounter += 1;
 
-    // 3 secs at 2 fps/sec
-    if (this.framesCounter > 6) {
+    if (this.framesCounter > this.fps * 3) {
       cancelAnimationFrame(window.requestAnimationFrameId);
       this.mainMenu();
     }
