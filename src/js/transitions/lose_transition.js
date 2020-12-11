@@ -1,29 +1,29 @@
 class LoseTransition {
-  constructor(mainMenu, assets) {
+  constructor(mainMenu) {
     this.mainMenu = mainMenu;
-    this.assets = assets;
 
     this.fps = 2;
     this.framesCounter = 0;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   draw() {
-    window.CANVAS.drawImage(
-      this.assets.doorBackground,
+    window.canvas.drawImage(
+      window.assets.doorBackground,
       0,
       0,
-      window.BASE_WIDTH * window.CANVAS.scaleFactor,
-      window.BASE_HEIGHT * window.CANVAS.scaleFactor
+      window.BASE_WIDTH * window.canvas.scaleFactor,
+      window.BASE_HEIGHT * window.canvas.scaleFactor
     );
 
-    window.CANVAS.drawText(
+    window.canvas.drawText(
       'you lose',
-      window.CANVAS.width / 2,
-      (window.CANVAS.height * 2) / 3,
+      window.canvas.width / 2,
+      (window.canvas.height * 2) / 3,
       32,
       'white',
       'black',
-      window.CANVAS.width
+      window.canvas.width
     );
   }
 
@@ -51,7 +51,7 @@ class LoseTransition {
       if (timeSinceLastDraw > fpsInterval) {
         lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
 
-        window.CANVAS.clear();
+        window.canvas.clear();
         this.update();
         this.draw();
       }

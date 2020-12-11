@@ -1,14 +1,19 @@
 import './styles/index.scss';
 import Game from './js/game';
 import Canvas from './js/canvas';
+import GameTransition from './js/transitions/game_transition';
+import LoseTransition from './js/transitions/lose_transition';
 
 // global variables
+const game = new Game();
 
 window.requestAnimationFrameId = null;
 window.BASE_WIDTH = 400;
 window.BASE_HEIGHT = 300;
-window.CANVAS = new Canvas();
-const game = new Game();
+window.assets = {};
+window.canvas = new Canvas();
+window.gameTransition = new GameTransition();
+window.loseTransition = new LoseTransition(game.mainMenu);
 
 const resize = () => {
   const gameWindow = document.querySelector('#main');
@@ -35,14 +40,14 @@ const resize = () => {
   gameWindow.style.marginLeft = `${-newCanvasWidth / 2}px`;
 
   // set new canvas size
-  window.CANVAS.width = newCanvasWidth;
-  window.CANVAS.height = newCanvasHeight;
-  window.CANVAS.canvas.width = newCanvasWidth;
-  window.CANVAS.canvas.height = newCanvasHeight;
+  window.canvas.width = newCanvasWidth;
+  window.canvas.height = newCanvasHeight;
+  window.canvas.canvas.width = newCanvasWidth;
+  window.canvas.canvas.height = newCanvasHeight;
 
   // scale all canvas elements to new size
-  window.CANVAS.scaleFactor = newCanvasWidth / window.BASE_WIDTH;
-  window.CANVAS.scale();
+  window.canvas.scaleFactor = newCanvasWidth / window.BASE_WIDTH;
+  window.canvas.scale();
 };
 
 // event listeners

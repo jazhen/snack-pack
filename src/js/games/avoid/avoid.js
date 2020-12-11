@@ -2,10 +2,7 @@ import AvoidEnemy from './avoid_enemy';
 import AvoidSelf from './avoid_self';
 
 class Avoid {
-  constructor(gameTransition, loseTransition) {
-    this.gameTransition = gameTransition;
-    this.loseTransition = loseTransition;
-
+  constructor() {
     this.transitionText = 'avoid';
     this.fps = 60;
     this.timeLeft = 5;
@@ -27,10 +24,10 @@ class Avoid {
       this.countDownCounter = 0;
     }
 
-    window.CANVAS.drawText(
+    window.canvas.drawText(
       `${this.timeLeft}`,
-      370 * window.CANVAS.scaleFactor,
-      30 * window.CANVAS.scaleFactor,
+      370 * window.canvas.scaleFactor,
+      30 * window.canvas.scaleFactor,
       24
     );
 
@@ -74,7 +71,7 @@ class Avoid {
     this.stopTimer = true;
 
     setTimeout(() => {
-      this.loseTransition.animate();
+      window.loseTransition.animate();
     }, 3000);
   }
 
@@ -84,7 +81,7 @@ class Avoid {
     this.stopTimer = true;
 
     setTimeout(() => {
-      this.gameTransition.animate();
+      window.gameTransition.animate();
     }, 3000);
   }
 
@@ -123,9 +120,9 @@ class Avoid {
     this.numEnemies = 5;
 
     // set up on screen elements
-    this.self = new AvoidSelf(window.CANVAS);
+    this.self = new AvoidSelf(window.canvas);
     for (let i = 0; i < this.numEnemies; i++) {
-      this.enemies.push(new AvoidEnemy(window.CANVAS));
+      this.enemies.push(new AvoidEnemy(window.canvas));
     }
 
     // add movement eventlisteners
@@ -145,7 +142,7 @@ class Avoid {
       if (timeSinceLastDraw > fpsInterval) {
         lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
 
-        window.CANVAS.clear();
+        window.canvas.clear();
 
         this.enemies.forEach((enemy) => {
           enemy.draw();

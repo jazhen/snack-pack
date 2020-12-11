@@ -8,11 +8,11 @@ class AvoidEnemy {
   }
 
   draw() {
-    window.CANVAS.ctx.beginPath();
-    window.CANVAS.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-    window.CANVAS.ctx.fillStyle = '#0095DD';
-    window.CANVAS.ctx.fill();
-    window.CANVAS.ctx.closePath();
+    window.canvas.ctx.beginPath();
+    window.canvas.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    window.canvas.ctx.fillStyle = '#0095DD';
+    window.canvas.ctx.fill();
+    window.canvas.ctx.closePath();
   }
 
   update() {

@@ -1,15 +1,7 @@
 import Animal from './animal';
 
 class Locate {
-  constructor(
-    gameTransition,
-    loseTransition,
-    { locate, locateBackground, wanted }
-  ) {
-    this.gameTransition = gameTransition;
-    this.loseTransition = loseTransition;
-    this.assets = { locate, locateBackground, wanted };
-
+  constructor() {
     this.animals = {};
     this.matchAnimal = null;
     this.requiredNumAnimals = 5;
@@ -31,24 +23,24 @@ class Locate {
   }
 
   draw() {
-    window.CANVAS.drawImage(
-      this.assets.locateBackground,
+    window.canvas.drawImage(
+      window.assets.locateBackground,
       0,
       0,
-      window.CANVAS.width,
-      window.CANVAS.height
+      window.canvas.width,
+      window.canvas.height
     );
 
-    window.CANVAS.drawImage(
-      this.assets.wanted,
+    window.canvas.drawImage(
+      window.assets.wanted,
       (window.BASE_WIDTH - 90) / 2,
       (window.BASE_HEIGHT - 108) / 2,
-      90 * window.CANVAS.scaleFactor,
-      108 * window.CANVAS.scaleFactor
+      90 * window.canvas.scaleFactor,
+      108 * window.canvas.scaleFactor
     );
 
-    window.CANVAS.ctx.drawImage(
-      this.assets.locate,
+    window.canvas.ctx.drawImage(
+      window.assets.locate,
       0,
       137 * this.matchAnimal,
       137,
@@ -68,11 +60,11 @@ class Locate {
 
   lose() {
     this.stopTimer = true;
-    window.CANVAS.canvas.removeEventListener('click', this.handleClick, false);
+    window.canvas.canvas.removeEventListener('click', this.handleClick, false);
 
     setTimeout(() => {
       cancelAnimationFrame(window.requestAnimationFrameId);
-      this.loseTransition.animate();
+      window.loseTransition.animate();
     }, 3000);
   }
 
@@ -84,10 +76,10 @@ class Locate {
       this.countDownCounter = 0;
     }
 
-    window.CANVAS.drawText(
+    window.canvas.drawText(
       `${this.timeLeft}`,
-      370 * window.CANVAS.scaleFactor,
-      30 * window.CANVAS.scaleFactor,
+      370 * window.canvas.scaleFactor,
+      30 * window.canvas.scaleFactor,
       24
     );
 
@@ -98,16 +90,16 @@ class Locate {
 
   win() {
     this.stopTimer = true;
-    window.CANVAS.canvas.removeEventListener('click', this.handleClick, false);
+    window.canvas.canvas.removeEventListener('click', this.handleClick, false);
 
     setTimeout(() => {
       cancelAnimationFrame(window.requestAnimationFrameId);
-      this.gameTransition.animate();
+      window.gameTransition.animate();
     }, 3000);
   }
 
   handleClick(e) {
-    const el = window.CANVAS.canvas.getBoundingClientRect();
+    const el = window.canvas.canvas.getBoundingClientRect();
     const mouse = {
       x: e.clientX - el.left,
       y: e.clientY - el.top,
@@ -119,6 +111,7 @@ class Locate {
     });
   }
 
+  // eslint-disable-next-line class-methods-use-this
   addAnimal(gridPosition, type) {
     const size = {
       width: 137,
@@ -130,7 +123,7 @@ class Locate {
       y: (Math.floor(gridPosition / 8) + 1) * 50,
     };
 
-    return new Animal(size, pos, type, this.assets.locate, window.CANVAS);
+    return new Animal(size, pos, type);
   }
 
   setMatchAnimal() {
@@ -195,7 +188,7 @@ class Locate {
       if (timeSinceLastDraw > fpsInterval) {
         lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
 
-        window.CANVAS.clear();
+        window.canvas.clear();
         this.draw();
         this.countDown();
       }
@@ -203,7 +196,7 @@ class Locate {
 
     this.reset();
     animate();
-    window.CANVAS.canvas.addEventListener('click', this.handleClick, false);
+    window.canvas.canvas.addEventListener('click', this.handleClick, false);
   }
 }
 

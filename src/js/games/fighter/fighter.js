@@ -16,15 +16,7 @@ class Fighter {
     }
   */
 
-  constructor(
-    gameTransition,
-    loseTransition,
-    { fighterSelf, fighterOpponent, fighterBackground }
-  ) {
-    this.gameTransition = gameTransition;
-    this.loseTransition = loseTransition;
-    this.assets = { fighterSelf, fighterOpponent, fighterBackground };
-
+  constructor() {
     this.transitionText = 'win';
 
     this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -150,7 +142,7 @@ class Fighter {
 
     setTimeout(() => {
       cancelAnimationFrame(window.requestAnimationFrameId);
-      this.loseTransition.animate();
+      window.loseTransition.animate();
     }, 3000);
   }
 
@@ -162,10 +154,10 @@ class Fighter {
       this.countDownCounter = 0;
     }
 
-    window.CANVAS.drawText(
+    window.canvas.drawText(
       `${this.timeLeft}`,
-      370 * window.CANVAS.scaleFactor,
-      30 * window.CANVAS.scaleFactor,
+      370 * window.canvas.scaleFactor,
+      30 * window.canvas.scaleFactor,
       24
     );
 
@@ -175,8 +167,8 @@ class Fighter {
   }
 
   draw() {
-    window.CANVAS.drawAnimation(
-      this.assets.fighterBackground,
+    window.canvas.drawAnimation(
+      window.assets.fighterBackground,
       this.background.size.width * this.background.frame.x,
       this.background.size.height * this.background.frame.y,
       this.background.size.width,
@@ -187,8 +179,8 @@ class Fighter {
       window.BASE_HEIGHT
     );
 
-    window.CANVAS.drawAnimation(
-      this.assets.fighterSelf,
+    window.canvas.drawAnimation(
+      window.assets.fighterSelf,
       this.self.size.width * this.self.frame.x,
       this.self.size.height * this.self.frame.y,
       this.self.size.width,
@@ -199,8 +191,8 @@ class Fighter {
       this.self.size.height
     );
 
-    window.CANVAS.drawAnimation(
-      this.assets.fighterOpponent,
+    window.canvas.drawAnimation(
+      window.assets.fighterOpponent,
       this.opponent.size.width * this.opponent.frame.x,
       this.opponent.size.height * this.opponent.frame.y,
       this.opponent.size.width,
@@ -250,7 +242,7 @@ class Fighter {
     setTimeout(() => {
       cancelAnimationFrame(window.requestAnimationFrameId);
       document.removeEventListener('keydown', this.handleKeyDown, false);
-      this.gameTransition.animate();
+      window.gameTransition.animate();
     }, 3000);
   }
 
@@ -331,7 +323,7 @@ class Fighter {
         if (this.opponent.action !== 'ko') {
           this.update();
         }
-        window.CANVAS.clear();
+        window.canvas.clear();
         this.draw();
         this.countDown();
       }

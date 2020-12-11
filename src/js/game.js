@@ -5,18 +5,14 @@ import Avoid from './games/avoid/avoid';
 import Fighter from './games/fighter/fighter';
 import Locate from './games/locate/locate';
 
-import GameTransition from './transitions/game_transition';
-import LoseTransition from './transitions/lose_transition';
-
 class Game {
   constructor() {
     this.mainMenu = this.mainMenu.bind(this);
-    this.startGame = this.startGame.bind(this);
     this.instructions = this.instructions.bind(this);
     this.handleClick = this.handleClick.bind(this);
 
     this.assets = new Assets(this.mainMenu);
-    this.elements = {};
+    this.buttons = {};
   }
 
   setUpElements() {
@@ -24,8 +20,8 @@ class Game {
 
     this.addButton('play', [110, 105], [180, 30], () => {
       cancelAnimationFrame(window.requestAnimationFrameId);
-      this.startGame();
-      window.CANVAS.canvas.removeEventListener(
+      window.gameTransition.animate();
+      window.canvas.canvas.removeEventListener(
         'click',
         this.handleClick,
         false
@@ -40,8 +36,8 @@ class Game {
     this.addButton(
       'back',
       [
-        window.CANVAS.width / (2 * window.CANVAS.scaleFactor),
-        window.CANVAS.height / (2 * window.CANVAS.scaleFactor),
+        window.canvas.width / (2 * window.canvas.scaleFactor),
+        window.canvas.height / (2 * window.canvas.scaleFactor),
       ],
       [100, 50],
       () => {
@@ -50,42 +46,12 @@ class Game {
       }
     );
 
-    // game elements
-    this.elements.door = new GameTransition(this.assets.assets);
-    this.elements.loseTransition = new LoseTransition(
-      this.mainMenu,
-      this.assets.assets
-    );
-
-    this.elements.fighter = new Fighter(
-      this.elements.door,
-      this.elements.loseTransition,
-      this.assets.assets
-    );
-
-    this.elements.locate = new Locate(
-      this.elements.door,
-      this.elements.loseTransition,
-      this.assets.assets
-    );
-
-    this.elements.avoid = new Avoid(
-      this.elements.door,
-      this.elements.loseTransition
-    );
-
     // add all games to GameTransition obj for transitions
-    // this.elements.door.games.push(this.elements.avoid);
-
-    this.elements.door.games.push(
-      this.elements.fighter,
-      this.elements.locate,
-      this.elements.avoid
-    );
+    window.gameTransition.games.push(new Fighter(), new Locate(), new Avoid());
   }
 
   addButton(text, pos, size, fn) {
-    this.elements[`${text}Button`] = new Button(
+    this.buttons[`${text}Button`] = new Button(
       text,
       pos[0],
       pos[1],
@@ -97,9 +63,9 @@ class Game {
 
   instructions() {
     const draw = () => {
-      window.CANVAS.clear();
-      window.CANVAS.drawBackground('#7FCFFA');
-      this.elements.backButton.draw();
+      window.canvas.clear();
+      window.canvas.drawBackground('#7FCFFA');
+      this.buttons.backButton.draw();
     };
 
     const animate = () => {
@@ -111,14 +77,14 @@ class Game {
   }
 
   handleClick(e) {
-    const el = window.CANVAS.canvas.getBoundingClientRect();
+    const el = window.canvas.canvas.getBoundingClientRect();
     const mouse = {
       x: e.clientX - el.left,
       y: e.clientY - el.top,
     };
 
-    Object.keys(this.elements).forEach((key) => {
-      const element = this.elements[key];
+    Object.keys(this.buttons).forEach((key) => {
+      const element = this.buttons[key];
       if (element instanceof Button) {
         element.mouseDown(mouse);
       }
@@ -144,8 +110,8 @@ class Game {
     };
 
     const draw = () => {
-      window.CANVAS.drawAnimation(
-        this.assets.assets.mainMenuBackground,
+      window.canvas.drawAnimation(
+        window.assets.mainMenuBackground,
         background.size.width * background.frame.x,
         background.size.height * background.frame.y,
         background.size.width,
@@ -156,8 +122,8 @@ class Game {
         window.BASE_HEIGHT
       );
 
-      this.elements.playButton.draw();
-      this.elements.instructionsButton.draw();
+      this.buttons.playButton.draw();
+      this.buttons.instructionsButton.draw();
     };
 
     const update = () => {
@@ -179,7 +145,7 @@ class Game {
 
       if (timeSinceLastDraw > fpsInterval) {
         lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
-        window.CANVAS.clear();
+        window.canvas.clear();
         draw.call(this);
         update();
       }
@@ -187,11 +153,7 @@ class Game {
 
     animate();
 
-    window.CANVAS.canvas.addEventListener('click', this.handleClick, false);
-  }
-
-  startGame() {
-    this.elements.door.animate();
+    window.canvas.canvas.addEventListener('click', this.handleClick, false);
   }
 }
 

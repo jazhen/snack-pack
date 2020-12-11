@@ -1,5 +1,5 @@
 class Animal {
-  constructor(size, pos, type, locate) {
+  constructor(size, pos, type) {
     this.size = size;
     this.pos = pos;
     this.frame = {
@@ -9,12 +9,11 @@ class Animal {
       max: 11,
     };
     this.type = type;
-    this.locate = locate;
   }
 
   draw() {
-    window.CANVAS.drawAnimation(
-      this.locate,
+    window.canvas.drawAnimation(
+      window.assets.locate,
       this.size.width * this.frame.x,
       this.size.height * this.frame.y,
       this.size.width,
@@ -41,12 +40,12 @@ class Animal {
 
   clicked(mouse) {
     // 50 being the width and height of the outputted animal on the canvas
-    const leftBorder = this.pos.x * window.CANVAS.scaleFactor;
+    const leftBorder = this.pos.x * window.canvas.scaleFactor;
     const rightBorder =
-      this.pos.x * window.CANVAS.scaleFactor + 50 * window.CANVAS.scaleFactor;
-    const topBorder = this.pos.y * window.CANVAS.scaleFactor;
+      this.pos.x * window.canvas.scaleFactor + 50 * window.canvas.scaleFactor;
+    const topBorder = this.pos.y * window.canvas.scaleFactor;
     const bottomBorder =
-      this.pos.y * window.CANVAS.scaleFactor + 50 * window.CANVAS.scaleFactor;
+      this.pos.y * window.canvas.scaleFactor + 50 * window.canvas.scaleFactor;
 
     return (
       mouse.x >= leftBorder &&

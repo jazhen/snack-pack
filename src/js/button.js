@@ -9,7 +9,7 @@ class Button {
   }
 
   draw() {
-    window.CANVAS.drawRect(
+    window.canvas.drawRect(
       this.pos.x,
       this.pos.y,
       this.size.width,
@@ -17,7 +17,7 @@ class Button {
       this.fillColor
     );
 
-    window.CANVAS.drawButtonText(
+    window.canvas.drawButtonText(
       this.text,
       this.pos.x,
       this.pos.y,
@@ -27,14 +27,14 @@ class Button {
   }
 
   clicked(mouse) {
-    const leftBorder = this.pos.x * window.CANVAS.scaleFactor;
+    const leftBorder = this.pos.x * window.canvas.scaleFactor;
     const rightBorder =
-      this.pos.x * window.CANVAS.scaleFactor +
-      this.size.width * window.CANVAS.scaleFactor;
-    const topBorder = this.pos.y * window.CANVAS.scaleFactor;
+      this.pos.x * window.canvas.scaleFactor +
+      this.size.width * window.canvas.scaleFactor;
+    const topBorder = this.pos.y * window.canvas.scaleFactor;
     const bottomBorder =
-      this.pos.y * window.CANVAS.scaleFactor +
-      this.size.height * window.CANVAS.scaleFactor;
+      this.pos.y * window.canvas.scaleFactor +
+      this.size.height * window.canvas.scaleFactor;
 
     return (
       mouse.x >= leftBorder &&
