@@ -5,6 +5,7 @@ class Canvas {
     this.scaleFactor = 1;
     this.width = 400;
     this.height = 300;
+    this.baseFontSize = 16;
   }
 
   clear() {
@@ -16,7 +17,14 @@ class Canvas {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  drawText(text, x, y, size = 16, color = 'white', outlineColor = 'black') {
+  drawText(
+    text,
+    x,
+    y,
+    size = this.baseFontSize,
+    color = 'white',
+    outlineColor = 'black'
+  ) {
     // font style
     this.ctx.textAlign = 'center';
     this.ctx.textBaseline = 'middle';
@@ -39,7 +47,7 @@ class Canvas {
     maxWidth = width,
     color = 'white',
     outlineColor = 'black',
-    size = 16
+    size = this.baseFontSize
   ) {
     // font style
     this.ctx.textAlign = 'center';

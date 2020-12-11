@@ -28,13 +28,11 @@ class Game {
         this.handleClick,
         false
       );
-      // fade();
     });
 
     this.addButton('instructions', [110, 135], [180, 30], () => {
       cancelAnimationFrame(window.requestAnimationFrameId);
       this.instructions();
-      // fade();
     });
 
     this.addButton(
@@ -103,8 +101,8 @@ class Game {
     };
 
     const animate = () => {
-      draw();
       window.requestAnimationFrameId = requestAnimationFrame(animate);
+      draw();
     };
 
     animate();

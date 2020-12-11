@@ -25,10 +25,19 @@ class Assets {
 
     if (this.error) {
       window.CANVAS.drawText(
-        `error loading assets. please try refreshing your browser.`,
+        'error loading assets.',
         window.CANVAS.width / 2,
-        window.CANVAS.height / 2,
-        12,
+        window.CANVAS.height / 2 - window.CANVAS.baseFontSize * 1.5,
+        window.CANVAS.baseFontSize * 0.75,
+        'black',
+        'black'
+      );
+
+      window.CANVAS.drawText(
+        'please try refreshing your browser.',
+        window.CANVAS.width / 2,
+        window.CANVAS.height / 2 + window.CANVAS.baseFontSize * 1.5,
+        window.CANVAS.baseFontSize * 0.75,
         'black',
         'black'
       );
@@ -37,7 +46,7 @@ class Assets {
         `assets loading: ${this.numAssetsLoaded} / ${this.numAssets}`,
         window.CANVAS.width / 2,
         window.CANVAS.height / 2,
-        16,
+        window.CANVAS.baseFontSize,
         'black',
         'black'
       );
@@ -52,25 +61,27 @@ class Assets {
   }
 
   animate() {
-    this.draw();
     window.requestAnimationFrameId = requestAnimationFrame(this.animate);
+
+    this.draw();
     this.update();
   }
 
-  load() {
-    const loadAsset = (filename) =>
-      new Promise((resolve, reject) => {
-        this.assets[filename] = new Image();
-        this.assets[filename].src = `../assets/${filename}.png`;
-        this.assets[filename].addEventListener('load', () => resolve(), false);
-        this.assets[filename].addEventListener('error', () => reject(), false);
-      });
+  loadAsset(filename) {
+    return new Promise((resolve, reject) => {
+      this.assets[filename] = new Image();
+      this.assets[filename].src = `../assets/${filename}.png`;
+      this.assets[filename].addEventListener('load', resolve, false);
+      this.assets[filename].addEventListener('error', reject, false);
+    });
+  }
 
+  load() {
     this.animate();
 
     this.filenames.forEach(async (filename) => {
       try {
-        await loadAsset(filename);
+        await this.loadAsset(filename);
         this.numAssetsLoaded += 1;
       } catch {
         this.error = true;
