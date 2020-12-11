@@ -17,12 +17,10 @@ class Fighter {
   */
 
   constructor(
-    canvas,
     door,
     loseTransition,
     { fighterSelf, fighterOpponent, fighterBackground }
   ) {
-    this.canvas = canvas;
     this.door = door;
     this.loseTransition = loseTransition;
     this.assets = { fighterSelf, fighterOpponent, fighterBackground };
@@ -164,10 +162,10 @@ class Fighter {
       this.countDownCounter = 0;
     }
 
-    this.canvas.drawText(
+    window.CANVAS.drawText(
       `${this.timeLeft}`,
-      370 * this.canvas.scaleFactor,
-      30 * this.canvas.scaleFactor,
+      370 * window.CANVAS.scaleFactor,
+      30 * window.CANVAS.scaleFactor,
       24
     );
 
@@ -177,7 +175,7 @@ class Fighter {
   }
 
   draw() {
-    this.canvas.drawAnimation(
+    window.CANVAS.drawAnimation(
       this.assets.fighterBackground,
       this.background.size.width * this.background.frame.x,
       this.background.size.height * this.background.frame.y,
@@ -189,7 +187,7 @@ class Fighter {
       window.BASE_HEIGHT
     );
 
-    this.canvas.drawAnimation(
+    window.CANVAS.drawAnimation(
       this.assets.fighterSelf,
       this.self.size.width * this.self.frame.x,
       this.self.size.height * this.self.frame.y,
@@ -201,7 +199,7 @@ class Fighter {
       this.self.size.height
     );
 
-    this.canvas.drawAnimation(
+    window.CANVAS.drawAnimation(
       this.assets.fighterOpponent,
       this.opponent.size.width * this.opponent.frame.x,
       this.opponent.size.height * this.opponent.frame.y,
@@ -333,7 +331,7 @@ class Fighter {
         if (this.opponent.action !== 'ko') {
           this.update();
         }
-        this.canvas.clear();
+        window.CANVAS.clear();
         this.draw();
         this.countDown();
       }

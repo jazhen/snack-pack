@@ -1,7 +1,6 @@
 import Assets from './assets';
 import Avoid from './avoid/avoid';
 import Button from './button';
-import Canvas from './canvas';
 import Door from './door';
 import Fighter from './fighter';
 import Locate from './locate/locate';
@@ -14,42 +13,8 @@ class Game {
     this.instructions = this.instructions.bind(this);
     this.handleClick = this.handleClick.bind(this);
 
-    this.canvas = new Canvas();
-    this.assets = new Assets(this.canvas, this.mainMenu);
+    this.assets = new Assets(this.mainMenu);
     this.elements = {};
-  }
-
-  resize() {
-    const gameWindow = document.querySelector('#main');
-    let newCanvasWidth = window.innerWidth;
-    let newCanvasHeight = window.innerHeight;
-    const goalAspectRatio = 4 / 3;
-    const currentAspectRatio = newCanvasWidth / newCanvasHeight;
-
-    // resize, taking into account screen orientation
-    if (currentAspectRatio > goalAspectRatio) {
-      // window width is longer than desired game width
-      newCanvasWidth = newCanvasHeight * goalAspectRatio;
-      gameWindow.style.height = `${newCanvasHeight}px`;
-      gameWindow.style.width = `${newCanvasWidth}px`;
-    } else {
-      // window height is taller than desired game height
-      newCanvasHeight = newCanvasWidth / goalAspectRatio;
-      gameWindow.style.width = `${newCanvasWidth}px`;
-      gameWindow.style.height = `${newCanvasHeight}px`;
-    }
-
-    // set margins to center canvas
-    gameWindow.style.marginTop = `${-newCanvasHeight / 2}px`;
-    gameWindow.style.marginLeft = `${-newCanvasWidth / 2}px`;
-
-    // set new canvas size
-    this.canvas.canvas.width = newCanvasWidth;
-    this.canvas.canvas.height = newCanvasHeight;
-
-    // scale all canvas elements to new size
-    this.canvas.scaleFactor = newCanvasWidth / window.BASE_WIDTH;
-    this.canvas.scale();
   }
 
   setUpElements() {
@@ -58,7 +23,11 @@ class Game {
     this.addButton('play', [110, 105], [180, 30], () => {
       cancelAnimationFrame(window.requestAnimationFrameId);
       this.startGame();
-      this.canvas.canvas.removeEventListener('click', this.handleClick, false);
+      window.CANVAS.canvas.removeEventListener(
+        'click',
+        this.handleClick,
+        false
+      );
       // fade();
     });
 
@@ -71,8 +40,8 @@ class Game {
     this.addButton(
       'back',
       [
-        this.canvas.canvas.width / (2 * this.canvas.scaleFactor),
-        this.canvas.canvas.height / (2 * this.canvas.scaleFactor),
+        window.CANVAS.width / (2 * window.CANVAS.scaleFactor),
+        window.CANVAS.height / (2 * window.CANVAS.scaleFactor),
       ],
       [100, 50],
       () => {
@@ -82,42 +51,41 @@ class Game {
     );
 
     // game elements
-    this.elements.door = new Door(this.canvas, this.assets.assets);
+    this.elements.door = new Door(this.assets.assets);
     this.elements.loseTransition = new LoseTransition(
       this.mainMenu,
-      this.canvas,
       this.assets.assets
     );
 
     this.elements.fighter = new Fighter(
-      this.canvas,
       this.elements.door,
       this.elements.loseTransition,
       this.assets.assets
     );
 
     this.elements.locate = new Locate(
-      this.canvas,
       this.elements.door,
       this.elements.loseTransition,
       this.assets.assets
     );
 
     this.elements.avoid = new Avoid(
-      this.canvas,
       this.elements.door,
       this.elements.loseTransition
     );
 
     // add all games to Door obj for transitions
-    this.elements.door.games.push(this.elements.avoid);
+    // this.elements.door.games.push(this.elements.avoid);
 
-    // this.elements.door.games.push(this.elements.fighter, this.elements.locate);
+    this.elements.door.games.push(
+      this.elements.fighter,
+      this.elements.locate,
+      this.elements.avoid
+    );
   }
 
   addButton(text, pos, size, fn) {
     this.elements[`${text}Button`] = new Button(
-      this.canvas,
       text,
       pos[0],
       pos[1],
@@ -129,8 +97,8 @@ class Game {
 
   instructions() {
     const draw = () => {
-      this.canvas.clear();
-      this.canvas.drawBackground('#7FCFFA');
+      window.CANVAS.clear();
+      window.CANVAS.drawBackground('#7FCFFA');
       this.elements.backButton.draw();
     };
 
@@ -143,7 +111,7 @@ class Game {
   }
 
   handleClick(e) {
-    const el = this.canvas.canvas.getBoundingClientRect();
+    const el = window.CANVAS.canvas.getBoundingClientRect();
     const mouse = {
       x: e.clientX - el.left,
       y: e.clientY - el.top,
@@ -176,7 +144,7 @@ class Game {
     };
 
     const draw = () => {
-      this.canvas.drawAnimation(
+      window.CANVAS.drawAnimation(
         this.assets.assets.mainMenuBackground,
         background.size.width * background.frame.x,
         background.size.height * background.frame.y,
@@ -211,7 +179,7 @@ class Game {
 
       if (timeSinceLastDraw > fpsInterval) {
         lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
-        this.canvas.clear();
+        window.CANVAS.clear();
         draw.call(this);
         update();
       }
@@ -219,7 +187,7 @@ class Game {
 
     animate();
 
-    this.canvas.canvas.addEventListener('click', this.handleClick, false);
+    window.CANVAS.canvas.addEventListener('click', this.handleClick, false);
   }
 
   startGame() {

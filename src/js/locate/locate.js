@@ -1,13 +1,7 @@
 import Animal from './animal';
 
 class Locate {
-  constructor(
-    canvas,
-    door,
-    loseTransition,
-    { locate, locateBackground, wanted }
-  ) {
-    this.canvas = canvas;
+  constructor(door, loseTransition, { locate, locateBackground, wanted }) {
     this.door = door;
     this.loseTransition = loseTransition;
     this.assets = { locate, locateBackground, wanted };
@@ -33,23 +27,23 @@ class Locate {
   }
 
   draw() {
-    this.canvas.drawImage(
+    window.CANVAS.drawImage(
       this.assets.locateBackground,
       0,
       0,
-      this.canvas.canvas.width,
-      this.canvas.canvas.height
+      window.CANVAS.width,
+      window.CANVAS.height
     );
 
-    this.canvas.drawImage(
+    window.CANVAS.drawImage(
       this.assets.wanted,
       (window.BASE_WIDTH - 90) / 2,
       (window.BASE_HEIGHT - 108) / 2,
-      90 * this.canvas.scaleFactor,
-      108 * this.canvas.scaleFactor
+      90 * window.CANVAS.scaleFactor,
+      108 * window.CANVAS.scaleFactor
     );
 
-    this.canvas.ctx.drawImage(
+    window.CANVAS.ctx.drawImage(
       this.assets.locate,
       0,
       137 * this.matchAnimal,
@@ -70,7 +64,7 @@ class Locate {
 
   lose() {
     this.stopTimer = true;
-    this.canvas.canvas.removeEventListener('click', this.handleClick, false);
+    window.CANVAS.canvas.removeEventListener('click', this.handleClick, false);
 
     setTimeout(() => {
       cancelAnimationFrame(window.requestAnimationFrameId);
@@ -86,10 +80,10 @@ class Locate {
       this.countDownCounter = 0;
     }
 
-    this.canvas.drawText(
+    window.CANVAS.drawText(
       `${this.timeLeft}`,
-      370 * this.canvas.scaleFactor,
-      30 * this.canvas.scaleFactor,
+      370 * window.CANVAS.scaleFactor,
+      30 * window.CANVAS.scaleFactor,
       24
     );
 
@@ -100,7 +94,7 @@ class Locate {
 
   win() {
     this.stopTimer = true;
-    this.canvas.canvas.removeEventListener('click', this.handleClick, false);
+    window.CANVAS.canvas.removeEventListener('click', this.handleClick, false);
 
     setTimeout(() => {
       cancelAnimationFrame(window.requestAnimationFrameId);
@@ -109,7 +103,7 @@ class Locate {
   }
 
   handleClick(e) {
-    const el = this.canvas.canvas.getBoundingClientRect();
+    const el = window.CANVAS.canvas.getBoundingClientRect();
     const mouse = {
       x: e.clientX - el.left,
       y: e.clientY - el.top,
@@ -132,7 +126,7 @@ class Locate {
       y: (Math.floor(gridPosition / 8) + 1) * 50,
     };
 
-    return new Animal(size, pos, type, this.assets.locate, this.canvas);
+    return new Animal(size, pos, type, this.assets.locate, window.CANVAS);
   }
 
   setMatchAnimal() {
@@ -197,7 +191,7 @@ class Locate {
       if (timeSinceLastDraw > fpsInterval) {
         lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
 
-        this.canvas.clear();
+        window.CANVAS.clear();
         this.draw();
         this.countDown();
       }
@@ -205,7 +199,7 @@ class Locate {
 
     this.reset();
     animate();
-    this.canvas.canvas.addEventListener('click', this.handleClick, false);
+    window.CANVAS.canvas.addEventListener('click', this.handleClick, false);
   }
 }
 

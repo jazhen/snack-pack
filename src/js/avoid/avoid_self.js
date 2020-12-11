@@ -1,6 +1,5 @@
 class AvoidSelf {
-  constructor(canvas, x, y, radius = 10, dx = 5, dy = -5) {
-    this.canvas = canvas;
+  constructor(x, y, radius = 10, dx = 5, dy = -5) {
     this.x = window.BASE_WIDTH / 2;
     this.y = window.BASE_HEIGHT / 2;
     this.radius = radius;
@@ -15,11 +14,11 @@ class AvoidSelf {
   }
 
   draw() {
-    this.canvas.ctx.beginPath();
-    this.canvas.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-    this.canvas.ctx.fillStyle = 'red';
-    this.canvas.ctx.fill();
-    this.canvas.ctx.closePath();
+    window.CANVAS.ctx.beginPath();
+    window.CANVAS.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    window.CANVAS.ctx.fillStyle = 'red';
+    window.CANVAS.ctx.fill();
+    window.CANVAS.ctx.closePath();
   }
 
   update() {

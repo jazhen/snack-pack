@@ -1,7 +1,6 @@
 class LoseTransition {
-  constructor(mainMenu, canvas, assets) {
+  constructor(mainMenu, assets) {
     this.mainMenu = mainMenu;
-    this.canvas = canvas;
     this.assets = assets;
 
     this.fps = 2;
@@ -9,22 +8,22 @@ class LoseTransition {
   }
 
   draw() {
-    this.canvas.drawImage(
+    window.CANVAS.drawImage(
       this.assets.doorBackground,
-      200,
-      150,
-      this.canvas.canvas.width,
-      this.canvas.canvas.height
+      0,
+      0,
+      window.BASE_WIDTH * window.CANVAS.scaleFactor,
+      window.BASE_HEIGHT * window.CANVAS.scaleFactor
     );
 
-    this.canvas.drawText(
+    window.CANVAS.drawText(
       'you lose',
-      this.canvas.canvas.width / 2,
-      (this.canvas.canvas.height * 2) / 3,
+      window.CANVAS.width / 2,
+      (window.CANVAS.height * 2) / 3,
       32,
       'white',
       'black',
-      this.canvas.canvas.width
+      window.CANVAS.width
     );
   }
 
@@ -36,13 +35,6 @@ class LoseTransition {
       cancelAnimationFrame(window.requestAnimationFrameId);
       this.mainMenu();
     }
-    // if (this.frame.x < this.frame.max) {
-    //   this.frame.x += 1;
-    // } else {
-    //   cancelAnimationFrame(window.requestAnimationFrameId);
-    //   this.frame.x = this.frame.min;
-    //   this.nextGame.play();
-    // }
   }
 
   animate() {
@@ -59,7 +51,7 @@ class LoseTransition {
       if (timeSinceLastDraw > fpsInterval) {
         lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
 
-        this.canvas.clear();
+        window.CANVAS.clear();
         this.update();
         this.draw();
       }

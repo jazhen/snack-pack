@@ -2,18 +2,18 @@ import AvoidEnemy from './avoid_enemy';
 import AvoidSelf from './avoid_self';
 
 class Avoid {
-  constructor(canvas, door, loseTransition) {
-    this.canvas = canvas;
+  constructor(door, loseTransition) {
     this.door = door;
     this.loseTransition = loseTransition;
 
     this.transitionText = 'avoid';
-    this.fps = 24;
+    this.fps = 60;
     this.timeLeft = 5;
     this.stopTimer = false;
 
     this.self = null;
     this.enemies = [];
+    this.numEnemies = 5;
 
     this.keyDownHandler = this.keyDownHandler.bind(this);
     this.keyUpHandler = this.keyUpHandler.bind(this);
@@ -27,10 +27,10 @@ class Avoid {
       this.countDownCounter = 0;
     }
 
-    this.canvas.drawText(
+    window.CANVAS.drawText(
       `${this.timeLeft}`,
-      370 * this.canvas.scaleFactor,
-      30 * this.canvas.scaleFactor,
+      370 * window.CANVAS.scaleFactor,
+      30 * window.CANVAS.scaleFactor,
       24
     );
 
@@ -70,8 +70,8 @@ class Avoid {
 
   lose() {
     cancelAnimationFrame(window.requestAnimationFrameId);
-    this.stopTimer = true;
     this.removeEventHandlers();
+    this.stopTimer = true;
 
     setTimeout(() => {
       this.loseTransition.animate();
@@ -79,9 +79,9 @@ class Avoid {
   }
 
   win() {
-    this.stopTimer = true;
-    this.removeEventHandlers();
     cancelAnimationFrame(window.requestAnimationFrameId);
+    this.removeEventHandlers();
+    this.stopTimer = true;
 
     setTimeout(() => {
       this.door.animate();
@@ -116,18 +116,17 @@ class Avoid {
   }
 
   reset() {
-    // set up on screen elements
-    this.self = new AvoidSelf(this.canvas);
-    this.enemies.push(new AvoidEnemy(this.canvas));
-    this.enemies.push(new AvoidEnemy(this.canvas));
-    this.enemies.push(new AvoidEnemy(this.canvas));
-    this.enemies.push(new AvoidEnemy(this.canvas));
-    this.enemies.push(new AvoidEnemy(this.canvas));
-
     // timer
     this.stopTimer = false;
     this.timeLeft = 5;
     this.countDownCounter = 0;
+    this.numEnemies = 5;
+
+    // set up on screen elements
+    this.self = new AvoidSelf(window.CANVAS);
+    for (let i = 0; i < this.numEnemies; i++) {
+      this.enemies.push(new AvoidEnemy(window.CANVAS));
+    }
 
     // add movement eventlisteners
     document.addEventListener('keydown', this.keyDownHandler, false);
@@ -146,7 +145,7 @@ class Avoid {
       if (timeSinceLastDraw > fpsInterval) {
         lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
 
-        this.canvas.clear();
+        window.CANVAS.clear();
 
         this.enemies.forEach((enemy) => {
           enemy.draw();
@@ -155,6 +154,7 @@ class Avoid {
 
         this.self.draw();
         this.self.update();
+
         this.checkCollisions();
         this.countDown();
       }

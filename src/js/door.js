@@ -1,6 +1,5 @@
 class Door {
-  constructor(canvas, { door, doorBackground }) {
-    this.canvas = canvas;
+  constructor({ door, doorBackground }) {
     this.assets = {
       door,
       doorBackground,
@@ -28,15 +27,15 @@ class Door {
   }
 
   draw(transitionText) {
-    this.canvas.drawImage(
+    window.CANVAS.drawImage(
       this.assets.doorBackground,
       this.pos.x,
       this.pos.y,
-      this.canvas.canvas.width,
-      this.canvas.canvas.height
+      window.BASE_WIDTH * window.CANVAS.scaleFactor,
+      window.BASE_HEIGHT * window.CANVAS.scaleFactor
     );
 
-    this.canvas.drawAnimation(
+    window.CANVAS.drawAnimation(
       this.assets.door,
       this.width * this.frame.x,
       this.height * this.frame.y,
@@ -48,14 +47,14 @@ class Door {
       window.BASE_HEIGHT
     );
 
-    this.canvas.drawText(
+    window.CANVAS.drawText(
       transitionText,
-      this.canvas.canvas.width / 2,
-      (this.canvas.canvas.height * 2) / 3,
+      window.CANVAS.width / 2,
+      (window.CANVAS.height * 2) / 3,
       32,
       'white',
       'black',
-      this.canvas.canvas.width
+      window.CANVAS.width
     );
   }
 
@@ -83,7 +82,7 @@ class Door {
       if (timeSinceLastDraw > fpsInterval) {
         lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
 
-        this.canvas.clear();
+        window.CANVAS.clear();
         this.update();
         this.draw(this.nextGame.transitionText);
       }

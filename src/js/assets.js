@@ -1,8 +1,7 @@
 class Assets {
-  constructor(canvas, mainMenu) {
+  constructor(mainMenu) {
     this.animate = this.animate.bind(this);
     this.assets = {};
-    this.canvas = canvas;
     this.filenames = [
       'mainMenuBackground',
       'door',
@@ -21,23 +20,23 @@ class Assets {
   }
 
   draw() {
-    this.canvas.clear();
-    this.canvas.drawBackground('#dddddd');
+    window.CANVAS.clear();
+    window.CANVAS.drawBackground('#dddddd');
 
     if (this.error) {
-      this.canvas.drawText(
+      window.CANVAS.drawText(
         `error loading assets. please try refreshing your browser.`,
-        this.canvas.canvas.width / 2,
-        this.canvas.canvas.height / 2,
+        window.CANVAS.width / 2,
+        window.CANVAS.height / 2,
         12,
         'black',
         'black'
       );
     } else {
-      this.canvas.drawText(
+      window.CANVAS.drawText(
         `assets loading: ${this.numAssetsLoaded} / ${this.numAssets}`,
-        this.canvas.canvas.width / 2,
-        this.canvas.canvas.height / 2,
+        window.CANVAS.width / 2,
+        window.CANVAS.height / 2,
         16,
         'black',
         'black'
