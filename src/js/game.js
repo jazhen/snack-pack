@@ -1,79 +1,15 @@
 import Assets from './assets';
 import Button from './button';
 
-import Avoid from './games/avoid/avoid';
-import Fighter from './games/fighter/fighter';
-import Locate from './games/locate/locate';
-
 class Game {
   constructor() {
     this.mainMenu = this.mainMenu.bind(this);
-    this.instructions = this.instructions.bind(this);
     this.handleClick = this.handleClick.bind(this);
 
     this.assets = new Assets(this.mainMenu);
     this.buttons = {};
-  }
 
-  setUpElements() {
-    // main menu buttons
-
-    this.addButton('play', [110, 105], [180, 30], () => {
-      cancelAnimationFrame(window.requestAnimationFrameId);
-      window.gameTransition.animate();
-      window.canvas.canvas.removeEventListener(
-        'click',
-        this.handleClick,
-        false
-      );
-    });
-
-    this.addButton('instructions', [110, 135], [180, 30], () => {
-      cancelAnimationFrame(window.requestAnimationFrameId);
-      this.instructions();
-    });
-
-    this.addButton(
-      'back',
-      [
-        window.canvas.width / (2 * window.canvas.scaleFactor),
-        window.canvas.height / (2 * window.canvas.scaleFactor),
-      ],
-      [100, 50],
-      () => {
-        cancelAnimationFrame(window.requestAnimationFrameId);
-        this.mainMenu();
-      }
-    );
-
-    // add all games to GameTransition obj for transitions
-    window.gameTransition.games.push(new Fighter(), new Locate(), new Avoid());
-  }
-
-  addButton(text, pos, size, fn) {
-    this.buttons[`${text}Button`] = new Button(
-      text,
-      pos[0],
-      pos[1],
-      size[0],
-      size[1],
-      fn
-    );
-  }
-
-  instructions() {
-    const draw = () => {
-      window.canvas.clear();
-      window.canvas.drawBackground('#7FCFFA');
-      this.buttons.backButton.draw();
-    };
-
-    const animate = () => {
-      window.requestAnimationFrameId = requestAnimationFrame(animate);
-      draw();
-    };
-
-    animate();
+    this.showInstructions = false;
   }
 
   handleClick(e) {
@@ -89,6 +25,106 @@ class Game {
         element.mouseDown(mouse);
       }
     });
+  }
+
+  addButton(text, pos, size, fn) {
+    this.buttons[`${text}Button`] = new Button(
+      text,
+      pos[0],
+      pos[1],
+      size[0],
+      size[1],
+      fn
+    );
+  }
+
+  setUpElements() {
+    this.addButton('play', [110, 105], [180, 30], () => {
+      cancelAnimationFrame(window.requestAnimationFrameId);
+      window.gameTransition.animate();
+      window.canvas.canvas.removeEventListener(
+        'click',
+        this.handleClick,
+        false
+      );
+    });
+
+    this.addButton('instructions', [110, 135], [180, 30], () => {
+      this.showInstructions = true;
+    });
+
+    this.addButton(
+      'back',
+      [(window.canvas.width - 80) / 2, window.canvas.baseFontSize * 15],
+      [80, 30],
+      () => {
+        this.showInstructions = false;
+      }
+    );
+  }
+
+  instructions() {
+    window.canvas.drawText(
+      'play through a rotating, random',
+      window.canvas.width / 2,
+      window.canvas.baseFontSize * 5,
+      window.canvas.baseFontSize * 0.75,
+      'white',
+      'black',
+      window.canvas.width
+    );
+
+    window.canvas.drawText(
+      'assortment of microgames.',
+      window.canvas.width / 2,
+      window.canvas.baseFontSize * 8,
+      window.canvas.baseFontSize * 0.75,
+      'white',
+      'black',
+      window.canvas.width
+    );
+
+    window.canvas.drawText(
+      'wasd to move.',
+      window.canvas.width / 2,
+      window.canvas.baseFontSize * 11,
+      window.canvas.baseFontSize * 0.75,
+      'white',
+      'black',
+      window.canvas.width
+    );
+
+    window.canvas.drawText(
+      'spacebar as the keyboard action.',
+      window.canvas.width / 2,
+      window.canvas.baseFontSize * 14,
+      window.canvas.baseFontSize * 0.75,
+      'white',
+      'black',
+      window.canvas.width
+    );
+
+    window.canvas.drawText(
+      'mouse to click.',
+      window.canvas.width / 2,
+      window.canvas.baseFontSize * 17,
+      window.canvas.baseFontSize * 0.75,
+      'white',
+      'black',
+      window.canvas.width
+    );
+
+    window.canvas.drawText(
+      'stay on your toes, games go by quickly.',
+      window.canvas.width / 2,
+      window.canvas.baseFontSize * 20,
+      window.canvas.baseFontSize * 0.75,
+      'white',
+      'black',
+      window.canvas.width
+    );
+
+    this.buttons.backButton.draw();
   }
 
   mainMenu() {
@@ -122,8 +158,12 @@ class Game {
         window.BASE_HEIGHT
       );
 
-      this.buttons.playButton.draw();
-      this.buttons.instructionsButton.draw();
+      if (this.showInstructions) {
+        this.instructions();
+      } else {
+        this.buttons.playButton.draw();
+        this.buttons.instructionsButton.draw();
+      }
     };
 
     const update = () => {

@@ -3,6 +3,9 @@ import Game from './js/game';
 import Canvas from './js/canvas';
 import GameTransition from './js/transitions/game_transition';
 import LoseTransition from './js/transitions/lose_transition';
+import Fighter from './js/games/fighter/fighter';
+import Locate from './js/games/locate/locate';
+import Avoid from './js/games/avoid/avoid';
 
 // global variables
 const game = new Game();
@@ -13,6 +16,7 @@ window.BASE_HEIGHT = 300;
 window.assets = {};
 window.canvas = new Canvas();
 window.gameTransition = new GameTransition();
+window.gameTransition.games.push(new Fighter(), new Locate(), new Avoid());
 window.loseTransition = new LoseTransition(game.mainMenu);
 
 const resize = () => {
