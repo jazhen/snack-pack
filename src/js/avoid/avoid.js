@@ -50,15 +50,19 @@ class Avoid {
       return centerDist < obj1.radius + obj2.radius;
     };
 
-    const allObjects = [].concat(this.self, this.enemies);
+    this.enemies.forEach((enemy) => {
+      if (collide(this.self, enemy)) {
+        console.log('you lose');
+      }
+    });
 
-    for (let i = 0; i < allObjects.length; i++) {
-      for (let j = 0; j < allObjects.length; j++) {
-        const obj1 = allObjects[i];
-        const obj2 = allObjects[j];
+    for (let i = 0; i < this.enemies.length; i++) {
+      for (let j = 0; j < this.enemies.length; j++) {
+        const obj1 = this.enemies[i];
+        const obj2 = this.enemies[j];
 
         if (obj1 !== obj2 && collide(obj1, obj2)) {
-          console.log('collision detected');
+          console.log('enemy collision detected');
         }
       }
     }
