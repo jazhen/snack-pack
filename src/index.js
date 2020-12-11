@@ -3,6 +3,8 @@ import Game from './js/game';
 
 // global variables
 
+window.BASE_WIDTH = 400;
+window.BASE_HEIGHT = 300;
 window.requestAnimationFrameId = null;
 const game = new Game();
 

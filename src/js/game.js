@@ -48,8 +48,7 @@ class Game {
     this.canvas.canvas.height = newCanvasHeight;
 
     // scale all canvas elements to new size
-    this.canvas.scaleFactor = newCanvasWidth / 400;
-    // this.canvas.scaleFactor = newCanvasWidth / 400;
+    this.canvas.scaleFactor = newCanvasWidth / window.BASE_WIDTH;
     this.canvas.scale();
   }
 
@@ -185,8 +184,8 @@ class Game {
         background.size.height,
         background.pos.x,
         background.pos.y,
-        400,
-        300
+        window.BASE_WIDTH,
+        window.BASE_HEIGHT
       );
 
       this.elements.playButton.draw();

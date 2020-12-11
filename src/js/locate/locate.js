@@ -43,8 +43,8 @@ class Locate {
 
     this.canvas.drawImage(
       this.assets.wanted,
-      (400 - 90) / 2,
-      (300 - 108) / 2,
+      (window.BASE_WIDTH - 90) / 2,
+      (window.BASE_HEIGHT - 108) / 2,
       90 * this.canvas.scaleFactor,
       108 * this.canvas.scaleFactor
     );
@@ -55,8 +55,8 @@ class Locate {
       137 * this.matchAnimal,
       137,
       137,
-      (400 - 50) / 2,
-      (300 - 50) / 2 + 5, // move 5px down to center within wanted poster
+      (window.BASE_WIDTH - 50) / 2,
+      (window.BASE_HEIGHT - 50) / 2 + 5, // move 5px down to center within wanted poster
       50,
       50
     );

@@ -32,15 +32,14 @@ class Avoid {
   }
 
   update() {
-    // debugger;
     if (
-      this.enemy.x + this.enemy.dx > 400 - this.enemy.radius ||
+      this.enemy.x + this.enemy.dx > window.BASE_WIDTH - this.enemy.radius ||
       this.enemy.x + this.enemy.dx < this.enemy.radius
     ) {
       this.enemy.dx = -this.enemy.dx;
     }
     if (
-      this.enemy.y + this.enemy.dy > 300 - this.enemy.radius ||
+      this.enemy.y + this.enemy.dy > window.BASE_HEIGHT - this.enemy.radius ||
       this.enemy.y + this.enemy.dy < this.enemy.radius
     ) {
       this.enemy.dy = -this.enemy.dy;

@@ -185,8 +185,8 @@ class Fighter {
       this.background.size.height,
       this.background.pos.x,
       this.background.pos.y,
-      400,
-      300
+      window.BASE_WIDTH,
+      window.BASE_HEIGHT
     );
 
     this.canvas.drawAnimation(
