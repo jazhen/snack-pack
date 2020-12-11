@@ -2,8 +2,8 @@ import AvoidEnemy from './avoid_enemy';
 import AvoidSelf from './avoid_self';
 
 class Avoid {
-  constructor(door, loseTransition) {
-    this.door = door;
+  constructor(gameTransition, loseTransition) {
+    this.gameTransition = gameTransition;
     this.loseTransition = loseTransition;
 
     this.transitionText = 'avoid';
@@ -84,7 +84,7 @@ class Avoid {
     this.stopTimer = true;
 
     setTimeout(() => {
-      this.door.animate();
+      this.gameTransition.animate();
     }, 3000);
   }
 

@@ -17,11 +17,11 @@ class Fighter {
   */
 
   constructor(
-    door,
+    gameTransition,
     loseTransition,
     { fighterSelf, fighterOpponent, fighterBackground }
   ) {
-    this.door = door;
+    this.gameTransition = gameTransition;
     this.loseTransition = loseTransition;
     this.assets = { fighterSelf, fighterOpponent, fighterBackground };
 
@@ -246,11 +246,11 @@ class Fighter {
     // cancel fighter animation
     // removeEventListener
     // reset fighter game
-    // go to door animation
+    // go to gameTransition animation
     setTimeout(() => {
       cancelAnimationFrame(window.requestAnimationFrameId);
       document.removeEventListener('keydown', this.handleKeyDown, false);
-      this.door.animate();
+      this.gameTransition.animate();
     }, 3000);
   }
 

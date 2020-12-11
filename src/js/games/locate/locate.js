@@ -1,8 +1,12 @@
 import Animal from './animal';
 
 class Locate {
-  constructor(door, loseTransition, { locate, locateBackground, wanted }) {
-    this.door = door;
+  constructor(
+    gameTransition,
+    loseTransition,
+    { locate, locateBackground, wanted }
+  ) {
+    this.gameTransition = gameTransition;
     this.loseTransition = loseTransition;
     this.assets = { locate, locateBackground, wanted };
 
@@ -98,7 +102,7 @@ class Locate {
 
     setTimeout(() => {
       cancelAnimationFrame(window.requestAnimationFrameId);
-      this.door.animate();
+      this.gameTransition.animate();
     }, 3000);
   }
 
