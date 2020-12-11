@@ -1,10 +1,12 @@
 import Assets from './assets';
-import Avoid from './avoid/avoid';
 import Button from './button';
-import Door from './door';
-import Fighter from './fighter';
-import Locate from './locate/locate';
-import LoseTransition from './lose';
+
+import Avoid from './games/avoid/avoid';
+import Fighter from './games/fighter/fighter';
+import Locate from './games/locate/locate';
+
+import GameTransition from './transitions/game_transition';
+import LoseTransition from './transitions/lose_transition';
 
 class Game {
   constructor() {
@@ -49,7 +51,7 @@ class Game {
     );
 
     // game elements
-    this.elements.door = new Door(this.assets.assets);
+    this.elements.door = new GameTransition(this.assets.assets);
     this.elements.loseTransition = new LoseTransition(
       this.mainMenu,
       this.assets.assets
@@ -72,7 +74,7 @@ class Game {
       this.elements.loseTransition
     );
 
-    // add all games to Door obj for transitions
+    // add all games to GameTransition obj for transitions
     // this.elements.door.games.push(this.elements.avoid);
 
     this.elements.door.games.push(

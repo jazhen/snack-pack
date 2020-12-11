@@ -1,4 +1,4 @@
-class Door {
+class GameTransition {
   constructor({ door, doorBackground }) {
     this.assets = {
       door,
@@ -92,4 +92,4 @@ class Door {
   }
 }
 
-export default Door;
+export default GameTransition;
