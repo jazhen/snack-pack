@@ -1,4 +1,5 @@
 import Assets from './assets';
+import Avoid from './avoid';
 import Button from './button';
 import Canvas from './canvas';
 import Door from './door';
@@ -103,10 +104,16 @@ class Game {
       this.assets.assets
     );
 
-    // add all games to Door obj for transitions
-    // this.elements.door.games.push(this.elements.locate);
+    this.elements.avoid = new Avoid(
+      this.canvas,
+      this.elements.door,
+      this.elements.loseTransition
+    );
 
-    this.elements.door.games.push(this.elements.fighter, this.elements.locate);
+    // add all games to Door obj for transitions
+    this.elements.door.games.push(this.elements.avoid);
+
+    // this.elements.door.games.push(this.elements.fighter, this.elements.locate);
   }
 
   addButton(text, pos, size, fn) {
