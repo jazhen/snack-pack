@@ -23,29 +23,26 @@ class AvoidSelf {
   }
 
   update() {
-    // if (
-    //   this.x + this.dx > window.BASE_WIDTH - this.radius ||
-    //   this.x + this.dx < this.radius
-    // ) {
-    //   this.dx = -this.dx;
-    // }
-    // if (
-    //   this.y + this.dy > window.BASE_HEIGHT - this.radius ||
-    //   this.y + this.dy < this.radius
-    // ) {
-    //   this.dy = -this.dy;
-    // }
-
-    // this.x += this.dx;
-    // this.y += this.dy;
     if (this.up) {
-      this.y -= 2;
+      this.y += this.dy;
+      if (this.y - this.radius < 0) {
+        this.y = this.radius;
+      }
     } else if (this.down) {
-      this.y += 2;
+      this.y -= this.dy;
+      if (this.y + this.radius > window.BASE_HEIGHT) {
+        this.y = window.BASE_HEIGHT - this.radius;
+      }
     } else if (this.left) {
-      this.x -= 2;
+      this.x -= this.dx;
+      if (this.x - this.radius < 0) {
+        this.x = this.radius;
+      }
     } else if (this.right) {
-      this.x += 2;
+      this.x += this.dx;
+      if (this.x + this.radius > window.BASE_WIDTH) {
+        this.x = window.BASE_WIDTH - this.radius;
+      }
     }
   }
 }
