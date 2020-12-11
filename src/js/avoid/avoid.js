@@ -1,4 +1,5 @@
 import AvoidEnemy from './avoid_enemy';
+import AvoidSelf from './avoid_self';
 
 class Avoid {
   constructor(canvas, door, loseTransition) {
@@ -9,7 +10,35 @@ class Avoid {
     this.transitionText = 'avoid';
     this.fps = 48;
 
+    this.self = null;
     this.enemies = [];
+
+    this.keyDownHandler = this.keyDownHandler.bind(this);
+    this.keyUpHandler = this.keyUpHandler.bind(this);
+  }
+
+  keyDownHandler(e) {
+    if (e.key === 'w') {
+      this.self.up = true;
+    } else if (e.key === 'a') {
+      this.self.left = true;
+    } else if (e.key === 's') {
+      this.self.down = true;
+    } else if (e.key === 'd') {
+      this.self.right = true;
+    }
+  }
+
+  keyUpHandler(e) {
+    if (e.key === 'w') {
+      this.self.up = false;
+    } else if (e.key === 'a') {
+      this.self.left = false;
+    } else if (e.key === 's') {
+      this.self.down = false;
+    } else if (e.key === 'd') {
+      this.self.right = false;
+    }
   }
 
   play() {
@@ -25,6 +54,10 @@ class Avoid {
         lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
 
         this.canvas.clear();
+
+        this.self.draw();
+        this.self.update();
+
         this.enemies.forEach((enemy) => {
           enemy.draw();
           enemy.update();
@@ -32,11 +65,18 @@ class Avoid {
       }
     };
 
+    // set up on screen elements
+    this.self = new AvoidSelf(this.canvas);
     this.enemies.push(new AvoidEnemy(this.canvas));
     this.enemies.push(new AvoidEnemy(this.canvas));
     this.enemies.push(new AvoidEnemy(this.canvas));
     this.enemies.push(new AvoidEnemy(this.canvas));
     this.enemies.push(new AvoidEnemy(this.canvas));
+
+    // add movement eventlisteners
+    document.addEventListener('keydown', this.keyDownHandler, false);
+    document.addEventListener('keyup', this.keyUpHandler, false);
+
     animate();
   }
 }
