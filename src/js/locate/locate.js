@@ -1,9 +1,15 @@
 import Animal from './animal';
 
 class Locate {
-  constructor(canvas, door, { locate, locateBackground, wanted }) {
+  constructor(
+    canvas,
+    door,
+    loseTransition,
+    { locate, locateBackground, wanted }
+  ) {
     this.canvas = canvas;
     this.door = door;
+    this.loseTransition = loseTransition;
     this.assets = { locate, locateBackground, wanted };
 
     this.animals = {};
@@ -18,6 +24,12 @@ class Locate {
     this.win = this.win.bind(this);
 
     this.transitionText = 'find';
+
+    this.fps = 1;
+
+    this.timeLeft = 5;
+    this.countDownCounter = 0;
+    this.stopTimer = false;
   }
 
   draw() {
@@ -56,10 +68,44 @@ class Locate {
     });
   }
 
-  win() {
-    cancelAnimationFrame(window.requestAnimationFrameId);
+  lose() {
+    this.stopTimer = true;
     this.canvas.canvas.removeEventListener('click', this.handleClick, false);
-    this.door.animate();
+
+    setTimeout(() => {
+      cancelAnimationFrame(window.requestAnimationFrameId);
+      this.loseTransition.animate();
+    }, 3000);
+  }
+
+  countDown() {
+    this.countDownCounter += 1;
+
+    if (this.countDownCounter > this.fps && !this.stopTimer) {
+      this.timeLeft -= 1;
+      this.countDownCounter = 0;
+    }
+
+    this.canvas.drawText(
+      `${this.timeLeft}`,
+      370 * this.canvas.scaleFactor,
+      30 * this.canvas.scaleFactor,
+      24
+    );
+
+    if (!this.timeLeft) {
+      this.lose();
+    }
+  }
+
+  win() {
+    this.stopTimer = true;
+    this.canvas.canvas.removeEventListener('click', this.handleClick, false);
+
+    setTimeout(() => {
+      cancelAnimationFrame(window.requestAnimationFrameId);
+      this.door.animate();
+    }, 3000);
   }
 
   handleClick(e) {
@@ -123,10 +169,15 @@ class Locate {
     }
   }
 
+  reset() {
+    this.stopTimer = false;
+    this.timeLeft = 5;
+    this.countDownCounter = 0;
+  }
+
   play() {
     let lastDrawTime = performance.now();
-    const fps = 1;
-    const fpsInterval = 1000 / fps;
+    const fpsInterval = 1000 / this.fps;
 
     // reset
     this.animals = {};
@@ -148,9 +199,11 @@ class Locate {
 
         this.canvas.clear();
         this.draw();
+        this.countDown();
       }
     };
 
+    this.reset();
     animate();
     this.canvas.canvas.addEventListener('click', this.handleClick, false);
   }

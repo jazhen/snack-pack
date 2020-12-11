@@ -4,7 +4,7 @@ import Canvas from './canvas';
 import Door from './door';
 import Fighter from './fighter';
 import Locate from './locate/locate';
-// import fade from './transitions';
+import LoseTransition from './lose';
 
 class Game {
   constructor() {
@@ -83,16 +83,23 @@ class Game {
 
     // game elements
     this.elements.door = new Door(this.canvas, this.assets.assets);
+    this.elements.loseTransition = new LoseTransition(
+      this.mainMenu,
+      this.canvas,
+      this.assets.assets
+    );
 
     this.elements.fighter = new Fighter(
       this.canvas,
       this.elements.door,
+      this.elements.loseTransition,
       this.assets.assets
     );
 
     this.elements.locate = new Locate(
       this.canvas,
       this.elements.door,
+      this.elements.loseTransition,
       this.assets.assets
     );
 

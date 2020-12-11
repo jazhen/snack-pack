@@ -19,10 +19,12 @@ class Fighter {
   constructor(
     canvas,
     door,
+    loseTransition,
     { fighterSelf, fighterOpponent, fighterBackground }
   ) {
     this.canvas = canvas;
     this.door = door;
+    this.loseTransition = loseTransition;
     this.assets = { fighterSelf, fighterOpponent, fighterBackground };
 
     this.transitionText = 'win';
@@ -131,9 +133,10 @@ class Fighter {
     this.fps = 24;
 
     this.punchCounter = 0;
-    this.countDownCounter = 0;
-    this.timeLeft = 5;
+    this.punchTarget = 10;
 
+    this.timeLeft = 5;
+    this.countDownCounter = 0;
     this.stopTimer = false;
   }
 
@@ -145,18 +148,18 @@ class Fighter {
 
   lose() {
     this.stopTimer = true;
+    document.removeEventListener('keydown', this.handleKeyDown, false);
 
     setTimeout(() => {
       cancelAnimationFrame(window.requestAnimationFrameId);
-      document.removeEventListener('keydown', this.handleKeyDown, false);
-      this.door.animate();
+      this.loseTransition.animate();
     }, 3000);
   }
 
   countDown() {
     this.countDownCounter += 1;
 
-    if (this.countDownCounter > this.fps * 1 && !this.stopTimer) {
+    if (this.countDownCounter > this.fps && !this.stopTimer) {
       this.timeLeft -= 1;
       this.countDownCounter = 0;
     }
@@ -164,11 +167,11 @@ class Fighter {
     this.canvas.drawText(
       `${this.timeLeft}`,
       370 * this.canvas.scaleFactor,
-      20 * this.canvas.scaleFactor,
+      30 * this.canvas.scaleFactor,
       24
     );
 
-    if (this.timeLeft < 1) {
+    if (!this.timeLeft) {
       this.lose();
     }
   }
@@ -254,7 +257,7 @@ class Fighter {
   }
 
   update() {
-    if (this.punchCounter < 10) {
+    if (this.punchCounter < this.punchTarget) {
       // if did not reach target click amount and finished attack animation
       // then switch to default animations
       if (
@@ -301,18 +304,21 @@ class Fighter {
     }
   }
 
-  play() {
-    let lastDrawTime = performance.now();
-    const fpsInterval = 1000 / this.fps;
-
-    // reset animations
-    this.punchCounter = 0;
+  reset() {
     this.opponent.action = 'dizzy';
     this.opponent.actions.dizzy();
+
+    this.punchCounter = 0;
+    this.punchTarget = 10;
 
     this.stopTimer = false;
     this.timeLeft = 5;
     this.countDownCounter = 0;
+  }
+
+  play() {
+    let lastDrawTime = performance.now();
+    const fpsInterval = 1000 / this.fps;
 
     const animate = () => {
       window.requestAnimationFrameId = requestAnimationFrame(animate);
@@ -326,13 +332,12 @@ class Fighter {
           this.update();
         }
         this.canvas.clear();
-        this.canvas.drawBackground('gray');
         this.draw();
-
         this.countDown();
       }
     };
 
+    this.reset();
     document.addEventListener('keydown', this.handleKeyDown, false);
     animate();
   }
