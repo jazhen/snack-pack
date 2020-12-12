@@ -125,7 +125,7 @@ class Fighter {
     this.punchCounter = 0;
     this.punchTarget = 10;
 
-    this.timeLeft = 5;
+    this.timeLeft = 10;
     this.countDownCounter = 0;
     this.stopTimer = false;
   }
@@ -242,6 +242,7 @@ class Fighter {
     setTimeout(() => {
       cancelAnimationFrame(window.requestAnimationFrameId);
       document.removeEventListener('keydown', this.handleKeyDown, false);
+      window.ROUND_NUM += 1;
       window.gameTransition.animate();
     }, 3000);
   }
@@ -267,14 +268,14 @@ class Fighter {
 
   handleKeyDown(e) {
     function validKeyDown() {
-      return !e.repeat && e.key === 'z';
+      return !e.repeat && e.key === ' ';
     }
 
     e.preventDefault();
 
     if (validKeyDown()) {
       this.punchCounter += 1;
-      console.log(this.punchCounter);
+      // console.log(this.punchCounter);
 
       if (this.self.action === 'idle' && this.opponent.action !== 'ko') {
         this.self.action = this.randomAttack();
@@ -299,10 +300,11 @@ class Fighter {
     this.opponent.actions.dizzy();
 
     this.punchCounter = 0;
-    this.punchTarget = 10;
+    this.punchTarget = 10 + Math.floor(window.ROUND_NUM / 3) * 5;
+    console.log(`punchTarget: ${this.punchTarget}`);
 
     this.stopTimer = false;
-    this.timeLeft = 5;
+    this.timeLeft = 10;
     this.countDownCounter = 0;
 
     document.addEventListener('keydown', this.handleKeyDown, false);
@@ -320,12 +322,15 @@ class Fighter {
       if (timeSinceLastDraw > fpsInterval) {
         lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
 
+        window.canvas.clear();
         if (this.opponent.action !== 'ko') {
           this.update();
         }
-        window.canvas.clear();
         this.draw();
-        this.countDown();
+
+        if (window.ROUND_NUM >= window.gameTransition.games.length) {
+          this.countDown();
+        }
       }
     };
 

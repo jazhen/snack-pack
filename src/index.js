@@ -13,6 +13,7 @@ const game = new Game();
 window.requestAnimationFrameId = null;
 window.BASE_WIDTH = 400;
 window.BASE_HEIGHT = 300;
+window.ROUND_NUM = 0;
 window.assets = {};
 window.canvas = new Canvas();
 window.gameTransition = new GameTransition();

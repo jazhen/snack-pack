@@ -81,6 +81,7 @@ class Avoid {
     this.stopTimer = true;
 
     setTimeout(() => {
+      window.ROUND_NUM += 1;
       window.gameTransition.animate();
     }, 3000);
   }
@@ -120,7 +121,9 @@ class Avoid {
 
     // enemies
     this.enemies = [];
-    this.numEnemies = 10;
+    this.numEnemies = 1 + Math.floor(window.ROUND_NUM / 6);
+
+    console.log(`${this.numEnemies}`);
 
     // set up on screen elements
     this.self = new AvoidSelf();

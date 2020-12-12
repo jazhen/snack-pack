@@ -8,6 +8,7 @@ class Locate {
     this.currentNumAnimals = 0;
 
     this.numAnimalTypes = 9;
+    this.maxRequiredAnimals = 36;
     this.maxGridSpots = 40;
 
     this.handleClick = this.handleClick.bind(this);
@@ -94,6 +95,7 @@ class Locate {
 
     setTimeout(() => {
       cancelAnimationFrame(window.requestAnimationFrameId);
+      window.ROUND_NUM += 1;
       window.gameTransition.animate();
     }, 3000);
   }
@@ -164,21 +166,26 @@ class Locate {
     this.stopTimer = false;
     this.timeLeft = 5;
     this.countDownCounter = 0;
+
+    // reset
+    this.animals = {};
+    this.requiredNumAnimals = 3 + Math.floor(window.ROUND_NUM / 3) * 2;
+    if (this.requiredNumAnimals > this.maxRequiredAnimals) {
+      this.requiredNumAnimals = this.maxRequiredAnimals;
+    }
+    console.log(`requiredNumAnimals: ${this.requiredNumAnimals}`);
+    this.currentNumAnimals = 0;
+
+    // set up the match animal (unique)
+    this.setMatchAnimal();
+    this.setNonMatchAnimal();
   }
 
   play() {
     let lastDrawTime = performance.now();
     const fpsInterval = 1000 / this.fps;
 
-    // reset
-    this.animals = {};
-    // maxGridSpots - wanted poster spots
-    this.requiredNumAnimals = 5;
-    this.currentNumAnimals = 0;
-
-    // set up the match animal (unique)
-    this.setMatchAnimal();
-    this.setNonMatchAnimal();
+    this.reset();
 
     const animate = () => {
       window.requestAnimationFrameId = requestAnimationFrame(animate);
@@ -190,7 +197,10 @@ class Locate {
 
         window.canvas.clear();
         this.draw();
-        this.countDown();
+
+        if (window.ROUND_NUM >= window.gameTransition.games.length) {
+          this.countDown();
+        }
       }
     };
 

@@ -41,6 +41,7 @@ class Game {
   setUpElements() {
     this.addButton('play', [110, 105], [180, 30], () => {
       cancelAnimationFrame(window.requestAnimationFrameId);
+      window.ROUND_NUM = 0;
       window.gameTransition.animate();
       window.canvas.canvas.removeEventListener(
         'click',

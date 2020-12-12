@@ -65,7 +65,12 @@ class GameTransition {
   }
 
   animate() {
-    this.nextGame = this.randomGame();
+    if (window.ROUND_NUM < this.games.length) {
+      this.nextGame = this.games[window.ROUND_NUM];
+    } else {
+      this.nextGame = this.randomGame();
+    }
+
     let lastDrawTime = performance.now();
     const fps = 2;
     const fpsInterval = 1000 / fps;

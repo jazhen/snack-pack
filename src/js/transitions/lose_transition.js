@@ -43,15 +43,27 @@ class LoseTransition {
       window.canvas.width
     );
 
-    window.canvas.drawText(
-      'you lasted x rounds',
-      window.canvas.width / 2,
-      300,
-      16,
-      'white',
-      'black',
-      window.canvas.width
-    );
+    if (window.ROUND_NUM === 1) {
+      window.canvas.drawText(
+        `you lasted ${window.ROUND_NUM} round`,
+        window.canvas.width / 2,
+        300,
+        16,
+        'white',
+        'black',
+        window.canvas.width
+      );
+    } else {
+      window.canvas.drawText(
+        `you lasted ${window.ROUND_NUM} rounds`,
+        window.canvas.width / 2,
+        300,
+        16,
+        'white',
+        'black',
+        window.canvas.width
+      );
+    }
   }
 
   update() {

@@ -1,7 +1,7 @@
 class AvoidEnemy {
   constructor() {
     this.setPosition();
-    this.radius = 20;
+    this.radius = 15;
     this.setVelocity();
   }
 
@@ -19,8 +19,11 @@ class AvoidEnemy {
   }
 
   setVelocity() {
-    this.dx = Math.floor(Math.random() * 1) + 1;
-    this.dy = Math.floor(Math.random() * 1) + 1;
+    const maxSpeed = 1 + Math.floor(window.ROUND_NUM / 12);
+    console.log(`max speed: ${maxSpeed}`);
+
+    this.dx = Math.floor(Math.random() * maxSpeed) + 1;
+    this.dy = Math.floor(Math.random() * maxSpeed) + 1;
     const negativedx = Math.floor(Math.random() * 1);
     const negativedy = Math.floor(Math.random() * 1);
 
