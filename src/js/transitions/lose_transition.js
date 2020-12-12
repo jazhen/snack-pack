@@ -63,7 +63,7 @@ class LoseTransition {
 
     this.framesCounter += 1;
 
-    if (this.framesCounter > this.fps * 3) {
+    if (this.framesCounter > this.fps * 5) {
       cancelAnimationFrame(window.requestAnimationFrameId);
       this.mainMenu();
     }

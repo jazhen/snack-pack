@@ -117,12 +117,15 @@ class Avoid {
     this.stopTimer = false;
     this.timeLeft = 5;
     this.countDownCounter = 0;
-    this.numEnemies = 5;
+
+    // enemies
+    this.enemies = [];
+    this.numEnemies = 10;
 
     // set up on screen elements
-    this.self = new AvoidSelf(window.canvas);
+    this.self = new AvoidSelf();
     for (let i = 0; i < this.numEnemies; i++) {
-      this.enemies.push(new AvoidEnemy(window.canvas));
+      this.enemies.push(new AvoidEnemy());
     }
 
     // add movement eventlisteners
@@ -144,13 +147,13 @@ class Avoid {
 
         window.canvas.clear();
 
+        this.self.draw();
+        this.self.update();
+
         this.enemies.forEach((enemy) => {
           enemy.draw();
           enemy.update();
         });
-
-        this.self.draw();
-        this.self.update();
 
         this.checkCollisions();
         this.countDown();

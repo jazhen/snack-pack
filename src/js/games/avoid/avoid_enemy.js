@@ -1,10 +1,36 @@
 class AvoidEnemy {
-  constructor(x, y, radius = 10, dx = 2, dy = -2) {
+  constructor() {
+    this.setPosition();
+    this.radius = 20;
+    this.setVelocity();
+  }
+
+  setPosition() {
     this.x = Math.floor(Math.random() * window.BASE_WIDTH);
     this.y = Math.floor(Math.random() * window.BASE_HEIGHT);
-    this.radius = radius;
-    this.dx = dx;
-    this.dy = dy;
+
+    while (this.x > 150 && this.x < 250) {
+      this.x = Math.floor(Math.random() * window.BASE_WIDTH);
+    }
+
+    while (this.y > 100 && this.y < 200) {
+      this.y = Math.floor(Math.random() * window.BASE_HEIGHT);
+    }
+  }
+
+  setVelocity() {
+    this.dx = Math.floor(Math.random() * 1) + 1;
+    this.dy = Math.floor(Math.random() * 1) + 1;
+    const negativedx = Math.floor(Math.random() * 1);
+    const negativedy = Math.floor(Math.random() * 1);
+
+    if (negativedx) {
+      this.dx = -this.dx;
+    }
+
+    if (negativedy) {
+      this.dy = -this.dy;
+    }
   }
 
   draw() {

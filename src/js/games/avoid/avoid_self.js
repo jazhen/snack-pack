@@ -1,10 +1,10 @@
 class AvoidSelf {
-  constructor(x, y, radius = 10, dx = 5, dy = -5) {
+  constructor() {
     this.x = window.BASE_WIDTH / 2;
     this.y = window.BASE_HEIGHT / 2;
-    this.radius = radius;
-    this.dx = dx;
-    this.dy = dy;
+    this.radius = 10;
+    this.dx = 5;
+    this.dy = -5;
 
     // movement
     this.up = false;
