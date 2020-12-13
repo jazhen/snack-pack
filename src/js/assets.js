@@ -12,6 +12,7 @@ class Assets {
       'locateBackground',
       'wanted',
       'lose',
+      'ghost',
     ];
     this.mainMenu = mainMenu;
     this.numAssets = this.filenames.length;

@@ -17,6 +17,7 @@ window.ROUND_NUM = 0;
 window.assets = {};
 window.canvas = new Canvas();
 window.gameTransition = new GameTransition();
+// window.gameTransition.games.push(new Avoid());
 window.gameTransition.games.push(new Fighter(), new Locate(), new Avoid());
 window.loseTransition = new LoseTransition(game.mainMenu);
 
