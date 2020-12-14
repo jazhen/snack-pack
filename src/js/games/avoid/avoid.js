@@ -142,6 +142,16 @@ class Avoid {
     let lastDrawTime = performance.now();
     const fpsInterval = 1000 / this.fps;
 
+    const draw = () => {
+      window.canvas.drawImage(
+        window.assets.avoidBackground,
+        0,
+        0,
+        window.canvas.width,
+        window.canvas.height
+      );
+    };
+
     const animate = () => {
       window.requestAnimationFrameId = requestAnimationFrame(animate);
       const currentTime = performance.now();
@@ -152,6 +162,7 @@ class Avoid {
 
         window.canvas.clear();
 
+        draw();
         this.self.draw();
         this.self.update();
 

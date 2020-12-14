@@ -14,6 +14,7 @@ class Assets {
       'lose',
       'avoidSelf',
       'avoidEnemy',
+      'avoidBackground',
     ];
     this.mainMenu = mainMenu;
     this.numAssets = this.filenames.length;
