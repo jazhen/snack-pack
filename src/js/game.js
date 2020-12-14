@@ -1,5 +1,6 @@
 import Assets from './assets';
 import Button from './button';
+import ClickableImage from './clickable_image';
 
 class Game {
   constructor() {
@@ -21,7 +22,7 @@ class Game {
 
     Object.keys(this.buttons).forEach((key) => {
       const element = this.buttons[key];
-      if (element instanceof Button) {
+      if (element instanceof Button || element instanceof ClickableImage) {
         element.mouseDown(mouse);
       }
     });
@@ -71,6 +72,39 @@ class Game {
         window.audio.currentTime = 0;
       }
     });
+
+    this.buttons.github = new ClickableImage(
+      window.assets.github,
+      10,
+      260,
+      32,
+      32,
+      () => {
+        window.open('https://github.com/jazhen', '_blank');
+      }
+    );
+
+    this.buttons.linkedin = new ClickableImage(
+      window.assets.linkedin,
+      45,
+      260,
+      32,
+      32,
+      () => {
+        window.open('https://www.linkedin.com/in/jazhen/', '_blank');
+      }
+    );
+
+    this.buttons.angelist = new ClickableImage(
+      window.assets.angelist,
+      80,
+      260,
+      32,
+      32,
+      () => {
+        window.open('https://angel.co/u/jazhen', '_blank');
+      }
+    );
   }
 
   instructions() {
@@ -157,6 +191,10 @@ class Game {
         window.BASE_WIDTH,
         window.BASE_HEIGHT
       );
+
+      this.buttons.github.draw();
+      this.buttons.linkedin.draw();
+      this.buttons.angelist.draw();
 
       if (this.showInstructions) {
         this.instructions();

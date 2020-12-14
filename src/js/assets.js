@@ -18,6 +18,9 @@ class Assets {
       'controlsSpace',
       'controlsWASD',
       'controlsMouse',
+      'github',
+      'linkedin',
+      'angelist',
     ];
     this.mainMenu = mainMenu;
     this.numAssets = this.filenames.length;
