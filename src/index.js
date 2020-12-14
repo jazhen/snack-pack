@@ -11,13 +11,13 @@ import Avoid from './js/games/avoid/avoid';
 const game = new Game();
 
 window.requestAnimationFrameId = null;
+window.audio = document.querySelector('#audio');
 window.BASE_WIDTH = 400;
 window.BASE_HEIGHT = 300;
 window.ROUND_NUM = 0;
 window.assets = {};
 window.canvas = new Canvas();
 window.gameTransition = new GameTransition();
-// window.gameTransition.games.push(new Avoid());
 window.gameTransition.games.push(new Fighter(), new Locate(), new Avoid());
 window.loseTransition = new LoseTransition(game.mainMenu);
 

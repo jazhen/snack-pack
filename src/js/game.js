@@ -62,6 +62,15 @@ class Game {
         this.showInstructions = false;
       }
     );
+
+    this.addButton('unmute', [290, 5], [100, 30], () => {
+      if (window.audio.paused) {
+        window.audio.play();
+      } else {
+        window.audio.pause();
+        window.audio.currentTime = 0;
+      }
+    });
   }
 
   instructions() {
@@ -154,6 +163,14 @@ class Game {
       } else {
         this.buttons.playButton.draw();
         this.buttons.instructionsButton.draw();
+      }
+
+      this.buttons.unmuteButton.draw();
+
+      if (window.audio.paused) {
+        this.buttons.unmuteButton.text = 'unmute';
+      } else {
+        this.buttons.unmuteButton.text = 'mute';
       }
     };
 

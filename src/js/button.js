@@ -46,6 +46,7 @@ class Button {
 
   mouseDown(mouse) {
     if (this.clicked(mouse)) {
+      // debugger;
       this.fn();
     }
   }
