@@ -76,12 +76,23 @@ class AvoidEnemy {
     // }
 
     // bouncing off walls
+    if (this.x + this.dx > window.BASE_WIDTH - this.radius) {
+      this.dx = -this.dx;
+      this.frame.y = 0;
+    }
+
     if (
       this.x + this.dx > window.BASE_WIDTH - this.radius ||
       this.x + this.dx < this.radius
     ) {
       this.dx = -this.dx;
     }
+
+    if (this.y + this.dy > window.BASE_HEIGHT - this.radius) {
+      this.dy = -this.dy;
+      this.frame.y = 1;
+    }
+
     if (
       this.y + this.dy > window.BASE_HEIGHT - this.radius ||
       this.y + this.dy < this.radius
