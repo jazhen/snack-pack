@@ -58,7 +58,7 @@ class AvoidEnemy {
     // window.canvas.ctx.closePath();
 
     window.canvas.drawAnimation(
-      window.assets.ghost,
+      window.assets.avoidEnemy,
       this.size.width * this.frame.x,
       this.size.height * this.frame.y,
       this.size.width,
@@ -72,11 +72,11 @@ class AvoidEnemy {
 
   update() {
     // animation;
-    if (this.frame.x < this.frame.max) {
-      this.frame.x += 1;
-    } else {
-      this.frame.x = this.frame.min;
-    }
+    // if (this.frame.x < this.frame.max) {
+    //   this.frame.x += 1;
+    // } else {
+    //   this.frame.x = this.frame.min;
+    // }
 
     // bouncing off walls
     if (

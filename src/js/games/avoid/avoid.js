@@ -89,7 +89,7 @@ class Avoid {
   checkCollisions() {
     const collide = (obj1, obj2) => {
       const centerDist = Math.sqrt(
-        (obj1.x - obj2.x) ** 2 + (obj1.y - obj2.y) ** 2
+        (obj1.pos.x - obj2.x) ** 2 + (obj1.pos.y - obj2.y) ** 2
       );
 
       return centerDist < obj1.radius + obj2.radius;
@@ -97,25 +97,27 @@ class Avoid {
 
     this.enemies.forEach((enemy) => {
       if (collide(this.self, enemy)) {
+        console.log('collision');
         this.lose();
       }
     });
 
-    for (let i = 0; i < this.enemies.length; i++) {
-      for (let j = 0; j < this.enemies.length; j++) {
-        const obj1 = this.enemies[i];
-        const obj2 = this.enemies[j];
+    // for (let i = 0; i < this.enemies.length; i++) {
+    //   for (let j = 0; j < this.enemies.length; j++) {
+    //     const obj1 = this.enemies[i];
+    //     const obj2 = this.enemies[j];
 
-        if (obj1 !== obj2 && collide(obj1, obj2)) {
-          console.log('enemy collision detected');
-        }
-      }
-    }
+    //     if (obj1 !== obj2 && collide(obj1, obj2)) {
+    //       console.log('enemy collision detected');
+    //     }
+    //   }
+    // }
   }
 
   reset() {
     // timer
     this.stopTimer = false;
+    // this.timeLeft = 9999;
     this.timeLeft = 5;
     this.countDownCounter = 0;
 
