@@ -73,11 +73,13 @@ class AvoidSelf {
       }
     }
 
-    // animation;
-    if (this.frame.x < this.frame.max) {
-      this.frame.x += 1;
-    } else {
-      this.frame.x = this.frame.min;
+    // animation
+    if (this.left || this.right) {
+      if (this.frame.x < this.frame.max) {
+        this.frame.x += 1;
+      } else {
+        this.frame.x = this.frame.min;
+      }
     }
   }
 }

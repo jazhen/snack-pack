@@ -116,8 +116,7 @@ class Avoid {
   reset() {
     // timer
     this.stopTimer = false;
-    // this.timeLeft = 9999;
-    this.timeLeft = 99;
+    this.timeLeft = 5;
     this.countDownCounter = 0;
 
     // enemies
