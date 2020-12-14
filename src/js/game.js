@@ -57,28 +57,19 @@ class Game {
 
     this.addButton(
       'back',
-      [(window.canvas.width - 80) / 2, 265],
+      [(window.canvas.width - 80) / 2, 225],
       [80, 30],
       () => {
         this.showInstructions = false;
       }
     );
 
-    // this.addButton('unmute', [290, 5], [100, 30], () => {
-    //   if (window.audio.paused) {
-    //     window.audio.play();
-    //   } else {
-    //     window.audio.pause();
-    //     window.audio.currentTime = 0;
-    //   }
-    // });
-
     this.buttons.speaker = new ClickableImage(
       window.assets.speaker,
-      360,
+      370,
       5,
-      32,
-      32,
+      window.canvas.baseFontSize * 1.5,
+      window.canvas.baseFontSize * 1.5,
       () => {
         if (window.audio.paused) {
           window.audio.play();
@@ -89,24 +80,12 @@ class Game {
       }
     );
 
-    // this.buttons.mute = new ClickableImage(
-    //   window.assets.mute,
-    //   360,
-    //   5,
-    //   32,
-    //   32,
-    //   () => {
-    //     window.audio.pause();
-    //     window.audio.currentTime = 0;
-    //   }
-    // );
-
     this.buttons.github = new ClickableImage(
       window.assets.github,
-      10,
-      260,
-      32,
-      32,
+      window.BASE_WIDTH / 2 - 45,
+      270,
+      window.canvas.baseFontSize * 1.5,
+      window.canvas.baseFontSize * 1.5,
       () => {
         window.open('https://github.com/jazhen', '_blank');
       }
@@ -114,10 +93,10 @@ class Game {
 
     this.buttons.linkedin = new ClickableImage(
       window.assets.linkedin,
-      45,
-      260,
-      32,
-      32,
+      window.BASE_WIDTH / 2 - 10,
+      270,
+      window.canvas.baseFontSize * 1.5,
+      window.canvas.baseFontSize * 1.5,
       () => {
         window.open('https://www.linkedin.com/in/jazhen/', '_blank');
       }
@@ -125,10 +104,10 @@ class Game {
 
     this.buttons.angelist = new ClickableImage(
       window.assets.angelist,
-      80,
-      260,
-      32,
-      32,
+      window.BASE_WIDTH / 2 + 23,
+      270,
+      window.canvas.baseFontSize * 1.5,
+      window.canvas.baseFontSize * 1.5,
       () => {
         window.open('https://angel.co/u/jazhen', '_blank');
       }
@@ -139,7 +118,7 @@ class Game {
     window.canvas.drawText(
       'play through a rotating, random',
       window.canvas.width / 2,
-      60 * window.canvas.scaleFactor,
+      90 * window.canvas.scaleFactor,
       window.canvas.baseFontSize * 0.75,
       'white',
       'black',
@@ -149,7 +128,7 @@ class Game {
     window.canvas.drawText(
       'assortment of microgames.',
       window.canvas.width / 2,
-      80 * window.canvas.scaleFactor,
+      110 * window.canvas.scaleFactor,
       window.canvas.baseFontSize * 0.75,
       'white',
       'black',
@@ -159,7 +138,7 @@ class Game {
     window.canvas.drawText(
       'wasd to move.',
       window.canvas.width / 2,
-      120 * window.canvas.scaleFactor,
+      150 * window.canvas.scaleFactor,
       window.canvas.baseFontSize * 0.75,
       'white',
       'black',
@@ -169,7 +148,7 @@ class Game {
     window.canvas.drawText(
       'spacebar as the action button.',
       window.canvas.width / 2,
-      140 * window.canvas.scaleFactor,
+      170 * window.canvas.scaleFactor,
       window.canvas.baseFontSize * 0.75,
       'white',
       'black',
@@ -179,7 +158,7 @@ class Game {
     window.canvas.drawText(
       'mouse to select.',
       window.canvas.width / 2,
-      160 * window.canvas.scaleFactor,
+      190 * window.canvas.scaleFactor,
       window.canvas.baseFontSize * 0.75,
       'white',
       'black',
@@ -222,30 +201,27 @@ class Game {
 
       const gradient = window.canvas.ctx.createLinearGradient(0, 20, 0, 60);
       gradient.addColorStop('0', 'black');
-      gradient.addColorStop('0.35', 'blue');
-      gradient.addColorStop('0.50', 'green');
-      gradient.addColorStop('0.75', 'red');
+      gradient.addColorStop('0.05', 'red');
       gradient.addColorStop('1.00', 'gold');
 
       window.canvas.drawText(
         'SNACK PACK',
         window.canvas.width / 2,
-        60 * window.canvas.scaleFactor,
-        window.canvas.baseFontSize * 1.5,
+        40 * window.canvas.scaleFactor,
+        window.canvas.baseFontSize * 2,
         gradient,
         'black',
         window.canvas.width
       );
-
-      this.buttons.github.draw();
-      this.buttons.linkedin.draw();
-      this.buttons.angelist.draw();
 
       if (this.showInstructions) {
         this.instructions();
       } else {
         this.buttons.playButton.draw();
         this.buttons.instructionsButton.draw();
+        this.buttons.github.draw();
+        this.buttons.linkedin.draw();
+        this.buttons.angelist.draw();
       }
 
       if (window.audio.paused) {
