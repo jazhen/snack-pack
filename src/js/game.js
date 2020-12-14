@@ -192,6 +192,23 @@ class Game {
         window.BASE_HEIGHT
       );
 
+      const gradient = window.canvas.ctx.createLinearGradient(0, 20, 0, 60);
+      gradient.addColorStop('0', 'black');
+      gradient.addColorStop('0.35', 'blue');
+      gradient.addColorStop('0.50', 'green');
+      gradient.addColorStop('0.75', 'red');
+      gradient.addColorStop('1.00', 'gold');
+
+      window.canvas.drawText(
+        'SNACK PACK',
+        window.canvas.width / 2,
+        60 * window.canvas.scaleFactor,
+        window.canvas.baseFontSize * 1.5,
+        gradient,
+        'black',
+        window.canvas.width
+      );
+
       this.buttons.github.draw();
       this.buttons.linkedin.draw();
       this.buttons.angelist.draw();

@@ -36,7 +36,6 @@ class ClickableImage {
 
   mouseDown(mouse) {
     if (this.clicked(mouse)) {
-      console.log('clicked');
       this.fn();
     }
   }
