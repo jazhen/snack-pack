@@ -91,8 +91,8 @@ class GameTransition {
       this.frame.x += 1;
     } else {
       cancelAnimationFrame(window.requestAnimationFrameId);
-      this.frame.x = this.frame.min;
       this.nextGame.play();
+      this.frame.x = this.frame.min;
     }
   }
 
