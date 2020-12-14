@@ -57,21 +57,49 @@ class Game {
 
     this.addButton(
       'back',
-      [(window.canvas.width - 80) / 2, window.canvas.baseFontSize * 15],
+      [(window.canvas.width - 80) / 2, 265],
       [80, 30],
       () => {
         this.showInstructions = false;
       }
     );
 
-    this.addButton('unmute', [290, 5], [100, 30], () => {
-      if (window.audio.paused) {
-        window.audio.play();
-      } else {
-        window.audio.pause();
-        window.audio.currentTime = 0;
+    // this.addButton('unmute', [290, 5], [100, 30], () => {
+    //   if (window.audio.paused) {
+    //     window.audio.play();
+    //   } else {
+    //     window.audio.pause();
+    //     window.audio.currentTime = 0;
+    //   }
+    // });
+
+    this.buttons.speaker = new ClickableImage(
+      window.assets.speaker,
+      360,
+      5,
+      32,
+      32,
+      () => {
+        if (window.audio.paused) {
+          window.audio.play();
+        } else {
+          window.audio.pause();
+          window.audio.currentTime = 0;
+        }
       }
-    });
+    );
+
+    // this.buttons.mute = new ClickableImage(
+    //   window.assets.mute,
+    //   360,
+    //   5,
+    //   32,
+    //   32,
+    //   () => {
+    //     window.audio.pause();
+    //     window.audio.currentTime = 0;
+    //   }
+    // );
 
     this.buttons.github = new ClickableImage(
       window.assets.github,
@@ -220,13 +248,13 @@ class Game {
         this.buttons.instructionsButton.draw();
       }
 
-      this.buttons.unmuteButton.draw();
-
       if (window.audio.paused) {
-        this.buttons.unmuteButton.text = 'unmute';
+        this.buttons.speaker.image = window.assets.mute;
       } else {
-        this.buttons.unmuteButton.text = 'mute';
+        this.buttons.speaker.image = window.assets.speaker;
       }
+
+      this.buttons.speaker.draw();
     };
 
     const update = () => {

@@ -21,6 +21,8 @@ class Assets {
       'github',
       'linkedin',
       'angelist',
+      'speaker',
+      'mute',
     ];
     this.mainMenu = mainMenu;
     this.numAssets = this.filenames.length;
