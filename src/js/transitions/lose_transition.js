@@ -36,32 +36,29 @@ class LoseTransition {
     window.canvas.drawText(
       'game over',
       window.canvas.width / 2,
-      200,
+      60 * window.canvas.scaleFactor,
       32,
       'white',
-      'black',
-      window.canvas.width
+      'black'
     );
 
     if (window.ROUND_NUM === 1) {
       window.canvas.drawText(
         `you survived ${window.ROUND_NUM} round`,
         window.canvas.width / 2,
-        300,
+        100 * window.canvas.scaleFactor,
         16,
         'white',
-        'black',
-        window.canvas.width
+        'black'
       );
     } else {
       window.canvas.drawText(
         `you survived ${window.ROUND_NUM} rounds`,
         window.canvas.width / 2,
-        300,
+        100 * window.canvas.scaleFactor,
         16,
         'white',
-        'black',
-        window.canvas.width
+        'black'
       );
     }
   }

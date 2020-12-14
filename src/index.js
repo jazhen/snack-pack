@@ -22,9 +22,9 @@ window.gameTransition.games.push(new Fighter(), new Locate(), new Avoid());
 window.loseTransition = new LoseTransition(game.mainMenu);
 
 const resize = () => {
-  const gameWindow = document.querySelector('#main');
   let newCanvasWidth = window.innerWidth;
   let newCanvasHeight = window.innerHeight;
+  const gameWindow = document.querySelector('#main');
   const goalAspectRatio = 4 / 3;
   const currentAspectRatio = newCanvasWidth / newCanvasHeight;
 
