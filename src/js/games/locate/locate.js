@@ -173,7 +173,6 @@ class Locate {
     if (this.requiredNumAnimals > this.maxRequiredAnimals) {
       this.requiredNumAnimals = this.maxRequiredAnimals;
     }
-    console.log(`requiredNumAnimals: ${this.requiredNumAnimals}`);
     this.currentNumAnimals = 0;
 
     // set up the match animal (unique)

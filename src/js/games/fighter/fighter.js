@@ -275,7 +275,6 @@ class Fighter {
 
     if (validKeyDown()) {
       this.punchCounter += 1;
-      // console.log(this.punchCounter);
 
       if (this.self.action === 'idle' && this.opponent.action !== 'ko') {
         this.self.action = this.randomAttack();
@@ -301,7 +300,6 @@ class Fighter {
 
     this.punchCounter = 0;
     this.punchTarget = 10 + Math.floor(window.ROUND_NUM / 3) * 5;
-    console.log(`punchTarget: ${this.punchTarget}`);
 
     this.stopTimer = false;
     this.timeLeft = 10;

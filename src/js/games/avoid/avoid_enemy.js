@@ -32,7 +32,6 @@ class AvoidEnemy {
 
   setVelocity() {
     const maxSpeed = 1 + Math.floor(window.ROUND_NUM / 6);
-    console.log(`max speed: ${maxSpeed}`);
 
     this.dx = Math.floor(Math.random() * maxSpeed) + 1;
     this.dy = Math.floor(Math.random() * maxSpeed) + 1;
@@ -46,8 +45,6 @@ class AvoidEnemy {
     if (negativedy) {
       this.dy = -this.dy;
     }
-
-    console.log(`(${this.dx}, ${this.dy})`);
   }
 
   draw() {

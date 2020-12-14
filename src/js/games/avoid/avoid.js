@@ -97,7 +97,6 @@ class Avoid {
 
     this.enemies.forEach((enemy) => {
       if (collide(this.self, enemy)) {
-        console.log('collision');
         this.lose();
       }
     });
@@ -124,8 +123,6 @@ class Avoid {
     // enemies
     this.enemies = [];
     this.numEnemies = 1 + Math.floor(window.ROUND_NUM / 6);
-
-    console.log(`${this.numEnemies}`);
 
     // set up on screen elements
     this.self = new AvoidSelf();
