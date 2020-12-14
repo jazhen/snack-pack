@@ -15,6 +15,9 @@ class Assets {
       'avoidSelf',
       'avoidEnemy',
       'avoidBackground',
+      'controlsSpace',
+      'controlsWASD',
+      'controlsMouse',
     ];
     this.mainMenu = mainMenu;
     this.numAssets = this.filenames.length;

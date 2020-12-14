@@ -68,7 +68,7 @@ class Game {
     window.canvas.drawText(
       'play through a rotating, random',
       window.canvas.width / 2,
-      window.canvas.baseFontSize * 5,
+      60 * window.canvas.scaleFactor,
       window.canvas.baseFontSize * 0.75,
       'white',
       'black',
@@ -78,7 +78,7 @@ class Game {
     window.canvas.drawText(
       'assortment of microgames.',
       window.canvas.width / 2,
-      window.canvas.baseFontSize * 8,
+      80 * window.canvas.scaleFactor,
       window.canvas.baseFontSize * 0.75,
       'white',
       'black',
@@ -88,7 +88,7 @@ class Game {
     window.canvas.drawText(
       'wasd to move.',
       window.canvas.width / 2,
-      window.canvas.baseFontSize * 11,
+      120 * window.canvas.scaleFactor,
       window.canvas.baseFontSize * 0.75,
       'white',
       'black',
@@ -96,9 +96,9 @@ class Game {
     );
 
     window.canvas.drawText(
-      'spacebar as the keyboard action.',
+      'spacebar as the action button.',
       window.canvas.width / 2,
-      window.canvas.baseFontSize * 14,
+      140 * window.canvas.scaleFactor,
       window.canvas.baseFontSize * 0.75,
       'white',
       'black',
@@ -106,19 +106,9 @@ class Game {
     );
 
     window.canvas.drawText(
-      'mouse to click.',
+      'mouse to select.',
       window.canvas.width / 2,
-      window.canvas.baseFontSize * 17,
-      window.canvas.baseFontSize * 0.75,
-      'white',
-      'black',
-      window.canvas.width
-    );
-
-    window.canvas.drawText(
-      'stay on your toes, games go by quickly.',
-      window.canvas.width / 2,
-      window.canvas.baseFontSize * 20,
+      160 * window.canvas.scaleFactor,
       window.canvas.baseFontSize * 0.75,
       'white',
       'black',
