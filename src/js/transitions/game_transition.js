@@ -46,12 +46,44 @@ class GameTransition {
     window.canvas.drawText(
       transitionText,
       window.canvas.width / 2,
-      (window.canvas.height * 2) / 3,
+      150 * window.canvas.scaleFactor,
       32,
       'white',
       'black',
       window.canvas.width
     );
+
+    switch (transitionText) {
+      case 'win':
+        window.canvas.drawImage(
+          window.assets.controlsSpace,
+          130,
+          180,
+          (212 / 1.5) * window.canvas.scaleFactor,
+          (52 / 1.5) * window.canvas.scaleFactor
+        );
+        break;
+      case 'find':
+        window.canvas.drawImage(
+          window.assets.controlsMouse,
+          180,
+          180,
+          (101 / 2) * window.canvas.scaleFactor,
+          (132 / 2) * window.canvas.scaleFactor
+        );
+        break;
+      case 'avoid':
+        window.canvas.drawImage(
+          window.assets.controlsWASD,
+          160,
+          180,
+          (131 / 1.5) * window.canvas.scaleFactor,
+          (95 / 1.5) * window.canvas.scaleFactor
+        );
+        break;
+      default:
+        break;
+    }
   }
 
   update() {
