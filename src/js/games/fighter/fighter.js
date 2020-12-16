@@ -208,8 +208,16 @@ class Fighter {
       this.opponent.pos.y + 20,
       80,
       5,
-      'red',
-      'black'
+      '#222222',
+      '#222222'
+    );
+
+    window.canvas.drawRect(
+      this.opponent.pos.x + 30,
+      this.opponent.pos.y + 20,
+      80 * ((this.punchTarget - this.punchCounter) / this.punchTarget),
+      5,
+      '#F43E3E'
     );
 
     // update background frame
@@ -282,7 +290,7 @@ class Fighter {
 
     e.preventDefault();
 
-    if (validKeyDown()) {
+    if (validKeyDown() && this.punchCounter !== this.punchTarget) {
       this.punchCounter += 1;
 
       if (this.self.action === 'idle' && this.opponent.action !== 'ko') {
