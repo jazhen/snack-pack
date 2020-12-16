@@ -59,16 +59,6 @@ class Locate {
     });
   }
 
-  lose() {
-    this.stopTimer = true;
-    window.canvas.canvas.removeEventListener('click', this.handleClick, false);
-
-    setTimeout(() => {
-      cancelAnimationFrame(window.requestAnimationFrameId);
-      window.loseTransition.animate();
-    }, 3000);
-  }
-
   countDown() {
     this.countDownCounter += 1;
 
@@ -89,9 +79,27 @@ class Locate {
     }
   }
 
+  lose() {
+    this.stopTimer = true;
+    window.canvas.canvas.removeEventListener('click', this.handleClick, false);
+
+    // overlay a red tint on the canvas
+    window.canvas.ctx.fillStyle = 'rgba(244, 62, 62, 0.4)';
+    window.canvas.ctx.fillRect(0, 0, window.canvas.width, window.canvas.height);
+
+    setTimeout(() => {
+      cancelAnimationFrame(window.requestAnimationFrameId);
+      window.loseTransition.animate();
+    }, 3000);
+  }
+
   win() {
     this.stopTimer = true;
     window.canvas.canvas.removeEventListener('click', this.handleClick, false);
+
+    // overlay a green tint on the canvas
+    window.canvas.ctx.fillStyle = 'rgba(0, 143, 9, 0.4)';
+    window.canvas.ctx.fillRect(0, 0, window.canvas.width, window.canvas.height);
 
     setTimeout(() => {
       cancelAnimationFrame(window.requestAnimationFrameId);
@@ -109,7 +117,12 @@ class Locate {
 
     Object.keys(this.animals).forEach((key) => {
       const animal = this.animals[key];
-      animal.mouseDown(mouse, this.matchAnimal, this.win);
+      animal.mouseDown(
+        mouse,
+        this.matchAnimal,
+        this.win.bind(this),
+        this.lose.bind(this)
+      );
     });
   }
 

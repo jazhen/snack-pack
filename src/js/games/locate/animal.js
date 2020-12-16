@@ -55,10 +55,12 @@ class Animal {
     );
   }
 
-  mouseDown(mouse, matchAnimal, fn) {
+  mouseDown(mouse, matchAnimal, win, lose) {
     if (this.clicked(mouse)) {
       if (this.type === matchAnimal) {
-        fn();
+        win();
+      } else {
+        lose();
       }
     }
   }
