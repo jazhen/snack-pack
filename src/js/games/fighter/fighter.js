@@ -203,6 +203,15 @@ class Fighter {
       this.opponent.size.height
     );
 
+    window.canvas.drawRect(
+      this.opponent.pos.x + 30,
+      this.opponent.pos.y + 20,
+      80,
+      5,
+      'red',
+      'black'
+    );
+
     // update background frame
     if (this.background.frame.x < this.background.frame.max) {
       this.background.frame.x += 1;

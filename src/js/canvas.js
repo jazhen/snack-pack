@@ -62,9 +62,15 @@ class Canvas {
     this.ctx.stroke();
   }
 
-  drawRect(x, y, width, height, fillColor) {
+  drawRect(x, y, width, height, fillColor, outlineColor = 'transparent') {
+    // rectangle style
     this.ctx.fillStyle = fillColor;
     this.ctx.fillRect(x, y, width, height);
+
+    // outline style
+    this.ctx.strokeStyle = outlineColor;
+    this.ctx.strokeRect(x, y, width, height);
+    this.ctx.stroke();
   }
 
   drawImage(image, dx, dy, dWidth, dHeight) {
