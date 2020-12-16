@@ -12,6 +12,7 @@ const game = new Game();
 
 window.requestAnimationFrameId = null;
 window.audio = document.querySelector('#audio');
+window.audio.volume = 0.2;
 window.BASE_WIDTH = 400;
 window.BASE_HEIGHT = 300;
 window.ROUND_NUM = 0;

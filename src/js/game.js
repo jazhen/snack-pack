@@ -118,6 +118,16 @@ class Game {
     window.canvas.drawText(
       'play through a rotating, random',
       window.canvas.width / 2,
+      70 * window.canvas.scaleFactor,
+      window.canvas.baseFontSize * 0.75,
+      'white',
+      'black',
+      window.canvas.width
+    );
+
+    window.canvas.drawText(
+      'assortment of minigames.',
+      window.canvas.width / 2,
       90 * window.canvas.scaleFactor,
       window.canvas.baseFontSize * 0.75,
       'white',
@@ -126,9 +136,19 @@ class Game {
     );
 
     window.canvas.drawText(
-      'assortment of microgames.',
+      'act fast! beat each round',
       window.canvas.width / 2,
-      110 * window.canvas.scaleFactor,
+      120 * window.canvas.scaleFactor,
+      window.canvas.baseFontSize * 0.75,
+      'white',
+      'black',
+      window.canvas.width
+    );
+
+    window.canvas.drawText(
+      'before time runs out.',
+      window.canvas.width / 2,
+      135 * window.canvas.scaleFactor,
       window.canvas.baseFontSize * 0.75,
       'white',
       'black',
@@ -138,7 +158,7 @@ class Game {
     window.canvas.drawText(
       'wasd to move.',
       window.canvas.width / 2,
-      150 * window.canvas.scaleFactor,
+      165 * window.canvas.scaleFactor,
       window.canvas.baseFontSize * 0.75,
       'white',
       'black',
@@ -148,7 +168,7 @@ class Game {
     window.canvas.drawText(
       'spacebar as the action button.',
       window.canvas.width / 2,
-      170 * window.canvas.scaleFactor,
+      180 * window.canvas.scaleFactor,
       window.canvas.baseFontSize * 0.75,
       'white',
       'black',
@@ -158,7 +178,7 @@ class Game {
     window.canvas.drawText(
       'mouse to select.',
       window.canvas.width / 2,
-      190 * window.canvas.scaleFactor,
+      195 * window.canvas.scaleFactor,
       window.canvas.baseFontSize * 0.75,
       'white',
       'black',
@@ -199,7 +219,7 @@ class Game {
         window.BASE_HEIGHT
       );
 
-      const gradient = window.canvas.ctx.createLinearGradient(0, 20, 0, 60);
+      const gradient = window.canvas.ctx.createLinearGradient(0, 0, 0, 60);
       gradient.addColorStop('0', 'black');
       gradient.addColorStop('0.05', 'red');
       gradient.addColorStop('1.00', 'gold');
@@ -207,7 +227,7 @@ class Game {
       window.canvas.drawText(
         'SNACK PACK',
         window.canvas.width / 2,
-        40 * window.canvas.scaleFactor,
+        30 * window.canvas.scaleFactor,
         window.canvas.baseFontSize * 2,
         gradient,
         'black',
