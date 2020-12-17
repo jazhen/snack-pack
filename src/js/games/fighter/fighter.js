@@ -128,22 +128,13 @@ class Fighter {
     this.timeLeft = 10;
     this.countDownCounter = 0;
     this.stopTimer = false;
+    this.status = 'undefined';
   }
 
   randomAttack() {
     return this.self.attacks[
       Math.floor(Math.random() * this.self.attacks.length)
     ];
-  }
-
-  lose() {
-    this.stopTimer = true;
-    document.removeEventListener('keydown', this.handleKeyDown, false);
-
-    setTimeout(() => {
-      cancelAnimationFrame(window.requestAnimationFrameId);
-      window.loseTransition.animate();
-    }, 3000);
   }
 
   countDown() {
@@ -220,6 +211,14 @@ class Fighter {
       '#F43E3E'
     );
 
+    if (this.status === 'win') {
+      window.canvas.drawWinOverlay();
+    }
+
+    if (this.status === 'lose') {
+      window.canvas.drawLoseOverlay();
+    }
+
     // update background frame
     if (this.background.frame.x < this.background.frame.max) {
       this.background.frame.x += 1;
@@ -242,8 +241,21 @@ class Fighter {
     }
   }
 
-  win() {
+  lose() {
+    this.status = 'lose';
     this.stopTimer = true;
+    document.removeEventListener('keydown', this.handleKeyDown, false);
+
+    setTimeout(() => {
+      cancelAnimationFrame(window.requestAnimationFrameId);
+      window.loseTransition.animate();
+    }, 3000);
+  }
+
+  win() {
+    this.status = 'win';
+    this.stopTimer = true;
+
     // if reach target click amount
     // then switch to opponent ko animation
     this.opponent.action = 'ko';
@@ -321,6 +333,7 @@ class Fighter {
     this.stopTimer = false;
     this.timeLeft = 10;
     this.countDownCounter = 0;
+    this.status = 'undefined';
 
     document.addEventListener('keydown', this.handleKeyDown, false);
   }

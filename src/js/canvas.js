@@ -90,6 +90,18 @@ class Canvas {
     this.ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
   }
 
+  // overlay a green tint on the canvas
+  drawWinOverlay() {
+    this.ctx.fillStyle = 'rgba(0, 143, 9, 0.2)';
+    this.ctx.fillRect(0, 0, this.width, this.height);
+  }
+
+  // overlay a red tint on the canvas
+  drawLoseOverlay() {
+    this.ctx.fillStyle = 'rgba(244, 62, 62, 0.2)';
+    this.ctx.fillRect(0, 0, this.width, this.height);
+  }
+
   scale() {
     this.ctx.scale(this.scaleFactor, this.scaleFactor);
   }

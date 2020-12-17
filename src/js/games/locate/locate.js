@@ -16,11 +16,12 @@ class Locate {
 
     this.transitionText = 'find';
 
-    this.fps = 1;
+    this.fps = 60;
 
     this.timeLeft = 5;
     this.countDownCounter = 0;
     this.stopTimer = false;
+    this.status = 'undefined';
   }
 
   draw() {
@@ -57,6 +58,14 @@ class Locate {
       animal.draw();
       // animal.update();
     });
+
+    if (this.status === 'win') {
+      window.canvas.drawWinOverlay();
+    }
+
+    if (this.status === 'lose') {
+      window.canvas.drawLoseOverlay();
+    }
   }
 
   countDown() {
@@ -80,12 +89,9 @@ class Locate {
   }
 
   lose() {
+    this.status = 'lose';
     this.stopTimer = true;
     window.canvas.canvas.removeEventListener('click', this.handleClick, false);
-
-    // overlay a red tint on the canvas
-    window.canvas.ctx.fillStyle = 'rgba(244, 62, 62, 0.4)';
-    window.canvas.ctx.fillRect(0, 0, window.canvas.width, window.canvas.height);
 
     setTimeout(() => {
       cancelAnimationFrame(window.requestAnimationFrameId);
@@ -94,12 +100,9 @@ class Locate {
   }
 
   win() {
+    this.status = 'win';
     this.stopTimer = true;
     window.canvas.canvas.removeEventListener('click', this.handleClick, false);
-
-    // overlay a green tint on the canvas
-    window.canvas.ctx.fillStyle = 'rgba(0, 143, 9, 0.4)';
-    window.canvas.ctx.fillRect(0, 0, window.canvas.width, window.canvas.height);
 
     setTimeout(() => {
       cancelAnimationFrame(window.requestAnimationFrameId);
@@ -179,6 +182,7 @@ class Locate {
     this.stopTimer = false;
     this.timeLeft = 5;
     this.countDownCounter = 0;
+    this.status = 'undefined';
 
     // reset
     this.animals = {};

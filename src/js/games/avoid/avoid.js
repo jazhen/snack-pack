@@ -66,9 +66,10 @@ class Avoid {
   }
 
   lose() {
-    cancelAnimationFrame(window.requestAnimationFrameId);
-    this.removeEventHandlers();
+    window.canvas.drawLoseOverlay();
     this.stopTimer = true;
+    this.removeEventHandlers();
+    cancelAnimationFrame(window.requestAnimationFrameId);
 
     setTimeout(() => {
       window.loseTransition.animate();
@@ -76,9 +77,10 @@ class Avoid {
   }
 
   win() {
-    cancelAnimationFrame(window.requestAnimationFrameId);
-    this.removeEventHandlers();
+    window.canvas.drawWinOverlay();
     this.stopTimer = true;
+    this.removeEventHandlers();
+    cancelAnimationFrame(window.requestAnimationFrameId);
 
     setTimeout(() => {
       window.ROUND_NUM += 1;
@@ -134,19 +136,27 @@ class Avoid {
     document.addEventListener('keyup', this.keyUpHandler, false);
   }
 
+  draw() {
+    window.canvas.drawImage(
+      window.assets.avoidBackground,
+      0,
+      0,
+      window.canvas.width,
+      window.canvas.height
+    );
+
+    this.self.draw();
+    this.self.update();
+
+    this.enemies.forEach((enemy) => {
+      enemy.draw();
+      enemy.update();
+    });
+  }
+
   play() {
     let lastDrawTime = performance.now();
     const fpsInterval = 1000 / this.fps;
-
-    const draw = () => {
-      window.canvas.drawImage(
-        window.assets.avoidBackground,
-        0,
-        0,
-        window.canvas.width,
-        window.canvas.height
-      );
-    };
 
     const animate = () => {
       window.requestAnimationFrameId = requestAnimationFrame(animate);
@@ -157,15 +167,7 @@ class Avoid {
         lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
 
         window.canvas.clear();
-
-        draw();
-        this.self.draw();
-        this.self.update();
-
-        this.enemies.forEach((enemy) => {
-          enemy.draw();
-          enemy.update();
-        });
+        this.draw();
 
         this.checkCollisions();
         this.countDown();
