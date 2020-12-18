@@ -1,6 +1,6 @@
 ![logo](https://user-images.githubusercontent.com/6326660/102288298-10831a80-3ef1-11eb-9295-336626404f33.png)
 
-A [Warioware](https://youtu.be/DDeKBbFK9OM?t=6) inspired HTML5 game, where players play through a rotating, random assortment of mini-games.
+A [WarioWare](https://youtu.be/DDeKBbFK9OM?t=6) inspired HTML5 game, where players play through a rotating, random assortment of mini-games.
 # &#127918; [Play now!](https://jazhen.github.io/snack-pack/)
 
 # &#128295; Technologies and Tools
@@ -22,12 +22,12 @@ A [Warioware](https://youtu.be/DDeKBbFK9OM?t=6) inspired HTML5 game, where playe
 
 ## Consistent 4:3 aspect ratio
 
-Game window always resizes to 4:3 aspect ratio to ensure a consistent experience across all devices
+Game window always resizes to 4:3 aspect ratio to ensure a **consistent experience** across all devices
 
 ![window_resizing](https://user-images.githubusercontent.com/6326660/102144276-0fcb8500-3e1a-11eb-889b-8ed5b560bf74.png)
 
 ## Asset loading
 
-Preload assets before the game starts to prevent any lag due to loading during gameplay.
+Preload assets before the game starts to **prevent slow runtime** during gameplay.
 
 ![asset_loading](https://user-images.githubusercontent.com/6326660/102144282-122ddf00-3e1a-11eb-8144-a9491cdf4eba.png)
