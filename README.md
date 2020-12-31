@@ -1,4 +1,4 @@
-![banner](https://user-images.githubusercontent.com/6326660/103427279-c480d880-4b74-11eb-88f6-02afbb479979.png)
+![banner](https://user-images.githubusercontent.com/6326660/103427384-9354d800-4b75-11eb-9a34-766cf8cb2146.png)
 
 A [WarioWare](https://youtu.be/DDeKBbFK9OM?t=6) inspired HTML5 game where players play through a rotating, random assortment of mini-games.
 # &#127918; [Play now!](https://jazhen.github.io/snack-pack/)
