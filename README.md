@@ -1,6 +1,6 @@
 ![logo](https://user-images.githubusercontent.com/6326660/102288298-10831a80-3ef1-11eb-9295-336626404f33.png)
 
-A [WarioWare](https://youtu.be/DDeKBbFK9OM?t=6) inspired HTML5 game, where players play through a rotating, random assortment of mini-games.
+A [WarioWare](https://youtu.be/DDeKBbFK9OM?t=6) inspired HTML5 game where players play through a rotating, random assortment of mini-games.
 # &#127918; [Play now!](https://jazhen.github.io/snack-pack/)
 
 # &#128295; Technologies and Tools
@@ -14,9 +14,14 @@ A [WarioWare](https://youtu.be/DDeKBbFK9OM?t=6) inspired HTML5 game, where playe
 ![Prettier](https://img.shields.io/badge/-Prettier-informational?style=flat&logo=Prettier&logoColor=black&color=F7B93E)
 # &#128187; Gameplay Demo
 
-![fighter_minigame](https://user-images.githubusercontent.com/6326660/102146537-fe847780-3e1d-11eb-94ff-4c63a598b413.gif)
-![find_minigame](https://user-images.githubusercontent.com/6326660/102146934-b9ad1080-3e1e-11eb-8139-ff5c836b7a10.gif)
-![avoid_minigame](https://user-images.githubusercontent.com/6326660/102147025-e52ffb00-3e1e-11eb-8848-86e3cf0f9823.gif)
+## "Win" mini-game
+![fighter_minigame](https://user-images.githubusercontent.com/6326660/103401194-c8711400-4afc-11eb-89c5-d5c424f788e5.gif)
+
+## "Find" mini-game
+![find_minigame](https://user-images.githubusercontent.com/6326660/103401209-d32ba900-4afc-11eb-89c9-52cadb1b6425.gif)
+
+## "Avoid" mini-game
+![avoid_minigame](https://user-images.githubusercontent.com/6326660/103401223-df176b00-4afc-11eb-9cba-82b5c783efe2.gif)
 
 # &#128269; Code samples
 
@@ -24,10 +29,11 @@ A [WarioWare](https://youtu.be/DDeKBbFK9OM?t=6) inspired HTML5 game, where playe
 
 Game window always resizes to 4:3 aspect ratio to ensure a **consistent experience** across all devices
 
-![window_resizing](https://user-images.githubusercontent.com/6326660/102144276-0fcb8500-3e1a-11eb-889b-8ed5b560bf74.png)
+![window_resizing](https://user-images.githubusercontent.com/6326660/103401307-21d94300-4afd-11eb-99e2-ddcb82498475.png)
 
 ## Asset loading
 
-Preload assets before the game starts to **prevent slow runtime** during gameplay.
+Preload assets before the game starts to **prevent slow runtime** during gameplay
+by utilizing JavaScript promises.
 
-![asset_loading](https://user-images.githubusercontent.com/6326660/102144282-122ddf00-3e1a-11eb-8144-a9491cdf4eba.png)
+![asset_loader](https://user-images.githubusercontent.com/6326660/103401306-2140ac80-4afd-11eb-9b7f-27558a7b8842.png)
