@@ -219,9 +219,9 @@ class Game {
         window.BASE_HEIGHT
       );
 
-      const gradient = window.canvas.ctx.createLinearGradient(0, 0, 0, 60);
+      const gradient = window.canvas.ctx.createLinearGradient(0, 5, 0, 45);
       gradient.addColorStop('0', 'black');
-      gradient.addColorStop('0.05', 'red');
+      gradient.addColorStop('0.01', 'red');
       gradient.addColorStop('1.00', 'gold');
 
       window.canvas.drawText(
