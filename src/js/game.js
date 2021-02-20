@@ -156,7 +156,7 @@ class Game {
     );
 
     window.canvas.drawText(
-      'wasd to move.',
+      'WASD to move.',
       window.canvas.width / 2,
       165 * window.canvas.scaleFactor,
       window.canvas.baseFontSize * 0.75,
@@ -166,7 +166,7 @@ class Game {
     );
 
     window.canvas.drawText(
-      'spacebar as the action button.',
+      'SPACEBAR is the action button.',
       window.canvas.width / 2,
       180 * window.canvas.scaleFactor,
       window.canvas.baseFontSize * 0.75,
@@ -176,7 +176,7 @@ class Game {
     );
 
     window.canvas.drawText(
-      'mouse to select.',
+      'MOUSE CLICK to select.',
       window.canvas.width / 2,
       195 * window.canvas.scaleFactor,
       window.canvas.baseFontSize * 0.75,
