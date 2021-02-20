@@ -1,5 +1,12 @@
+@font-face {
+  font-family: 'dogicapixelbold';
+  src: local('../fonts/dogicapixelbold.ttf'),
+       url('../fonts/dogicapixelbold.ttf')
+       format('truetype');
+}
+
 $font-size: 16px;
-$font-family: 'DogicaBold';
+$font-family: 'dogicapixelbold';
 $font-color: black;
 
 @mixin reset-font {

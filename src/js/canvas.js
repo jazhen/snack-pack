@@ -29,7 +29,7 @@ class Canvas {
     this.ctx.textAlign = 'center';
     this.ctx.textBaseline = 'middle';
     this.ctx.fillStyle = color;
-    this.ctx.font = `${size}px DogicaPixelBold`;
+    this.ctx.font = `${size}px dogicapixelbold`;
     this.ctx.fillText(text, x / this.scaleFactor, y / this.scaleFactor);
 
     // outline style
@@ -53,7 +53,7 @@ class Canvas {
     this.ctx.textAlign = 'center';
     this.ctx.textBaseline = 'middle';
     this.ctx.fillStyle = color;
-    this.ctx.font = `${size}px DogicaPixelBold`;
+    this.ctx.font = `${size}px dogicapixelbold`;
     this.ctx.fillText(text, x + width / 2, y + height / 2, maxWidth);
 
     // outline style
