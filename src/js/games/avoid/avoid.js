@@ -102,17 +102,6 @@ class Avoid {
         this.lose();
       }
     });
-
-    // for (let i = 0; i < this.enemies.length; i++) {
-    //   for (let j = 0; j < this.enemies.length; j++) {
-    //     const obj1 = this.enemies[i];
-    //     const obj2 = this.enemies[j];
-
-    //     if (obj1 !== obj2 && collide(obj1, obj2)) {
-    //       console.log('enemy collision detected');
-    //     }
-    //   }
-    // }
   }
 
   reset() {

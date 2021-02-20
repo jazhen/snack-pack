@@ -48,12 +48,6 @@ class AvoidEnemy {
   }
 
   draw() {
-    // window.canvas.ctx.beginPath();
-    // window.canvas.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-    // window.canvas.ctx.fillStyle = '#0095DD';
-    // window.canvas.ctx.fill();
-    // window.canvas.ctx.closePath();
-
     window.canvas.drawAnimation(
       window.assets.avoidEnemy,
       this.size.width * this.frame.x,
@@ -68,13 +62,6 @@ class AvoidEnemy {
   }
 
   update() {
-    // animation;
-    // if (this.frame.x < this.frame.max) {
-    //   this.frame.x += 1;
-    // } else {
-    //   this.frame.x = this.frame.min;
-    // }
-
     // bouncing off walls
     if (this.x + this.dx > window.BASE_WIDTH - this.radius) {
       this.dx = -this.dx;

@@ -5,7 +5,6 @@ class Button {
     this.size = { width, height };
     this.fn = fn;
     this.fillColor = fillColor;
-    // this.fillColor = 'red';
   }
 
   draw() {
@@ -46,7 +45,6 @@ class Button {
 
   mouseDown(mouse) {
     if (this.clicked(mouse)) {
-      // debugger;
       this.fn();
     }
   }

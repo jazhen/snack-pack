@@ -29,12 +29,6 @@ class AvoidSelf {
   }
 
   draw() {
-    // window.canvas.ctx.beginPath();
-    // window.canvas.ctx.arc(this.pos.x, this.pos.y, this.radius, 0, Math.PI * 2);
-    // window.canvas.ctx.fillStyle = 'red';
-    // window.canvas.ctx.fill();
-    // window.canvas.ctx.closePath();
-
     window.canvas.drawAnimation(
       window.assets.avoidSelf,
       this.size.width * this.frame.x,
