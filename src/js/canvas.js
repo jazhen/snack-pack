@@ -102,6 +102,10 @@ class Canvas {
     this.ctx.fillRect(0, 0, this.width, this.height);
   }
 
+  getBoundingClientRect() {
+    return this.canvas.getBoundingClientRect();
+  }
+
   scale() {
     this.ctx.scale(this.scaleFactor, this.scaleFactor);
   }

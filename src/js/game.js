@@ -1,6 +1,7 @@
 import Assets from './assets';
-import Button from './button';
-import ClickableImage from './clickable_image';
+import TextButton from './button/text_button';
+import ImageButton from './button/image_button';
+import Mouse from './mouse';
 
 class Game {
   constructor() {
@@ -14,28 +15,24 @@ class Game {
   }
 
   handleClick(e) {
-    const el = window.canvas.canvas.getBoundingClientRect();
-    const mouse = {
-      x: e.clientX - el.left,
-      y: e.clientY - el.top,
-    };
+    const mouseCoord = Mouse.getCoord(e);
+    const clickedButton = Object.keys(this.buttons).find((name) =>
+      this.buttons[name].isClicked(mouseCoord)
+    );
 
-    Object.keys(this.buttons).forEach((key) => {
-      const element = this.buttons[key];
-      if (element instanceof Button || element instanceof ClickableImage) {
-        element.mouseDown(mouse);
-      }
-    });
+    if (clickedButton) {
+      this.buttons[clickedButton].fn();
+    }
   }
 
   addButton(text, pos, size, fn) {
-    this.buttons[`${text}Button`] = new Button(
-      text,
+    this.buttons[`${text}Button`] = new TextButton(
       pos[0],
       pos[1],
       size[0],
       size[1],
-      fn
+      fn,
+      text
     );
   }
 
@@ -64,8 +61,7 @@ class Game {
       }
     );
 
-    this.buttons.speaker = new ClickableImage(
-      window.assets.speaker,
+    this.buttons.speaker = new ImageButton(
       370,
       5,
       window.canvas.baseFontSize * 1.5,
@@ -77,40 +73,41 @@ class Game {
           window.audio.pause();
           window.audio.currentTime = 0;
         }
-      }
+      },
+      window.assets.speaker
     );
 
-    this.buttons.github = new ClickableImage(
-      window.assets.github,
+    this.buttons.github = new ImageButton(
       window.BASE_WIDTH / 2 - 45,
       270,
       window.canvas.baseFontSize * 1.5,
       window.canvas.baseFontSize * 1.5,
       () => {
         window.open('https://github.com/jazhen', '_blank');
-      }
+      },
+      window.assets.github
     );
 
-    this.buttons.linkedin = new ClickableImage(
-      window.assets.linkedin,
+    this.buttons.linkedin = new ImageButton(
       window.BASE_WIDTH / 2 - 10,
       270,
       window.canvas.baseFontSize * 1.5,
       window.canvas.baseFontSize * 1.5,
       () => {
         window.open('https://www.linkedin.com/in/jazhen/', '_blank');
-      }
+      },
+      window.assets.linkedin
     );
 
-    this.buttons.angelist = new ClickableImage(
-      window.assets.angelist,
+    this.buttons.angelist = new ImageButton(
       window.BASE_WIDTH / 2 + 23,
       270,
       window.canvas.baseFontSize * 1.5,
       window.canvas.baseFontSize * 1.5,
       () => {
         window.open('https://angel.co/u/jazhen', '_blank');
-      }
+      },
+      window.assets.angelist
     );
   }
 
