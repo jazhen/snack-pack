@@ -1,7 +1,15 @@
 {
-  "presets": ["@babel/preset-env"],
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "shippedProposals": true
+      }
+    ]
+  ],
   "plugins": [
     "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-private-methods",
     [
       "@babel/plugin-transform-runtime",
       {

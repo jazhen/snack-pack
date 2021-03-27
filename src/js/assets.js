@@ -67,7 +67,7 @@ class Assets {
   }
 
   update() {
-    if (this.numAssetsLoaded === this.numAssets) {
+    if (this.#isLoaded()) {
       cancelAnimationFrame(window.requestAnimationFrameId);
       setTimeout(() => this.mainMenu(), 1000);
     }
@@ -100,6 +100,10 @@ class Assets {
         this.error = true;
       }
     });
+  }
+
+  #isLoaded() {
+    return this.numAssetsLoaded === this.numAssets;
   }
 }
 

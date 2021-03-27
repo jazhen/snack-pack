@@ -4,12 +4,13 @@
   "extends": ["airbnb-base", "plugin:prettier/recommended", "prettier"],
   "env": {
     "browser": true,
-    "es2020": true
+    "es2021": true
   },
   "parser": "@babel/eslint-parser",
   "parserOptions": {
     "sourceType": "module",
     "allowImportExportEverywhere": false,
+    "ecmaVersion": 12,
     "ecmaFeatures": {
       "globalReturn": false
     },
