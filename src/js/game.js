@@ -1,9 +1,12 @@
 import Assets from './assets';
 import TextButton from './button/text_button';
 import ImageButton from './button/image_button';
+import openUrlInNewTab from './misc';
 import Mouse from './mouse';
 
 class Game {
+  #instructionsWasClicked;
+
   constructor() {
     this.mainMenu = this.mainMenu.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -11,17 +14,17 @@ class Game {
     this.assets = new Assets(this.mainMenu);
     this.buttons = {};
 
-    this.showInstructions = false;
+    this.#instructionsWasClicked = false;
   }
 
   handleClick(e) {
     const mouseCoord = Mouse.getCoord(e);
-    const clickedButton = Object.keys(this.buttons).find((name) =>
+    const foundClickedButton = Object.keys(this.buttons).find((name) =>
       this.buttons[name].isClicked(mouseCoord)
     );
 
-    if (clickedButton) {
-      this.buttons[clickedButton].fn();
+    if (foundClickedButton !== undefined) {
+      this.buttons[foundClickedButton].fn();
     }
   }
 
@@ -48,17 +51,15 @@ class Game {
       );
     });
 
-    this.addButton('instructions', [110, 135], [180, 30], () => {
-      this.showInstructions = true;
-    });
+    this.addButton('instructions', [110, 135], [180, 30], () =>
+      this.#toggleInstructions()
+    );
 
     this.addButton(
       'back',
       [(window.canvas.width - 80) / 2, 225],
       [80, 30],
-      () => {
-        this.showInstructions = false;
-      }
+      () => this.#toggleInstructions()
     );
 
     this.buttons.speaker = new ImageButton(
@@ -82,9 +83,7 @@ class Game {
       270,
       window.canvas.baseFontSize * 1.5,
       window.canvas.baseFontSize * 1.5,
-      () => {
-        window.open('https://github.com/jazhen', '_blank');
-      },
+      () => openUrlInNewTab('https://github.com/jazhen'),
       window.assets.github
     );
 
@@ -93,9 +92,7 @@ class Game {
       270,
       window.canvas.baseFontSize * 1.5,
       window.canvas.baseFontSize * 1.5,
-      () => {
-        window.open('https://www.linkedin.com/in/jazhen/', '_blank');
-      },
+      () => openUrlInNewTab('https://www.linkedin.com/in/jazhen'),
       window.assets.linkedin
     );
 
@@ -104,9 +101,7 @@ class Game {
       270,
       window.canvas.baseFontSize * 1.5,
       window.canvas.baseFontSize * 1.5,
-      () => {
-        window.open('https://angel.co/u/jazhen', '_blank');
-      },
+      () => openUrlInNewTab('https://angel.co/u/jazhen'),
       window.assets.angelist
     );
   }
@@ -231,7 +226,7 @@ class Game {
         window.canvas.width
       );
 
-      if (this.showInstructions) {
+      if (this.#instructionsWasClicked) {
         this.instructions();
       } else {
         this.buttons.playButton.draw();
@@ -278,6 +273,10 @@ class Game {
     animate();
 
     window.canvas.canvas.addEventListener('click', this.handleClick, false);
+  }
+
+  #toggleInstructions() {
+    this.#instructionsWasClicked = !this.#instructionsWasClicked;
   }
 }
 

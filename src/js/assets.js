@@ -53,10 +53,11 @@ class Assets {
         'black'
       );
     } else {
+      const percentageOfAssetsLoaded =
+        Math.floor(this.numAssetsLoaded / this.numAssets) * 100;
+
       window.canvas.drawText(
-        `assets loading: ${
-          Math.floor(this.numAssetsLoaded / this.numAssets) * 100
-        }%`,
+        `assets loading: ${percentageOfAssetsLoaded}%`,
         window.canvas.width / 2,
         window.canvas.height / 2,
         window.canvas.baseFontSize,

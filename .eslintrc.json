@@ -19,9 +19,10 @@
     }
   },
   "rules": {
-    "prettier/prettier": "error",
+    "func-names": ["error", "as-needed"],
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "no-param-reassign": "off",
-    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    "prettier/prettier": "error"
   }
 }
