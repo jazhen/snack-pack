@@ -35,7 +35,29 @@ class Assets {
     this.mainMenu = mainMenu;
   }
 
-  draw() {
+  load() {
+    this.animate();
+
+    const loadAsset = (filename) => {
+      return new Promise((resolve, reject) => {
+        window.assets[filename] = new Image();
+        window.assets[filename].src = getAssetFilePath(filename);
+        window.assets[filename].addEventListener('load', resolve, false);
+        window.assets[filename].addEventListener('error', reject, false);
+      });
+    };
+
+    FILENAMES.forEach(async (filename) => {
+      try {
+        await loadAsset(filename);
+        this.#numLoaded += 1;
+      } catch {
+        this.#error = true;
+      }
+    });
+  }
+
+  #draw() {
     window.canvas.clear();
     window.canvas.drawBackground('#dddddd');
 
@@ -59,52 +81,26 @@ class Assets {
     } else {
       window.canvas.drawText({
         ...defaultOptions,
-        text: `assets loading: ${this.#getPercentLoaded()}%`,
+        text: `assets loading: ${this.#percentLoaded}%`,
       });
-    }
-  }
-
-  update() {
-    if (this.#isLoaded()) {
-      cancelAnimationFrame(window.requestAnimationFrameId);
-      setTimeout(() => this.mainMenu(), 1000);
     }
   }
 
   animate() {
     window.requestAnimationFrameId = requestAnimationFrame(this.animate);
+    this.#draw();
 
-    this.draw();
-    this.update();
-  }
-
-  load() {
-    this.animate();
-
-    const loadAsset = (filename) => {
-      return new Promise((resolve, reject) => {
-        window.assets[filename] = new Image();
-        window.assets[filename].src = getAssetFilePath(filename);
-        window.assets[filename].addEventListener('load', resolve, false);
-        window.assets[filename].addEventListener('error', reject, false);
-      });
-    };
-
-    FILENAMES.forEach(async (filename) => {
-      try {
-        await loadAsset(filename);
-        this.#numLoaded += 1;
-      } catch {
-        this.#error = true;
-      }
-    });
+    if (!this.#isLoaded) {
+      cancelAnimationFrame(window.requestAnimationFrameId);
+      setTimeout(() => this.mainMenu(), 1000);
+    }
   }
 
   /**
    * Returns the ratio of assets loaded, expressed as a percentage.
    * @returns {number}
    */
-  #getPercentLoaded() {
+  get #percentLoaded() {
     return Math.floor(this.#numLoaded / FILENAMES.length) * 100;
   }
 
@@ -112,7 +108,7 @@ class Assets {
    * Returns the status of loading.
    * @returns {boolean}
    */
-  #isLoaded() {
+  get #isLoaded() {
     return this.#numLoaded === FILENAMES.length;
   }
 }

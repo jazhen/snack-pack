@@ -1,4 +1,9 @@
-import { FONT, SIZE } from '../../constants';
+import {
+  FONT,
+  FRAMES_PER_SECOND,
+  FRAMES_PER_SECOND_INTERVAL,
+  SIZE,
+} from '../../constants';
 import { getRandomInt } from '../../misc';
 
 class Fighter {
@@ -122,9 +127,6 @@ class Fighter {
     this.self.actions.idle();
     this.opponent.actions.dizzy();
 
-    //
-    this.fps = 24;
-
     this.punchCounter = 0;
     this.punchTarget = 10;
 
@@ -143,7 +145,10 @@ class Fighter {
   countDown() {
     this.countDownCounter += 1;
 
-    if (this.countDownCounter > this.fps && !this.stopTimer) {
+    if (
+      this.countDownCounter > FRAMES_PER_SECOND.TWENTY_FOUR &&
+      !this.stopTimer
+    ) {
       this.timeLeft -= 1;
       this.countDownCounter = 0;
     }
@@ -345,15 +350,16 @@ class Fighter {
 
   play() {
     let lastDrawTime = performance.now();
-    const fpsInterval = 1000 / this.fps;
 
     const animate = () => {
       window.requestAnimationFrameId = requestAnimationFrame(animate);
       const currentTime = performance.now();
       const timeSinceLastDraw = currentTime - lastDrawTime;
 
-      if (timeSinceLastDraw > fpsInterval) {
-        lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
+      if (timeSinceLastDraw > FRAMES_PER_SECOND_INTERVAL.TWENTY_FOUR) {
+        lastDrawTime =
+          currentTime -
+          (timeSinceLastDraw % FRAMES_PER_SECOND_INTERVAL.TWENTY_FOUR);
 
         window.canvas.clear();
         if (this.opponent.action !== 'ko') {

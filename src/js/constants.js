@@ -2,6 +2,18 @@ const BASE_FONT_SIZE = 16;
 const BASE_HEIGHT = 300;
 const BASE_WIDTH = 400;
 
+export const FRAMES_PER_SECOND = {
+  TWO: 2,
+  TWENTY_FOUR: 24,
+  SIXTY: 60,
+};
+
+export const FRAMES_PER_SECOND_INTERVAL = {
+  TWO: 1000 / 2,
+  TWENTY_FOUR: 1000 / 24,
+  SIXTY: 1000 / 60,
+};
+
 export const COLOR = {
   BLACK: 'black',
   WHITE: 'white',

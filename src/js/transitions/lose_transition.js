@@ -1,10 +1,13 @@
-import { SIZE } from '../constants';
+import {
+  FRAMES_PER_SECOND,
+  FRAMES_PER_SECOND_INTERVAL,
+  SIZE,
+} from '../constants';
 
 class LoseTransition {
   constructor(mainMenu) {
     this.mainMenu = mainMenu;
 
-    this.fps = 24;
     this.framesCounter = 0;
 
     this.width = 359;
@@ -54,14 +57,13 @@ class LoseTransition {
 
     this.framesCounter += 1;
 
-    if (this.framesCounter > this.fps * 5) {
+    if (this.framesCounter > FRAMES_PER_SECOND.TWENTY_FOUR * 5) {
       cancelAnimationFrame(window.requestAnimationFrameId);
       this.mainMenu();
     }
   }
 
   animate() {
-    const fpsInterval = 1000 / this.fps;
     let lastDrawTime = performance.now();
 
     this.framesCounter = 0;
@@ -71,8 +73,10 @@ class LoseTransition {
       const currentTime = performance.now();
       const timeSinceLastDraw = currentTime - lastDrawTime;
 
-      if (timeSinceLastDraw > fpsInterval) {
-        lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
+      if (timeSinceLastDraw > FRAMES_PER_SECOND_INTERVAL.TWENTY_FOUR) {
+        lastDrawTime =
+          currentTime -
+          (timeSinceLastDraw % FRAMES_PER_SECOND_INTERVAL.TWENTY_FOUR);
 
         window.canvas.clear();
         this.update();

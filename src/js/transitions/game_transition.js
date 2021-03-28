@@ -1,4 +1,4 @@
-import { FONT, SIZE } from '../constants';
+import { FONT, FRAMES_PER_SECOND_INTERVAL, SIZE } from '../constants';
 import { getRandomInt } from '../misc';
 
 class GameTransition {
@@ -105,16 +105,15 @@ class GameTransition {
     }
 
     let lastDrawTime = performance.now();
-    const fps = 2;
-    const fpsInterval = 1000 / fps;
 
     const animate = () => {
       window.requestAnimationFrameId = requestAnimationFrame(animate);
       const currentTime = performance.now();
       const timeSinceLastDraw = currentTime - lastDrawTime;
 
-      if (timeSinceLastDraw > fpsInterval) {
-        lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
+      if (timeSinceLastDraw > FRAMES_PER_SECOND_INTERVAL.TWO) {
+        lastDrawTime =
+          currentTime - (timeSinceLastDraw % FRAMES_PER_SECOND_INTERVAL.TWO);
 
         window.canvas.clear();
         this.update();

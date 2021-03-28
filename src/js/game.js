@@ -3,7 +3,7 @@ import TextButton from './button/text_button';
 import ImageButton from './button/image_button';
 import openUrlInNewTab from './misc';
 import Mouse from './mouse';
-import { COLOR, FONT, SIZE } from './constants';
+import { COLOR, FONT, FRAMES_PER_SECOND_INTERVAL, SIZE } from './constants';
 
 const URLS = {
   GITHUB: 'https://github.com/jazhen',
@@ -12,6 +12,23 @@ const URLS = {
 };
 
 const GOAL_ASPECT_RATIO = 4 / 3;
+
+const INSTRUCTIONS_DEFAULT_OPTIONS = {
+  x: SIZE.HALF_BASE_WIDTH,
+  size: FONT.THREE_QUARTERS_BASE_SIZE,
+  color: COLOR.WHITE,
+  outlineColor: COLOR.BLACK,
+};
+
+const INSTRUCTIONS = [
+  { text: 'play through a rotating, random', y: 70 },
+  { text: 'assortment of minigames.', y: 90 },
+  { text: 'act fast! beat each round', y: 120 },
+  { text: 'before time runs out.', y: 135 },
+  { text: 'WASD to move.', y: 165 },
+  { text: 'SPACEBAR to perform the main action.', y: 180 },
+  { text: 'MOUSE CLICK to select.', y: 195 },
+];
 
 class Game {
   #instructionsWasClicked = false;
@@ -102,8 +119,8 @@ class Game {
     this.buttons.speaker = new ImageButton(
       370,
       5,
-      window.canvas.baseFontSize * 1.5,
-      window.canvas.baseFontSize * 1.5,
+      FONT.ONE_AND_A_HALF_BASE_SIZE,
+      FONT.ONE_AND_A_HALF_BASE_SIZE,
       () => {
         if (this.#audio.paused) {
           this.#audio.play();
@@ -118,8 +135,8 @@ class Game {
     this.buttons.github = new ImageButton(
       SIZE.HALF_BASE_WIDTH - 45,
       270,
-      window.canvas.baseFontSize * 1.5,
-      window.canvas.baseFontSize * 1.5,
+      FONT.ONE_AND_A_HALF_BASE_SIZE,
+      FONT.ONE_AND_A_HALF_BASE_SIZE,
       () => openUrlInNewTab(URLS.GITHUB),
       window.assets.github
     );
@@ -127,8 +144,8 @@ class Game {
     this.buttons.linkedin = new ImageButton(
       SIZE.HALF_BASE_WIDTH - 10,
       270,
-      window.canvas.baseFontSize * 1.5,
-      window.canvas.baseFontSize * 1.5,
+      FONT.ONE_AND_A_HALF_BASE_SIZE,
+      FONT.ONE_AND_A_HALF_BASE_SIZE,
       () => openUrlInNewTab(URLS.LINKEDIN),
       window.assets.linkedin
     );
@@ -136,8 +153,8 @@ class Game {
     this.buttons.angelist = new ImageButton(
       SIZE.HALF_BASE_WIDTH + 23,
       270,
-      window.canvas.baseFontSize * 1.5,
-      window.canvas.baseFontSize * 1.5,
+      FONT.ONE_AND_A_HALF_BASE_SIZE,
+      FONT.ONE_AND_A_HALF_BASE_SIZE,
       () => openUrlInNewTab(URLS.ANGELLIST),
       window.assets.angelist
     );
@@ -213,8 +230,6 @@ class Game {
       }
     };
 
-    const fps = 24;
-    const fpsInterval = 1000 / fps;
     let lastDrawTime = performance.now();
 
     const animate = () => {
@@ -222,8 +237,10 @@ class Game {
       const currentTime = performance.now();
       const timeSinceLastDraw = currentTime - lastDrawTime;
 
-      if (timeSinceLastDraw > fpsInterval) {
-        lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
+      if (timeSinceLastDraw > FRAMES_PER_SECOND_INTERVAL.TWENTY_FOUR) {
+        lastDrawTime =
+          currentTime -
+          (timeSinceLastDraw % FRAMES_PER_SECOND_INTERVAL.TWENTY_FOUR);
         window.canvas.clear();
         draw.call(this);
         update();
@@ -236,54 +253,9 @@ class Game {
   }
 
   #showInstructions() {
-    const defaultOptions = {
-      x: SIZE.HALF_BASE_WIDTH,
-      size: FONT.THREE_QUARTERS_BASE_SIZE,
-      color: COLOR.WHITE,
-      outlineColor: COLOR.BLACK,
-    };
-
-    window.canvas.drawText({
-      ...defaultOptions,
-      text: 'play through a rotating, random',
-      y: 70,
-    });
-
-    window.canvas.drawText({
-      ...defaultOptions,
-      text: 'assortment of minigames.',
-      y: 90,
-    });
-
-    window.canvas.drawText({
-      ...defaultOptions,
-      text: 'act fast! beat each round',
-      y: 120,
-    });
-
-    window.canvas.drawText({
-      ...defaultOptions,
-      text: 'before time runs out.',
-      y: 135,
-    });
-
-    window.canvas.drawText({
-      ...defaultOptions,
-      text: 'WASD to move.',
-      y: 165,
-    });
-
-    window.canvas.drawText({
-      ...defaultOptions,
-      text: 'SPACEBAR to perform the main action.',
-      y: 180,
-    });
-
-    window.canvas.drawText({
-      ...defaultOptions,
-      text: 'MOUSE CLICK to select.',
-      y: 195,
-    });
+    for (const { text, y } of INSTRUCTIONS) {
+      window.canvas.drawText({ ...INSTRUCTIONS_DEFAULT_OPTIONS, text, y });
+    }
 
     this.buttons.backButton.draw();
   }

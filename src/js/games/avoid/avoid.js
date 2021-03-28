@@ -1,11 +1,15 @@
-import { FONT } from '../../constants';
+import {
+  FONT,
+  FRAMES_PER_SECOND,
+  FRAMES_PER_SECOND_INTERVAL,
+} from '../../constants';
 import AvoidEnemy from './avoid_enemy';
 import AvoidSelf from './avoid_self';
 
 class Avoid {
   constructor() {
     this.transitionText = 'avoid';
-    this.fps = 60;
+
     this.timeLeft = 5;
     this.stopTimer = false;
 
@@ -20,7 +24,7 @@ class Avoid {
   countDown() {
     this.countDownCounter += 1;
 
-    if (this.countDownCounter > this.fps && !this.stopTimer) {
+    if (this.countDownCounter > FRAMES_PER_SECOND.SIXTY && !this.stopTimer) {
       this.timeLeft -= 1;
       this.countDownCounter = 0;
     }
@@ -146,15 +150,15 @@ class Avoid {
 
   play() {
     let lastDrawTime = performance.now();
-    const fpsInterval = 1000 / this.fps;
 
     const animate = () => {
       window.requestAnimationFrameId = requestAnimationFrame(animate);
       const currentTime = performance.now();
       const timeSinceLastDraw = currentTime - lastDrawTime;
 
-      if (timeSinceLastDraw > fpsInterval) {
-        lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
+      if (timeSinceLastDraw > FRAMES_PER_SECOND_INTERVAL.SIXTY) {
+        lastDrawTime =
+          currentTime - (timeSinceLastDraw % FRAMES_PER_SECOND_INTERVAL.SIXTY);
 
         window.canvas.clear();
         this.draw();

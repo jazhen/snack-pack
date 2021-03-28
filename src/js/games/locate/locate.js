@@ -1,4 +1,9 @@
-import { FONT, SIZE } from '../../constants';
+import {
+  FONT,
+  FRAMES_PER_SECOND,
+  FRAMES_PER_SECOND_INTERVAL,
+  SIZE,
+} from '../../constants';
 import { getRandomInt } from '../../misc';
 import Animal from './animal';
 
@@ -17,8 +22,6 @@ class Locate {
     this.win = this.win.bind(this);
 
     this.transitionText = 'find';
-
-    this.fps = 60;
 
     this.timeLeft = 5;
     this.countDownCounter = 0;
@@ -73,7 +76,7 @@ class Locate {
   countDown() {
     this.countDownCounter += 1;
 
-    if (this.countDownCounter > this.fps && !this.stopTimer) {
+    if (this.countDownCounter > FRAMES_PER_SECOND.SIXTY && !this.stopTimer) {
       this.timeLeft -= 1;
       this.countDownCounter = 0;
     }
@@ -201,7 +204,6 @@ class Locate {
 
   play() {
     let lastDrawTime = performance.now();
-    const fpsInterval = 1000 / this.fps;
 
     this.reset();
 
@@ -210,8 +212,9 @@ class Locate {
       const currentTime = performance.now();
       const timeSinceLastDraw = currentTime - lastDrawTime;
 
-      if (timeSinceLastDraw > fpsInterval) {
-        lastDrawTime = currentTime - (timeSinceLastDraw % fpsInterval);
+      if (timeSinceLastDraw > FRAMES_PER_SECOND_INTERVAL.SIXTY) {
+        lastDrawTime =
+          currentTime - (timeSinceLastDraw % FRAMES_PER_SECOND_INTERVAL.SIXTY);
 
         window.canvas.clear();
         this.draw();
