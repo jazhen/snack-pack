@@ -1,3 +1,5 @@
+import { getRandomInt, getRandomIntInclusive } from '../../misc';
+
 class AvoidEnemy {
   constructor() {
     this.setPosition();
@@ -18,33 +20,30 @@ class AvoidEnemy {
   }
 
   setPosition() {
-    this.x = Math.floor(Math.random() * window.BASE_WIDTH);
-    this.y = Math.floor(Math.random() * window.BASE_HEIGHT);
+    this.x = getRandomInt(window.BASE_WIDTH);
+    this.y = getRandomInt(window.BASE_HEIGHT);
 
     while ((this.x > 150 && this.x < 250) || this.x < 20 || this.x > 380) {
-      this.x = Math.floor(Math.random() * window.BASE_WIDTH);
+      this.x = getRandomInt(window.BASE_WIDTH);
     }
 
     while ((this.y > 100 && this.y < 200) || this.y < 20 || this.y > 280) {
-      this.y = Math.floor(Math.random() * window.BASE_HEIGHT);
+      this.y = getRandomInt(window.BASE_HEIGHT);
     }
   }
 
   setVelocity() {
     const maxSpeed = 1 + Math.floor(window.ROUND_NUM / 6);
+    const dxShouldBeNegative = !!getRandomInt();
+    const dyShouldBeNegative = !!getRandomInt();
 
-    this.dx = Math.floor(Math.random() * maxSpeed) + 1;
-    this.dy = Math.floor(Math.random() * maxSpeed) + 1;
-    const negativedx = Math.floor(Math.random() * 1);
-    const negativedy = Math.floor(Math.random() * 1);
+    this.dx = dxShouldBeNegative
+      ? -getRandomIntInclusive(maxSpeed)
+      : getRandomIntInclusive(maxSpeed);
 
-    if (negativedx) {
-      this.dx = -this.dx;
-    }
-
-    if (negativedy) {
-      this.dy = -this.dy;
-    }
+    this.dy = dyShouldBeNegative
+      ? -getRandomIntInclusive(maxSpeed)
+      : getRandomIntInclusive(maxSpeed);
   }
 
   draw() {

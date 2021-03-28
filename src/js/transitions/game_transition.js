@@ -1,3 +1,5 @@
+import { getRandomInt } from '../misc';
+
 class GameTransition {
   constructor() {
     this.width = 1600 / 6;
@@ -19,7 +21,9 @@ class GameTransition {
   }
 
   randomGame() {
-    return this.games[Math.floor(Math.random() * this.games.length)];
+    const randomGameIndex = getRandomInt(this.games.length);
+
+    return this.games[randomGameIndex];
   }
 
   draw(transitionText) {

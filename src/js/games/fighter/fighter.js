@@ -1,3 +1,5 @@
+import { getRandomInt } from '../../misc';
+
 class Fighter {
   /*
     size: {
@@ -132,9 +134,9 @@ class Fighter {
   }
 
   randomAttack() {
-    return this.self.attacks[
-      Math.floor(Math.random() * this.self.attacks.length)
-    ];
+    const randomAttackIndex = getRandomInt(this.self.attacks.length);
+
+    return this.self.attacks[randomAttackIndex];
   }
 
   countDown() {

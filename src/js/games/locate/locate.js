@@ -1,3 +1,4 @@
+import { getRandomInt } from '../../misc';
 import Animal from './animal';
 
 class Locate {
@@ -147,10 +148,10 @@ class Locate {
   setMatchAnimal() {
     let firstGridPosition;
     while (!firstGridPosition || [11, 12, 19, 20].includes(firstGridPosition)) {
-      firstGridPosition = Math.floor(Math.random() * this.maxGridSpots);
+      firstGridPosition = getRandomInt(this.maxGridSpots);
     }
 
-    this.matchAnimal = Math.floor(Math.random() * this.numAnimalTypes);
+    this.matchAnimal = getRandomInt(this.numAnimalTypes);
     this.animals[firstGridPosition] = this.addAnimal(
       firstGridPosition,
       this.matchAnimal
@@ -161,17 +162,17 @@ class Locate {
   setNonMatchAnimal() {
     // fill up the rest of the animals quota (non-unique)
     while (this.currentNumAnimals < this.requiredNumAnimals) {
-      const gridPosition = Math.floor(Math.random() * this.maxGridSpots);
-      const nonMatchAnimal = Math.floor(Math.random() * this.numAnimalTypes);
+      const randomGridPosition = getRandomInt(this.maxGridSpots);
+      const randomAnimalType = getRandomInt(this.numAnimalTypes);
 
       if (
-        !this.animals[gridPosition] &&
-        nonMatchAnimal !== this.matchAnimal &&
-        ![11, 12, 19, 20].includes(gridPosition)
+        !this.animals[randomGridPosition] &&
+        randomAnimalType !== this.matchAnimal &&
+        ![11, 12, 19, 20].includes(randomGridPosition)
       ) {
-        this.animals[gridPosition] = this.addAnimal(
-          gridPosition,
-          nonMatchAnimal
+        this.animals[randomGridPosition] = this.addAnimal(
+          randomGridPosition,
+          randomAnimalType
         );
         this.currentNumAnimals += 1;
       }

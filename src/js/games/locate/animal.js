@@ -1,9 +1,11 @@
+import { getRandomInt } from '../../misc';
+
 class Animal {
   constructor(size, pos, type) {
     this.size = size;
     this.pos = pos;
     this.frame = {
-      x: Math.floor(Math.random() * 9),
+      x: getRandomInt(9),
       y: type,
       min: 0,
       max: 11,
