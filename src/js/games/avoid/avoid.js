@@ -1,3 +1,4 @@
+import { FONT } from '../../constants';
 import AvoidEnemy from './avoid_enemy';
 import AvoidSelf from './avoid_self';
 
@@ -24,12 +25,12 @@ class Avoid {
       this.countDownCounter = 0;
     }
 
-    window.canvas.drawText(
-      `${this.timeLeft}`,
-      370 * window.canvas.scaleFactor,
-      30 * window.canvas.scaleFactor,
-      24
-    );
+    window.canvas.drawText({
+      text: `${this.timeLeft}`,
+      x: 370,
+      y: 30,
+      size: FONT.ONE_AND_A_HALF_BASE_SIZE,
+    });
 
     if (!this.timeLeft) {
       this.win();

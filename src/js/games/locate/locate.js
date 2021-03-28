@@ -1,3 +1,4 @@
+import { FONT, SIZE } from '../../constants';
 import { getRandomInt } from '../../misc';
 import Animal from './animal';
 
@@ -36,8 +37,8 @@ class Locate {
 
     window.canvas.drawImage(
       window.assets.wanted,
-      (window.BASE_WIDTH - 90) / 2,
-      (window.BASE_HEIGHT - 108) / 2,
+      (SIZE.BASE_WIDTH - 90) / 2,
+      (SIZE.BASE_HEIGHT - 108) / 2,
       90 * window.canvas.scaleFactor,
       108 * window.canvas.scaleFactor
     );
@@ -48,8 +49,8 @@ class Locate {
       137 * this.matchAnimal,
       137,
       137,
-      (window.BASE_WIDTH - 50) / 2,
-      (window.BASE_HEIGHT - 50) / 2 + 5, // move 5px down to center within wanted poster
+      (SIZE.BASE_WIDTH - 50) / 2,
+      (SIZE.BASE_HEIGHT - 50) / 2 + 5, // move 5px down to center within wanted poster
       50,
       50
     );
@@ -77,12 +78,12 @@ class Locate {
       this.countDownCounter = 0;
     }
 
-    window.canvas.drawText(
-      `${this.timeLeft}`,
-      370 * window.canvas.scaleFactor,
-      30 * window.canvas.scaleFactor,
-      24
-    );
+    window.canvas.drawText({
+      text: `${this.timeLeft}`,
+      x: 370,
+      y: 30,
+      size: FONT.ONE_AND_A_HALF_BASE_SIZE,
+    });
 
     if (!this.timeLeft) {
       this.lose();

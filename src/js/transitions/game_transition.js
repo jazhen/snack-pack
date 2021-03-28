@@ -1,3 +1,4 @@
+import { FONT, SIZE } from '../constants';
 import { getRandomInt } from '../misc';
 
 class GameTransition {
@@ -31,8 +32,8 @@ class GameTransition {
       window.assets.doorBackground,
       this.pos.x,
       this.pos.y,
-      window.BASE_WIDTH * window.canvas.scaleFactor,
-      window.BASE_HEIGHT * window.canvas.scaleFactor
+      SIZE.BASE_WIDTH * window.canvas.scaleFactor,
+      SIZE.BASE_HEIGHT * window.canvas.scaleFactor
     );
 
     window.canvas.drawAnimation(
@@ -43,19 +44,15 @@ class GameTransition {
       this.height,
       this.pos.x,
       this.pos.y,
-      window.BASE_WIDTH,
-      window.BASE_HEIGHT
+      SIZE.BASE_WIDTH,
+      SIZE.BASE_HEIGHT
     );
 
-    window.canvas.drawText(
-      transitionText,
-      window.canvas.width / 2,
-      150 * window.canvas.scaleFactor,
-      32,
-      'white',
-      'black',
-      window.canvas.width
-    );
+    window.canvas.drawText({
+      text: transitionText,
+      y: 150,
+      size: FONT.DOUBLE_BASE_SIZE,
+    });
 
     switch (transitionText) {
       case 'win':

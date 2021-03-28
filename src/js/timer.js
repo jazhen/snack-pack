@@ -7,7 +7,7 @@ class Timer {
     this.#initialTime = time;
   }
 
-  isElapsed() {
+  get isElapsed() {
     return this.#time === 0;
   }
 
@@ -15,7 +15,7 @@ class Timer {
     this.#time = 0;
   }
 
-  getTime() {
+  get time() {
     return this.#time;
   }
 

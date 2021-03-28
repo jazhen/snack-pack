@@ -1,69 +1,66 @@
+import { FONT, COLOR } from './constants';
+
+const FILENAMES = [
+  'mainMenuBackground',
+  'door',
+  'doorBackground',
+  'fighterSelf',
+  'fighterOpponent',
+  'fighterBackground',
+  'locate',
+  'locateBackground',
+  'wanted',
+  'lose',
+  'avoidSelf',
+  'avoidEnemy',
+  'avoidBackground',
+  'controlsSpace',
+  'controlsWASD',
+  'controlsMouse',
+  'github',
+  'linkedin',
+  'angelist',
+  'speaker',
+  'mute',
+];
+
+const getAssetFilePath = (filename) => `../assets/${filename}.png`;
+
 class Assets {
+  #error = false;
+  #numLoaded = 0;
+
   constructor(mainMenu) {
     this.animate = this.animate.bind(this);
-    this.filenames = [
-      'mainMenuBackground',
-      'door',
-      'doorBackground',
-      'fighterSelf',
-      'fighterOpponent',
-      'fighterBackground',
-      'locate',
-      'locateBackground',
-      'wanted',
-      'lose',
-      'avoidSelf',
-      'avoidEnemy',
-      'avoidBackground',
-      'controlsSpace',
-      'controlsWASD',
-      'controlsMouse',
-      'github',
-      'linkedin',
-      'angelist',
-      'speaker',
-      'mute',
-    ];
     this.mainMenu = mainMenu;
-    this.numAssets = this.filenames.length;
-    this.numAssetsLoaded = 0;
-    this.error = false;
   }
 
   draw() {
     window.canvas.clear();
     window.canvas.drawBackground('#dddddd');
 
-    if (this.error) {
-      window.canvas.drawText(
-        'error loading assets.',
-        window.canvas.width / 2,
-        window.canvas.height / 2 - window.canvas.baseFontSize * 1.5,
-        window.canvas.baseFontSize * 0.75,
-        'black',
-        'black'
-      );
+    const defaultOptions = {
+      size: FONT.THREE_QUARTERS_BASE_SIZE,
+      color: COLOR.BLACK,
+    };
 
-      window.canvas.drawText(
-        'please try refreshing your browser.',
-        window.canvas.width / 2,
-        window.canvas.height / 2 + window.canvas.baseFontSize * 1.5,
-        window.canvas.baseFontSize * 0.75,
-        'black',
-        'black'
-      );
+    if (this.#error) {
+      window.canvas.drawText({
+        ...defaultOptions,
+        text: 'error loading assets.',
+        y: 150 - FONT.ONE_AND_A_HALF_BASE_SIZE,
+      });
+
+      window.canvas.drawText({
+        ...defaultOptions,
+        text: 'please try refreshing your browser.',
+        y: 150 + FONT.ONE_AND_A_HALF_BASE_SIZE,
+      });
     } else {
-      const percentageOfAssetsLoaded =
-        Math.floor(this.numAssetsLoaded / this.numAssets) * 100;
-
-      window.canvas.drawText(
-        `assets loading: ${percentageOfAssetsLoaded}%`,
-        window.canvas.width / 2,
-        window.canvas.height / 2,
-        window.canvas.baseFontSize,
-        'black',
-        'black'
-      );
+      window.canvas.drawText({
+        ...defaultOptions,
+        text: `assets loading: ${this.#getPercentLoaded()}%`,
+      });
     }
   }
 
@@ -87,24 +84,36 @@ class Assets {
     const loadAsset = (filename) => {
       return new Promise((resolve, reject) => {
         window.assets[filename] = new Image();
-        window.assets[filename].src = `../assets/${filename}.png`;
+        window.assets[filename].src = getAssetFilePath(filename);
         window.assets[filename].addEventListener('load', resolve, false);
         window.assets[filename].addEventListener('error', reject, false);
       });
     };
 
-    this.filenames.forEach(async (filename) => {
+    FILENAMES.forEach(async (filename) => {
       try {
         await loadAsset(filename);
-        this.numAssetsLoaded += 1;
+        this.#numLoaded += 1;
       } catch {
-        this.error = true;
+        this.#error = true;
       }
     });
   }
 
+  /**
+   * Returns the ratio of assets loaded, expressed as a percentage.
+   * @returns {number}
+   */
+  #getPercentLoaded() {
+    return Math.floor(this.#numLoaded / FILENAMES.length) * 100;
+  }
+
+  /**
+   * Returns the status of loading.
+   * @returns {boolean}
+   */
   #isLoaded() {
-    return this.numAssetsLoaded === this.numAssets;
+    return this.#numLoaded === FILENAMES.length;
   }
 }
 

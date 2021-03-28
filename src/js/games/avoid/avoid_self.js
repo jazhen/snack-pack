@@ -1,3 +1,5 @@
+import { SIZE } from '../../constants';
+
 class AvoidSelf {
   constructor() {
     this.radius = 10;
@@ -5,8 +7,8 @@ class AvoidSelf {
     this.dy = -5;
 
     this.pos = {
-      x: window.BASE_WIDTH / 2,
-      y: window.BASE_HEIGHT / 2,
+      x: SIZE.HALF_BASE_WIDTH,
+      y: SIZE.HALF_BASE_HEIGHT / 2,
     };
 
     this.size = {
@@ -50,8 +52,8 @@ class AvoidSelf {
       }
     } else if (this.down) {
       this.pos.y -= this.dy;
-      if (this.pos.y + this.radius > window.BASE_HEIGHT) {
-        this.pos.y = window.BASE_HEIGHT - this.radius;
+      if (this.pos.y + this.radius > SIZE.BASE_HEIGHT) {
+        this.pos.y = SIZE.BASE_HEIGHT - this.radius;
       }
     } else if (this.left) {
       this.frame.y = 1;
@@ -62,8 +64,8 @@ class AvoidSelf {
     } else if (this.right) {
       this.frame.y = 0;
       this.pos.x += this.dx;
-      if (this.pos.x + this.radius > window.BASE_WIDTH) {
-        this.pos.x = window.BASE_WIDTH - this.radius;
+      if (this.pos.x + this.radius > SIZE.BASE_WIDTH) {
+        this.pos.x = SIZE.BASE_WIDTH - this.radius;
       }
     }
 

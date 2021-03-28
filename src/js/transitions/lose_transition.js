@@ -1,3 +1,5 @@
+import { SIZE } from '../constants';
+
 class LoseTransition {
   constructor(mainMenu) {
     this.mainMenu = mainMenu;
@@ -19,7 +21,6 @@ class LoseTransition {
     };
   }
 
-  // eslint-disable-next-line class-methods-use-this
   draw() {
     window.canvas.drawAnimation(
       window.assets.lose,
@@ -29,38 +30,19 @@ class LoseTransition {
       this.height,
       this.pos.x,
       this.pos.y,
-      window.BASE_WIDTH,
-      window.BASE_HEIGHT
+      SIZE.BASE_WIDTH,
+      SIZE.BASE_HEIGHT
     );
 
-    window.canvas.drawText(
-      'game over',
-      window.canvas.width / 2,
-      60 * window.canvas.scaleFactor,
-      32,
-      'white',
-      'black'
-    );
+    window.canvas.drawText({
+      text: 'game over',
+      y: 60,
+    });
 
-    if (window.ROUND_NUM === 1) {
-      window.canvas.drawText(
-        `you survived ${window.ROUND_NUM} round`,
-        window.canvas.width / 2,
-        100 * window.canvas.scaleFactor,
-        16,
-        'white',
-        'black'
-      );
-    } else {
-      window.canvas.drawText(
-        `you survived ${window.ROUND_NUM} rounds`,
-        window.canvas.width / 2,
-        100 * window.canvas.scaleFactor,
-        16,
-        'white',
-        'black'
-      );
-    }
+    window.canvas.drawText({
+      text: `you survived ${window.ROUND_NUM} rounds`,
+      y: 100,
+    });
   }
 
   update() {

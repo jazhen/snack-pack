@@ -1,11 +1,10 @@
+import { FONT, COLOR, SIZE } from './constants';
+
 class Canvas {
   constructor() {
     this.canvas = document.querySelector('#canvas');
     this.ctx = this.canvas.getContext('2d');
-    this.width = 400;
-    this.height = 300;
     this.scaleFactor = 1;
-    this.baseFontSize = 16;
   }
 
   clear() {
@@ -17,24 +16,46 @@ class Canvas {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  drawText(
-    text,
-    x,
-    y,
-    size = this.baseFontSize,
-    color = 'white',
-    outlineColor = 'black'
-  ) {
+  /**
+   * Draws text with the specified options.
+   * @param {Object} options
+   */
+  drawText(options) {
+    const defaultOptions = {
+      text: 'placeholder',
+      x: SIZE.HALF_BASE_WIDTH,
+      y: SIZE.HALF_BASE_HEIGHT,
+      size: FONT.BASE_SIZE,
+      color: COLOR.WHITE,
+      outlineColor: COLOR.BLACK,
+    };
+
+    const { text, x, y, size, color, outlineColor } = {
+      ...defaultOptions,
+      ...options,
+    };
+
+    const scaledX = x * window.canvas.scaleFactor;
+    const scaledY = y * window.canvas.scaleFactor;
+
     // font style
     this.ctx.textAlign = 'center';
     this.ctx.textBaseline = 'middle';
     this.ctx.fillStyle = color;
-    this.ctx.font = `${size}px dogicapixelbold`;
-    this.ctx.fillText(text, x / this.scaleFactor, y / this.scaleFactor);
+    this.ctx.font = `${size}px ${FONT.NAME}`;
+    this.ctx.fillText(
+      text,
+      scaledX / this.scaleFactor,
+      scaledY / this.scaleFactor
+    );
 
     // outline style
     this.ctx.strokeStyle = outlineColor;
-    this.ctx.strokeText(text, x / this.scaleFactor, y / this.scaleFactor);
+    this.ctx.strokeText(
+      text,
+      scaledX / this.scaleFactor,
+      scaledY / this.scaleFactor
+    );
     this.ctx.stroke();
   }
 
@@ -45,9 +66,9 @@ class Canvas {
     width,
     height,
     maxWidth = width,
-    color = 'white',
-    outlineColor = 'black',
-    size = this.baseFontSize
+    color = COLOR.WHITE,
+    outlineColor = COLOR.BLACK,
+    size = FONT.BASE_SIZE
   ) {
     // font style
     this.ctx.textAlign = 'center';
@@ -92,14 +113,14 @@ class Canvas {
 
   // overlay a green tint on the canvas
   drawWinOverlay() {
-    this.ctx.fillStyle = 'rgba(0, 143, 9, 0.2)';
-    this.ctx.fillRect(0, 0, this.width, this.height);
+    const RED = 'rgba(0, 143, 9, 0.2)';
+    this.#drawOverlay(RED);
   }
 
   // overlay a red tint on the canvas
   drawLoseOverlay() {
-    this.ctx.fillStyle = 'rgba(244, 62, 62, 0.2)';
-    this.ctx.fillRect(0, 0, this.width, this.height);
+    const GREEN = 'rgba(244, 62, 62, 0.2)';
+    this.#drawOverlay(GREEN);
   }
 
   getBoundingClientRect() {
@@ -108,6 +129,11 @@ class Canvas {
 
   scale() {
     this.ctx.scale(this.scaleFactor, this.scaleFactor);
+  }
+
+  #drawOverlay(color) {
+    this.ctx.fillStyle = color;
+    this.ctx.fillRect(0, 0, SIZE.BASE_WIDTH, SIZE.BASE_HEIGHT);
   }
 }
 

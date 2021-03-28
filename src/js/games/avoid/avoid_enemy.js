@@ -1,3 +1,4 @@
+import { SIZE } from '../../constants';
 import { getRandomInt, getRandomIntInclusive } from '../../misc';
 
 class AvoidEnemy {
@@ -20,15 +21,15 @@ class AvoidEnemy {
   }
 
   setPosition() {
-    this.x = getRandomInt(window.BASE_WIDTH);
-    this.y = getRandomInt(window.BASE_HEIGHT);
+    this.x = getRandomInt(SIZE.BASE_WIDTH);
+    this.y = getRandomInt(SIZE.BASE_HEIGHT);
 
     while ((this.x > 150 && this.x < 250) || this.x < 20 || this.x > 380) {
-      this.x = getRandomInt(window.BASE_WIDTH);
+      this.x = getRandomInt(SIZE.BASE_WIDTH);
     }
 
     while ((this.y > 100 && this.y < 200) || this.y < 20 || this.y > 280) {
-      this.y = getRandomInt(window.BASE_HEIGHT);
+      this.y = getRandomInt(SIZE.BASE_HEIGHT);
     }
   }
 
@@ -62,25 +63,25 @@ class AvoidEnemy {
 
   update() {
     // bouncing off walls
-    if (this.x + this.dx > window.BASE_WIDTH - this.radius) {
+    if (this.x + this.dx > SIZE.BASE_WIDTH - this.radius) {
       this.dx = -this.dx;
       this.frame.y = 0;
     }
 
     if (
-      this.x + this.dx > window.BASE_WIDTH - this.radius ||
+      this.x + this.dx > SIZE.BASE_WIDTH - this.radius ||
       this.x + this.dx < this.radius
     ) {
       this.dx = -this.dx;
     }
 
-    if (this.y + this.dy > window.BASE_HEIGHT - this.radius) {
+    if (this.y + this.dy > SIZE.BASE_HEIGHT - this.radius) {
       this.dy = -this.dy;
       this.frame.y = 1;
     }
 
     if (
-      this.y + this.dy > window.BASE_HEIGHT - this.radius ||
+      this.y + this.dy > SIZE.BASE_HEIGHT - this.radius ||
       this.y + this.dy < this.radius
     ) {
       this.dy = -this.dy;

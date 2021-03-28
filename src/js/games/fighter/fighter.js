@@ -1,3 +1,4 @@
+import { FONT, SIZE } from '../../constants';
 import { getRandomInt } from '../../misc';
 
 class Fighter {
@@ -147,12 +148,12 @@ class Fighter {
       this.countDownCounter = 0;
     }
 
-    window.canvas.drawText(
-      `${this.timeLeft}`,
-      370 * window.canvas.scaleFactor,
-      30 * window.canvas.scaleFactor,
-      24
-    );
+    window.canvas.drawText({
+      text: `${this.timeLeft}`,
+      x: 370,
+      y: 30,
+      size: FONT.ONE_AND_A_HALF_BASE_SIZE,
+    });
 
     if (!this.timeLeft) {
       this.lose();
@@ -168,8 +169,8 @@ class Fighter {
       this.background.size.height,
       this.background.pos.x,
       this.background.pos.y,
-      window.BASE_WIDTH,
-      window.BASE_HEIGHT
+      SIZE.BASE_WIDTH,
+      SIZE.BASE_HEIGHT
     );
 
     window.canvas.drawAnimation(
@@ -196,6 +197,7 @@ class Fighter {
       this.opponent.size.height
     );
 
+    // health bar
     window.canvas.drawRect(
       this.opponent.pos.x + 30,
       this.opponent.pos.y + 20,
@@ -205,6 +207,7 @@ class Fighter {
       '#222222'
     );
 
+    // health bar
     window.canvas.drawRect(
       this.opponent.pos.x + 30,
       this.opponent.pos.y + 20,
