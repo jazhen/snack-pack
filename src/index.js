@@ -7,7 +7,6 @@ import Fighter from './js/games/fighter/fighter';
 import Locate from './js/games/locate/locate';
 import Avoid from './js/games/avoid/avoid';
 
-// global variables
 const game = new Game();
 
 window.requestAnimationFrameId = null;
@@ -18,16 +17,6 @@ window.gameTransition = new GameTransition();
 window.gameTransition.games.push(new Fighter(), new Locate(), new Avoid());
 window.loseTransition = new LoseTransition(game.mainMenu);
 
-window.addEventListener(
-  'load',
-  () => {
-    game.assets.load();
-    game.setUpElements();
-    game.resize();
-  },
-  false
-);
-
+window.addEventListener('load', game.load.bind(game), false);
 window.addEventListener('resize', game.resize.bind(game), false);
-
 window.addEventListener('orientationchange', game.resize.bind(game), false);

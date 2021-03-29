@@ -28,6 +28,8 @@ class GameTransition {
   }
 
   draw(transitionText) {
+    window.canvas.clear();
+
     window.canvas.drawImage(
       window.assets.doorBackground,
       this.pos.x,
@@ -115,7 +117,6 @@ class GameTransition {
         lastDrawTime =
           currentTime - (timeSinceLastDraw % FRAMES_PER_SECOND_INTERVAL.TWO);
 
-        window.canvas.clear();
         this.update();
         this.draw(this.nextGame.transitionText);
       }

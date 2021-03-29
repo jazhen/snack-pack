@@ -1,9 +1,9 @@
-import Assets from './assets';
-import TextButton from './button/text_button';
+import Assets from './assets/assets';
 import ImageButton from './button/image_button';
-import openUrlInNewTab from './misc';
-import Mouse from './mouse';
+import TextButton from './button/text_button';
 import { COLOR, FONT, FRAMES_PER_SECOND_INTERVAL, SIZE } from './constants';
+import { openUrlInNewTab } from './misc';
+import Mouse from './mouse';
 
 const URLS = {
   GITHUB: 'https://github.com/jazhen',
@@ -37,10 +37,16 @@ class Game {
   constructor() {
     this.mainMenu = this.mainMenu.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.window = document.querySelector('#main');
 
     this.assets = new Assets(this.mainMenu);
     this.buttons = {};
+    this.window = document.querySelector('#main');
+  }
+
+  load() {
+    this.assets.load();
+    this.setUpElements();
+    this.resize();
   }
 
   resize() {
